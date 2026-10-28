@@ -1,0 +1,52 @@
+# 2025-03-19 11:01 – Abteilungswechsel: Marie Neumann (Entwicklung → Personal)
+
+dn: uid=mneumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=mneumann
+deleteoldrdn: 1
+newsuperior: ou=Personal,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=mneumann,ou=Personal,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Recruiterin
+-
+replace: departmentNumber
+departmentNumber: 500
+-
+replace: manager
+manager: uid=fschaefer,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-5012
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=mneumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=mneumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=mneumann,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=mneumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=mneumann,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-personal,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=mneumann,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-

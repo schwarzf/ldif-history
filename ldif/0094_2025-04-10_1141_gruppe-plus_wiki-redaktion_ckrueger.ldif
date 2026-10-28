@@ -1,0 +1,7 @@
+# 2025-04-10 11:41 – Carla Krüger wird Mitglied in wiki-redaktion
+
+dn: cn=wiki-redaktion,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=ckrueger,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-

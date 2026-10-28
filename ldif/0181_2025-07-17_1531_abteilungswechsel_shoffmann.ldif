@@ -1,0 +1,52 @@
+# 2025-07-17 15:31 – Abteilungswechsel: Sophie Hoffmann (Entwicklung → Finanzen)
+
+dn: uid=shoffmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=shoffmann
+deleteoldrdn: 1
+newsuperior: ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=shoffmann,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Controllerin
+-
+replace: departmentNumber
+departmentNumber: 600
+-
+replace: manager
+manager: uid=skaya,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-6017
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=shoffmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=shoffmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=shoffmann,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=shoffmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=shoffmann,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-finanzen,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=shoffmann,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-

@@ -1,0 +1,7 @@
+# 2025-06-10 10:48 – Diensthandy ausgegeben: Bärbel Weiß
+
+dn: uid=bweiss,ou=Personal,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mobile
+mobile: +49 160 6329743
+-

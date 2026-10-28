@@ -1,0 +1,29 @@
+# 2025-02-07 15:53 – User gelöscht: Franziska Böhm (Entwicklung)
+# Konto wird sofort gelöscht (Probezeit, Kündigung)
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=fboehm,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=fboehm,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=fboehm,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=fboehm,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: uid=fboehm,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: delete

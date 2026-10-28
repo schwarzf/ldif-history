@@ -1,0 +1,70 @@
+# 2025-12-17 16:56 – Abteilungswechsel: Thomas Lorenz (IT-Betrieb → Finanzen)
+
+dn: uid=tlorenz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=tlorenz
+deleteoldrdn: 1
+newsuperior: ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=tlorenz,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Buchhalter
+-
+replace: departmentNumber
+departmentNumber: 600
+-
+replace: manager
+manager: uid=skaya,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-6020
+-
+
+dn: cn=abt-it-betrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=tlorenz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=tlorenz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=tlorenz,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=tlorenz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=tlorenz,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=tlorenz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=tlorenz,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=ersthelfer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=tlorenz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=tlorenz,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-finanzen,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=tlorenz,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-

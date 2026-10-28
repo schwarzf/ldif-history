@@ -1,0 +1,7 @@
+# 2025-03-03 15:09 – Lisa Yılmaz wird Mitglied in vpn-nutzer
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=lyilmaz,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

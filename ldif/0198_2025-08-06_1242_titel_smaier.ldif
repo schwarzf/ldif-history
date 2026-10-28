@@ -1,0 +1,8 @@
+# 2025-08-06 12:42 – Neue Funktion: Sophie Maier wird Prokuristin
+# Neue Funktion
+
+dn: uid=smaier,ou=Leitung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Prokuristin
+-

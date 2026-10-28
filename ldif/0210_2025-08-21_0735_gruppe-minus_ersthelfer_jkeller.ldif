@@ -1,0 +1,7 @@
+# 2025-08-21 07:35 – Jonas Keller verlässt ersthelfer
+
+dn: cn=ersthelfer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=jkeller,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

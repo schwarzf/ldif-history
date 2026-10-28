@@ -1,0 +1,41 @@
+# 2025-12-08 16:07 – Neuer User: Florian Özdemir (Entwicklung)
+# Eintritt zum 08.12.2025
+
+dn: uid=foezdemir,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: foezdemir
+cn: Florian Özdemir
+sn: Özdemir
+givenName: Florian
+displayName: Florian Özdemir
+mail: florian.oezdemir@beispiel.de
+telephoneNumber: +49 30 1234-2057
+roomNumber: 2.24
+title: Softwarearchitekt
+departmentNumber: 200
+employeeNumber: 1190
+employeeType: Festanstellung
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}Bt7HWYVodL+Agzxxm3x8PX6I70xPRG9V
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=foezdemir,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=foezdemir,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=foezdemir,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

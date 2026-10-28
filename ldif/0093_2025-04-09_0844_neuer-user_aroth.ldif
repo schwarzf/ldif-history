@@ -1,0 +1,47 @@
+# 2025-04-09 08:44 – Neuer User: Andreas Roth (Vertrieb)
+# Eintritt zum 09.04.2025
+
+dn: uid=aroth,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: aroth
+cn: Andreas Roth
+sn: Roth
+givenName: Andreas
+displayName: Andreas Roth
+mail: andreas.roth@beispiel.de
+telephoneNumber: +49 30 1234-3026
+mobile: +49 170 9549963
+title: Account Manager
+departmentNumber: 300
+employeeNumber: 1166
+employeeType: Festanstellung
+manager: uid=sweber2,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}rPraamWErodTuN0jHAyCCYtLRz5haEgJ
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=aroth,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-vertrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=aroth,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=aroth,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=aroth,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-

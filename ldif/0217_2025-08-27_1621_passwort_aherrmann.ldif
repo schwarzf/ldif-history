@@ -1,0 +1,7 @@
+# 2025-08-27 16:21 – Passwort zurückgesetzt: Ayşe Herrmann
+
+dn: uid=aherrmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}tFz1alvU8TXLJRJlR8AUGVcgksKr/WVv
+-

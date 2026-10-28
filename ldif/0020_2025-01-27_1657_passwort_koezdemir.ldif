@@ -1,0 +1,7 @@
+# 2025-01-27 16:57 – Passwort zurückgesetzt: Katharina Özdemir
+
+dn: uid=koezdemir,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}jntZmP5qQToFSzBbZQed2RtAzqDRB7N+
+-

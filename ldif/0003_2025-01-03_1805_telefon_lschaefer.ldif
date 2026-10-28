@@ -1,0 +1,7 @@
+# 2025-01-03 18:05 – Neue Durchwahl: Lena Schäfer
+
+dn: uid=lschaefer,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-4015
+-

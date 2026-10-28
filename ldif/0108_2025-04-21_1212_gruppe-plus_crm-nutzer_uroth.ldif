@@ -1,0 +1,7 @@
+# 2025-04-21 12:12 – Uwe Roth wird Mitglied in crm-nutzer
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=uroth,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

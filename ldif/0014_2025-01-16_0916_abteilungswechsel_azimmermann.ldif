@@ -1,0 +1,61 @@
+# 2025-01-16 09:16 – Abteilungswechsel: Ayşe Zimmermann (Kundenservice → Personal)
+
+dn: uid=azimmermann,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=azimmermann
+deleteoldrdn: 1
+newsuperior: ou=Personal,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=azimmermann,ou=Personal,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Personalreferentin
+-
+replace: departmentNumber
+departmentNumber: 500
+-
+replace: manager
+manager: uid=fschaefer,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-5011
+-
+
+dn: cn=abt-kundenservice,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=azimmermann,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=azimmermann,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=azimmermann,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=wiki-redaktion,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=azimmermann,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=azimmermann,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=azimmermann,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=azimmermann,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-personal,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=azimmermann,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-

@@ -1,0 +1,7 @@
+# 2025-09-19 14:24 – Neue Durchwahl: Lena Köhler
+
+dn: uid=lkoehler,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-3034
+-

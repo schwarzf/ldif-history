@@ -1,0 +1,7 @@
+# 2025-06-27 09:49 – Passwort zurückgesetzt: Sebastian Meyer
+
+dn: uid=smeyer,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}YxyAIffiGX2rLVQ3N+OdNx3as2s+bbR0
+-

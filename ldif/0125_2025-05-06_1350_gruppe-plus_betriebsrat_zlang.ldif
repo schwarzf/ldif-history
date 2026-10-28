@@ -1,0 +1,7 @@
+# 2025-05-06 13:50 – Zoë Lang wird Mitglied in betriebsrat
+
+dn: cn=betriebsrat,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=zlang,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-

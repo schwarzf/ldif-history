@@ -1,0 +1,42 @@
+# 2025-02-14 11:06 – Neuer User: Stefan Walter (Entwicklung)
+# Eintritt zum 14.02.2025
+
+dn: uid=swalter2,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: swalter2
+cn: Stefan Walter
+sn: Walter
+givenName: Stefan
+displayName: Stefan Walter
+mail: stefan.walter@beispiel.de
+telephoneNumber: +49 30 1234-2038
+mobile: +49 176 6517811
+roomNumber: 3.25
+title: Softwareentwickler
+departmentNumber: 200
+employeeNumber: 1155
+employeeType: Festanstellung
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}5GmzeVq2akUFV09Jo7t+pVMmslDhu0VS
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=swalter2,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=swalter2,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=swalter2,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

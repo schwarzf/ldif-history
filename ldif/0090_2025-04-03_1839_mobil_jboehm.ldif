@@ -1,0 +1,7 @@
+# 2025-04-03 18:39 – Diensthandy ausgegeben: Jürgen Böhm
+
+dn: uid=jboehm,ou=Personal,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mobile
+mobile: +49 170 9692154
+-

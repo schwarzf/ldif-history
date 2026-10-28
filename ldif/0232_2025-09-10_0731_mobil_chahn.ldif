@@ -1,0 +1,7 @@
+# 2025-09-10 07:31 – Neue Mobilnummer: Claudia Hahn
+
+dn: uid=chahn,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: mobile
+mobile: +49 176 9517351
+-

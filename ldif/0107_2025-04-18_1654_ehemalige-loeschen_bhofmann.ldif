@@ -1,0 +1,4 @@
+# 2025-04-18 16:54 – Löschung nach Aufbewahrungsfrist: Björn Hofmann
+
+dn: uid=bhofmann,ou=Ehemalige,dc=beispiel,dc=de
+changetype: delete

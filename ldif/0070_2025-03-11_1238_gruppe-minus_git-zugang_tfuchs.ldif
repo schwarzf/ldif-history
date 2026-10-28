@@ -1,0 +1,7 @@
+# 2025-03-11 12:38 – Tanja Fuchs verlässt git-zugang
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=tfuchs,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

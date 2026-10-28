@@ -1,0 +1,15 @@
+# 2025-04-10 16:35 – Neue Gruppe: sommerfest-2025
+
+dn: cn=sommerfest-2025,ou=Gruppen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: groupOfNames
+cn: sommerfest-2025
+description: Orga-Team Sommerfest 2025
+member: uid=kroth,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+member: uid=kvoigt,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=kkoenig,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+member: uid=fhuber,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=tkoenig,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+member: uid=mkrause,ou=Personal,ou=Personen,dc=beispiel,dc=de
+member: uid=ckowalski,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de

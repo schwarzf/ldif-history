@@ -1,0 +1,7 @@
+# 2025-03-14 10:05 – Neue Durchwahl: Andrea Keller
+
+dn: uid=akeller,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-2041
+-

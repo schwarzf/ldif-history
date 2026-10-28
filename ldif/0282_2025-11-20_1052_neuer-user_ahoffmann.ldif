@@ -1,0 +1,41 @@
+# 2025-11-20 10:52 – Neuer User: Andrea Hoffmann (Entwicklung)
+# Eintritt zum 20.11.2025
+
+dn: uid=ahoffmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: ahoffmann
+cn: Andrea Hoffmann
+sn: Hoffmann
+givenName: Andrea
+displayName: Andrea Hoffmann
+mail: andrea.hoffmann@beispiel.de
+telephoneNumber: +49 30 1234-2055
+mobile: +49 170 2346914
+title: Softwarearchitektin
+departmentNumber: 200
+employeeNumber: 1188
+employeeType: Festanstellung
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}G+OVShvmoJm5jbps3iUAv2mUMtmg05RK
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=ahoffmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=ahoffmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=ahoffmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

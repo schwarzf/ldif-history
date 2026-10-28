@@ -1,0 +1,7 @@
+# 2025-08-21 07:30 – Passwort zurückgesetzt: Olga Peters
+
+dn: uid=opeters,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}rRZSQn34rmL0fLtSg5Cne7KT/xsxUntq
+-

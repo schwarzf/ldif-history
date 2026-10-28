@@ -1,0 +1,7 @@
+# 2025-02-17 09:10 – Melanie Wagner wird Mitglied in it-admins
+
+dn: cn=it-admins,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=mwagner,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-

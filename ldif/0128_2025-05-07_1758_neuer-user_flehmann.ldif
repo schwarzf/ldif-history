@@ -1,0 +1,40 @@
+# 2025-05-07 17:58 – Neuer User: Franziska Lehmann (Entwicklung)
+# Eintritt zum 07.05.2025
+
+dn: uid=flehmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: flehmann
+cn: Franziska Lehmann
+sn: Lehmann
+givenName: Franziska
+displayName: Franziska Lehmann
+mail: franziska.lehmann@beispiel.de
+telephoneNumber: +49 30 1234-2045
+title: Softwarearchitektin
+departmentNumber: 200
+employeeNumber: 1170
+employeeType: Festanstellung
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}k1wFfJXzuWyKIb1xaMdnTICUSlqmu1GL
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=flehmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=flehmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=flehmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

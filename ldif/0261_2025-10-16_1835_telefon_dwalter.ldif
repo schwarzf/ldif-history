@@ -1,0 +1,7 @@
+# 2025-10-16 18:35 – Neue Durchwahl: Dirk Walter
+
+dn: uid=dwalter,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-7024
+-

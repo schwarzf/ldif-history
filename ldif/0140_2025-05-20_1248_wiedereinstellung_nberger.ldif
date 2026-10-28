@@ -1,0 +1,34 @@
+# 2025-05-20 12:48 – Wiedereinstellung: Nina Berger (Kundenservice)
+# Das alte Konto wurde gelöscht – unter demselben DN entsteht ein neues Objekt
+
+dn: uid=nberger,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: nberger
+cn: Nina Berger
+sn: Berger
+givenName: Nina
+displayName: Nina Berger
+mail: nina.berger@beispiel.de
+telephoneNumber: +49 30 1234-8037
+title: Kundenberaterin
+departmentNumber: 800
+employeeNumber: 1172
+employeeType: Festanstellung
+manager: uid=kkoenig,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}jDJGT9b9VYhyJ4rgykNZwfNRUQaxVGLL
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=nberger,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-kundenservice,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=nberger,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

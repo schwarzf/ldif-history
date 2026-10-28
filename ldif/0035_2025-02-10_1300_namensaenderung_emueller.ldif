@@ -1,0 +1,17 @@
+# 2025-02-10 13:00 – Namensänderung: Elif Müller → Elif Koch
+# Alte Mailadresse bleibt als Alias erhalten
+
+dn: uid=emueller,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: sn
+sn: Koch
+-
+replace: cn
+cn: Elif Koch
+-
+replace: displayName
+displayName: Elif Koch
+-
+add: mail
+mail: elif.koch@beispiel.de
+-

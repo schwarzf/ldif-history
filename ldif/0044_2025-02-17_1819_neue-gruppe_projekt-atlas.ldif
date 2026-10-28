@@ -1,0 +1,12 @@
+# 2025-02-17 18:19 – Neue Gruppe: projekt-atlas
+
+dn: cn=projekt-atlas,ou=Gruppen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: groupOfNames
+cn: projekt-atlas
+description: Projektteam Atlas (Datenplattform)
+member: uid=mwagner2,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+member: uid=chahn,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+member: uid=mbraun,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+member: uid=ekeller2,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de

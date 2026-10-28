@@ -1,0 +1,47 @@
+# 2025-11-05 08:23 – Neuer User: Vanessa Weber (Entwicklung)
+# Eintritt zum 05.11.2025
+
+dn: uid=vweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: vweber
+cn: Vanessa Weber
+sn: Weber
+givenName: Vanessa
+displayName: Vanessa Weber
+mail: vanessa.weber@beispiel.de
+telephoneNumber: +49 30 1234-2053
+roomNumber: 1.16
+title: QA-Ingenieurin
+departmentNumber: 200
+employeeNumber: 1186
+employeeType: Festanstellung
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}CuLGKeQfx6Hk6hkv9rAtggkiGc9+IG7X
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=vweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=vweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=vweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=vweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

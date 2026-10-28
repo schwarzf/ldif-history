@@ -1,0 +1,7 @@
+# 2025-06-06 10:15 – Stefan Müller wird Mitglied in vpn-nutzer
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=smueller,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

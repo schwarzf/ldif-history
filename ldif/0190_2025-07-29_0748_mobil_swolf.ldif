@@ -1,0 +1,7 @@
+# 2025-07-29 07:48 – Neue Mobilnummer: Sabine Wolf
+
+dn: uid=swolf,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: mobile
+mobile: +49 160 4708128
+-

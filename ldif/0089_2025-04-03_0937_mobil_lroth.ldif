@@ -1,0 +1,7 @@
+# 2025-04-03 09:37 – Diensthandy ausgegeben: Lukas Roth
+
+dn: uid=lroth,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mobile
+mobile: +49 151 8171957
+-

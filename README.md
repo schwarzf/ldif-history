@@ -1,7 +1,7 @@
 # ldif-history
 
 Weboberfläche, mit der sich die Zustände beliebiger LDAP-Objekte durchspielen
-lassen. Grundlage ist ein initialer LDIF-Export und eine Reihe von
+lassen. Grundlage ist ein vollständiger LDIF-Export und viele kleine
 Änderungs-LDIFs, die nacheinander eingespielt wurden.
 
 Die Seite ist statisch (HTML, CSS und JavaScript ohne Build-Schritt und ohne
@@ -9,22 +9,31 @@ Abhängigkeiten) und läuft direkt auf GitHub Pages.
 
 ## Funktionen
 
-- **Globaler Zeitregler:** Mit Schieberegler, Schritt-Kacheln oder den
-  Pfeiltasten ← → durch die LDIF-Dateien gehen. Jede Kachel zeigt, wie viele
-  Objekte angelegt (+), geändert (~), umbenannt/verschoben (⇄) oder gelöscht (−)
-  wurden und wie viele Datensätze abgelehnt wurden (⚠).
-- **Verzeichnisbaum** zum gewählten Zeitpunkt. Objekte, die sich in diesem
-  Schritt geändert haben, sind markiert. Im Schritt gelöschte Objekte bleiben
+- **Zeitregler:** Mit Schieberegler oder Pfeiltasten ← → durch die Schritte
+  gehen. Die Zeile darunter zeigt Datum, Art und Titel der aktuellen Änderung
+  sowie den Dateinamen.
+- **Änderungsprotokoll:** Liste aller Änderungen mit Nummer, Zeitpunkt, Art und
+  Titel. Sie lässt sich nach Art filtern (Neu, Geändert,
+  Verschoben/umbenannt, Gelöscht, Abgelehnt), per Text durchsuchen und auf die
+  Änderungen am gewählten Objekt einschränken. Ein Klick springt zu diesem
+  Schritt und wählt das Hauptobjekt der Änderung aus.
+- **Verzeichnisbaum** zum gewählten Zeitpunkt. Die Abteilungen sind
+  eingeklappt; der Weg zum gewählten und zu den gerade geänderten Objekten ist
+  aufgeklappt. Änderungen im Schritt sind markiert, gelöschte Objekte bleiben
   durchgestrichen sichtbar. Optional lassen sich nur die geänderten Objekte
-  anzeigen.
+  zeigen.
 - **Suche** über alle Schritte: nach DN, uid, Name oder Mail. Gefunden werden
   auch frühere DNs, alte Namen (z. B. vor einer Heirat) und gelöschte Objekte.
 - **Objektansicht:**
-  - Zustand des Objekts nach dem gewählten Schritt; Änderungen gegenüber dem
-    vorherigen Schritt sind hervorgehoben (+ neu, − entfernt)
+  - Sprünge zur vorigen und nächsten Änderung des Objekts (auch mit
+    Umschalt + ← →) mit Positionsanzeige („Änderung 3 von 7“)
+  - Zustand nach dem gewählten Schritt; Änderungen gegenüber dem vorherigen
+    Schritt sind hervorgehoben (+ neu, − entfernt). Große Gruppen zeigen nur
+    die geänderten Mitglieder, der Rest ist aufklappbar.
   - DN-Verlauf bei Umbenennungen und Verschiebungen
-  - Zeitleiste aller Ereignisse mit Datei und Zeile, Änderungsübersicht und
-    dem Original-LDIF-Datensatz
+  - Zeitleiste der Ereignisse mit Datei und Zeile, Änderungsübersicht und
+    Original-LDIF. Bei langen Verläufen sieht man nur die Ereignisse um den
+    aktuellen Schritt.
   - DN-Verweise (`member`, `manager`, …) sind anklickbar. Zeigt ein Verweis
     ins Leere, wird er markiert.
 - **Objektidentität:** Ein Objekt bleibt bei `modrdn`/`moddn` dasselbe, auch
@@ -34,39 +43,47 @@ Abhängigkeiten) und läuft direkt auf GitHub Pages.
   miteinander verlinkt.
 - **Abgelehnte Datensätze:** Datensätze, die ein LDAP-Server zurückweisen
   würde, werden nicht angewendet und aufgelistet. Beispiele: `add` auf einen
-  vorhandenen Eintrag, `delete` eines fehlenden Werts, Löschen eines Eintrags
-  mit Untereinträgen. Ein `modify` ist dabei atomar: Schlägt eine Operation
+  vorhandenen Eintrag, `delete` eines fehlenden Werts, Änderung an einem
+  gelöschten Eintrag. Ein `modify` ist dabei atomar: Schlägt eine Operation
   fehl, gilt der ganze Datensatz als abgelehnt.
 - Passwörter werden standardmäßig maskiert.
-- Die Adresse merkt sich Schritt und Objekt (`#schritt=4&dn=…`), so lassen
+- Die Adresse merkt sich Schritt und Objekt (`#schritt=42&dn=…`), so lassen
   sich Links auf einen bestimmten Zustand teilen.
 
 ## Beispieldaten
 
 Im Ordner `ldif/` liegt ein fiktives Firmenverzeichnis `dc=beispiel,dc=de`:
 
-| Datei | Datum | Inhalt |
-| --- | --- | --- |
-| `00-basis.ldif` | 01.01.2025 | Initialer Export: 16 Personen, Abteilungs-OUs, 6 Gruppen, ein Dienstkonto |
-| `01-neueinstellungen.ldif` | 15.01.2025 | Zwei neue Personen, Gruppenmitgliedschaften |
-| `02-kontaktdaten-befoerderung.ldif` | 03.02.2025 | Beförderung, Übernahme eines Werkstudenten, neue Telefonnummern |
-| `03-abteilungswechsel.ldif` | 20.02.2025 | `moddn` vom Vertrieb in die Entwicklung, Gruppen nachgezogen |
-| `04-namensaenderung.ldif` | 10.03.2025 | `modrdn` nach Heirat (amueller → aschmidt). Ein Vorgesetzten-Verweis wird vergessen. |
-| `05-austritte.ldif` | 01.04.2025 | Ein Konto gelöscht, eines nach `ou=Ehemalige` verschoben |
-| `06-umstrukturierung-it.ldif` | 12.05.2025 | OU umbenannt (Unterbaum wandert mit), Gruppe umbenannt |
-| `07-passwoerter-korrekturen.ldif` | 30.06.2025 | Passwort-Rotation, Korrektur des vergessenen Verweises, **zwei absichtlich fehlerhafte Datensätze** |
-| `08-wiedereinstellung.ldif` | 15.08.2025 | Rückkehr aus `ou=Ehemalige`, Neuanlage unter einem früher gelöschten DN, neue Gruppe |
+- `0000_2025-01-01_basis.ldif`: vollständiger Export mit 150 Personen in 8
+  Abteilungen, 17 Gruppen und 4 Dienstkonten. Das Format entspricht einem
+  `slapcat`-Export (Nicht-ASCII-Werte als Base64).
+- 300 Änderungsdateien vom 03.01. bis 19.12.2025, benannt nach dem Muster
+  `NNNN_JJJJ-MM-TT_HHMM_art_objekt.ldif`. Jede Datei hat einen Anlass für ein
+  Hauptobjekt und enthält bei Bedarf die passenden Gruppenänderungen. Die
+  Dateien sind wie für `ldapmodify` geschrieben (UTF-8 direkt), oben steht
+  jeweils ein Kommentar mit Zeitpunkt und Anlass.
 
-Das Basis-LDIF hat das Format eines `slapcat`-Exports (Nicht-ASCII-Werte als
-Base64). Die Änderungsdateien sind von Hand geschrieben, wie für `ldapmodify`.
+Enthaltene Arten von Änderungen:
+
+- Neue User (mit Gruppen), Löschungen, Austritte (Verschieben nach
+  `ou=Ehemalige` und Sperren), Löschung nach Aufbewahrungsfrist, Rückkehr aus
+  `ou=Ehemalige`
+- Abteilungswechsel (`moddn`), Namensänderungen (teils mit neuer uid per
+  `modrdn`); die Gruppen werden jeweils auf den neuen DN umgestellt
+- Neue Funktion, Durchwahl, Diensthandy, Raum, Mail-Alias, Teilzeit,
+  Passwort-Resets (auch für Dienstkonten)
+- Gruppenbeitritte und -austritte, neue Gruppen, eine gelöschte Gruppe
+- Neuanlage unter dem DN eines früher gelöschten Kontos (neues Objekt)
+- Vier absichtlich fehlerhafte Dateien, die der Server ablehnen würde
+  (markiert mit `# Hinweis: Dieser Datensatz wird vom Server abgelehnt.`)
 
 ### Eigene Dateien verwenden
 
-Die Dateiliste ist in dieser ersten Version fest hinterlegt: Konstante
-`DATEIEN` am Anfang von [`js/app.js`](js/app.js). Für eigene Daten die Dateien
-in `ldif/` ablegen und dort eintragen. Die Reihenfolge der Liste ist die
-Abspielreihenfolge, die erste Datei ist der Ausgangszustand. Ein Test prüft,
-dass die Liste und der Ordnerinhalt übereinstimmen.
+Die Dateiliste ist fest hinterlegt, in [`js/dateien.js`](js/dateien.js). Für
+eigene Daten die Dateien in `ldif/` ablegen und dort mit Zeitpunkt und Titel
+eintragen. Die Reihenfolge der Liste ist die Abspielreihenfolge, die erste
+Datei ist der Ausgangszustand. Ein Test prüft, dass die Liste und der
+Ordnerinhalt übereinstimmen.
 
 ## Lokal starten
 
@@ -92,9 +109,11 @@ npm test
 ```
 
 Die Tests laufen mit dem eingebauten Test-Runner von Node (ab Version 18) und
-brauchen keine Abhängigkeiten. Sie prüfen den Parser, die DN-Behandlung, die
-Replay-Logik und die Beispieldaten. Die GitHub Action
-`.github/workflows/tests.yml` führt sie bei jedem Push aus.
+brauchen keine Abhängigkeiten. Sie prüfen den Parser, die DN-Behandlung und
+die Replay-Logik. Bei den Beispieldaten prüfen sie außerdem: Die Dateiliste
+passt, nur die markierten Datensätze werden abgelehnt, und in keinem Schritt
+zeigt ein DN-Verweis ins Leere. Die GitHub Action
+`.github/workflows/tests.yml` führt die Tests bei jedem Push aus.
 
 ## Aufbau
 
@@ -104,11 +123,12 @@ Replay-Logik und die Beispieldaten. Die GitHub Action
 | `css/style.css` | Styles (hell/dunkel nach Systemeinstellung) |
 | `js/ldif.js` | LDIF-Parser (RFC 2849) und DN-Hilfsfunktionen |
 | `js/historie.js` | Abspielen der Dateien, Objekt-Ereignisse und Zustände je Schritt |
-| `js/app.js` | Oberfläche und fest hinterlegte Dateiliste |
+| `js/dateien.js` | Fest hinterlegte Liste der LDIF-Dateien |
+| `js/app.js` | Oberfläche |
 | `ldif/` | Beispieldaten |
 | `tests/` | Tests für Node |
 
-## Grenzen der ersten Version
+## Grenzen
 
 - Kein Schema-Wissen: Werte werden ohne Beachtung von Groß-/Kleinschreibung
   verglichen. Ausnahmen sind `userPassword` (exakt) und DN-Attribute
@@ -116,3 +136,6 @@ Replay-Logik und die Beispieldaten. Die GitHub Action
 - Serverseitige Nebeneffekte wie `refint` oder `memberOf` werden nicht
   nachgebildet. Es zählt nur, was in den LDIF-Dateien steht.
 - `:<`-Verweise auf externe Dateien werden als Text angezeigt, nicht geladen.
+- Alle Dateien werden beim Öffnen geladen und komplett abgespielt. Bei 300
+  Dateien dauert das etwa eine Sekunde, bei sehr vielen Dateien entsprechend
+  länger.

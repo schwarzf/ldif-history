@@ -1,0 +1,35 @@
+# 2025-03-20 13:29 – Neuer User: Zoë Sommer (Personal)
+# Eintritt zum 20.03.2025
+
+dn: uid=zsommer,ou=Personal,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: zsommer
+cn: Zoë Sommer
+sn: Sommer
+givenName: Zoë
+displayName: Zoë Sommer
+mail: zoe.sommer@beispiel.de
+telephoneNumber: +49 30 1234-5013
+mobile: +49 170 1757449
+title: Recruiterin
+departmentNumber: 500
+employeeNumber: 1164
+employeeType: Festanstellung
+manager: uid=fschaefer,ou=Personal,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}RWD7SrET86l463aYXjDQj0qGyehcfzfB
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=zsommer,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-personal,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=zsommer,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-

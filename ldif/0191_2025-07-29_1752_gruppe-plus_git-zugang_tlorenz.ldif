@@ -1,0 +1,7 @@
+# 2025-07-29 17:52 – Thomas Lorenz wird Mitglied in git-zugang
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=tlorenz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-

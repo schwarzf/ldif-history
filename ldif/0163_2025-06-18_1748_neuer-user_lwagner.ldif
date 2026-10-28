@@ -1,0 +1,41 @@
+# 2025-06-18 17:48 – Neuer User: Lisa Wagner (Marketing)
+# Eintritt zum 18.06.2025
+
+dn: uid=lwagner,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: lwagner
+cn: Lisa Wagner
+sn: Wagner
+givenName: Lisa
+displayName: Lisa Wagner
+mail: lisa.wagner@beispiel.de
+telephoneNumber: +49 30 1234-4024
+roomNumber: 2.17
+title: Content-Redakteurin
+departmentNumber: 400
+employeeNumber: 1175
+employeeType: Festanstellung
+manager: uid=tlehmann,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}/NUlCpRnQ8rdZws9KZinPpxl53H9GRiq
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=lwagner,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-marketing,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=lwagner,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=lwagner,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-

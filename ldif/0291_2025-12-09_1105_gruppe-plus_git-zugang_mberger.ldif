@@ -1,0 +1,7 @@
+# 2025-12-09 11:05 – Moritz Berger wird Mitglied in git-zugang
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=mberger,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-

@@ -1,0 +1,7 @@
+# 2025-05-20 07:59 – Neue Durchwahl: Lisa Braun
+
+dn: uid=lbraun,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-2046
+-

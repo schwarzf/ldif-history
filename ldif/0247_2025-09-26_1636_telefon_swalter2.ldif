@@ -1,0 +1,7 @@
+# 2025-09-26 16:36 – Neue Durchwahl: Stefan Walter
+
+dn: uid=swalter2,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-2050
+-

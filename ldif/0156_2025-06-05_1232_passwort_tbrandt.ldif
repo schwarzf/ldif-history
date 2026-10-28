@@ -1,0 +1,7 @@
+# 2025-06-05 12:32 – Passwort zurückgesetzt: Theresa Brandt
+
+dn: uid=tbrandt,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}WGIB32wkToZVkMQN38cVVj9V/zkwE+j9
+-

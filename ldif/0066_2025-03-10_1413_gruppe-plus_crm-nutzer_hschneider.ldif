@@ -1,0 +1,7 @@
+# 2025-03-10 14:13 – Heinz Schneider wird Mitglied in crm-nutzer
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=hschneider,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

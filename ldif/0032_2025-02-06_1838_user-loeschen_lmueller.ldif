@@ -1,0 +1,23 @@
+# 2025-02-06 18:38 – User gelöscht: Leonie Müller (Finanzen)
+# Konto wird sofort gelöscht (Probezeit, Kündigung)
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=lmueller,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-finanzen,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=lmueller,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=lmueller,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: uid=lmueller,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: delete

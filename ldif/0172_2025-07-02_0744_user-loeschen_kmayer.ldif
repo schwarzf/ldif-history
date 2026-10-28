@@ -1,0 +1,23 @@
+# 2025-07-02 07:44 – User gelöscht: Klaus Mayer (IT-Betrieb)
+# Konto wird sofort gelöscht (Probezeit, Kündigung)
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=kmayer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-it-betrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=kmayer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=kmayer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: uid=kmayer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: delete

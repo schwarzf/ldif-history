@@ -1,0 +1,7 @@
+# 2025-08-29 11:11 – Stefan Müller wird Mitglied in wiki-redaktion
+
+dn: cn=wiki-redaktion,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=smueller,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

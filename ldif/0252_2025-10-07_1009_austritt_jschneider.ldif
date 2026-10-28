@@ -1,0 +1,46 @@
+# 2025-10-07 10:09 – Austritt: Jürgen Schneider (Finanzen)
+# Konto wird nach ou=Ehemalige verschoben und gesperrt
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=jschneider,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-finanzen,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=jschneider,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=it-admins,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=jschneider,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=betriebsrat,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=jschneider,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: uid=jschneider,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=jschneider
+deleteoldrdn: 1
+newsuperior: ou=Ehemalige,dc=beispiel,dc=de
+
+dn: uid=jschneider,ou=Ehemalige,dc=beispiel,dc=de
+changetype: modify
+delete: userPassword
+-
+delete: telephoneNumber
+-
+delete: manager
+-
+delete: mobile
+-
+replace: description
+description: Ausgeschieden zum 07.10.2025
+-

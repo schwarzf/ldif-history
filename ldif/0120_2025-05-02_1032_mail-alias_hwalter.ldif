@@ -1,0 +1,7 @@
+# 2025-05-02 10:32 – Mail-Alias: Heinz Walter
+
+dn: uid=hwalter,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mail
+mail: h.walter@beispiel.de
+-

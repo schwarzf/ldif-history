@@ -1,0 +1,7 @@
+# 2025-03-10 14:41 – Passwort zurückgesetzt: Sarah Braun
+
+dn: uid=sbraun,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}QKscRsecSAppTUcIO+/kgRAWr4P03i3w
+-

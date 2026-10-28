@@ -1,0 +1,8 @@
+# 2025-05-23 11:45 – Neue Funktion: Florian Kaya wird Controller
+# Neue Funktion
+
+dn: uid=fkaya,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Controller
+-

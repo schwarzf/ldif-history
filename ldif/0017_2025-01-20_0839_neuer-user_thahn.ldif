@@ -1,0 +1,41 @@
+# 2025-01-20 08:39 – Neuer User: Tanja Hahn (Entwicklung)
+# Eintritt zum 20.01.2025
+
+dn: uid=thahn,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: thahn
+cn: Tanja Hahn
+sn: Hahn
+givenName: Tanja
+displayName: Tanja Hahn
+mail: tanja.hahn@beispiel.de
+telephoneNumber: +49 30 1234-2037
+roomNumber: 3.03
+title: QA-Ingenieurin
+departmentNumber: 200
+employeeNumber: 1153
+employeeType: Festanstellung
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}UOv63iOgdkRXwhyVzfewmbXjW7mx/6Wp
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=thahn,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=thahn,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=thahn,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

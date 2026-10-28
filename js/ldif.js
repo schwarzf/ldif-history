@@ -209,6 +209,7 @@
   function unescapeValue(v) {
     v = v.trim();
     if (v.length >= 2 && v.startsWith('"') && v.endsWith('"')) v = v.slice(1, -1);
+    if (!v.includes('\\')) return v;
     const bytes = [];
     const enc = new TextEncoder();
     for (let i = 0; i < v.length; i++) {
@@ -254,8 +255,20 @@
     return v.trim().replace(/\s+/g, ' ').toLowerCase();
   }
 
+  const normCache = new Map();
+
   /** Normalisierte Form eines DN zum Vergleichen (Groß-/Kleinschreibung, Leerzeichen). */
   function normDn(dn) {
+    let n = normCache.get(dn);
+    if (n === undefined) {
+      n = berechneNormDn(dn);
+      if (normCache.size > 50000) normCache.clear();
+      normCache.set(dn, n);
+    }
+    return n;
+  }
+
+  function berechneNormDn(dn) {
     return splitDn(dn)
       .map(rdn => parseRdn(rdn)
         .map(p => p.attr.toLowerCase() + '=' + normValue(p.value))

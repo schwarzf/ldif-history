@@ -1,0 +1,7 @@
+# 2025-08-08 10:34 – Kerstin Roth verlässt vpn-nutzer
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=kroth,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-

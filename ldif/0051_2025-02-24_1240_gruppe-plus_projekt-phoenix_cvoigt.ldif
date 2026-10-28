@@ -1,0 +1,7 @@
+# 2025-02-24 12:40 – Carla Voigt wird Mitglied in projekt-phoenix
+
+dn: cn=projekt-phoenix,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=cvoigt,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-

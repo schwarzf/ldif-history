@@ -1,0 +1,7 @@
+# 2025-09-10 12:42 – Jonas Keller wird Mitglied in git-zugang
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=jkeller,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

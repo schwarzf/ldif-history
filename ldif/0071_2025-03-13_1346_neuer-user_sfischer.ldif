@@ -1,0 +1,35 @@
+# 2025-03-13 13:46 – Neuer User: Stefan Fischer (Finanzen)
+# Eintritt zum 13.03.2025
+
+dn: uid=sfischer,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: sfischer
+cn: Stefan Fischer
+sn: Fischer
+givenName: Stefan
+displayName: Stefan Fischer
+mail: stefan.fischer@beispiel.de
+telephoneNumber: +49 30 1234-6015
+mobile: +49 151 3314338
+title: Buchhalter
+departmentNumber: 600
+employeeNumber: 1161
+employeeType: Festanstellung
+manager: uid=skaya,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}hz1x/Fgn+9TMAfomI/WgufX2SRIwtEaU
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=sfischer,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-finanzen,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=sfischer,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-

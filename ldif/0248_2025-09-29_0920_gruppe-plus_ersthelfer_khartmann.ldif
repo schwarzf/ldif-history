@@ -1,0 +1,7 @@
+# 2025-09-29 09:20 – Kai Hartmann wird Mitglied in ersthelfer
+
+dn: cn=ersthelfer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=khartmann,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-

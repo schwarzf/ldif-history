@@ -1,0 +1,7 @@
+# 2025-03-05 17:51 – Neue Mobilnummer: Sebastian Baumann
+
+dn: uid=sbaumann,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: mobile
+mobile: +49 176 6156006
+-

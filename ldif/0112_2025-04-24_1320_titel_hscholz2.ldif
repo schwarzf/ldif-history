@@ -1,0 +1,8 @@
+# 2025-04-24 13:20 – Neue Funktion: Hannah Scholz wird Teamkoordinatorin Support
+# Neue Funktion
+
+dn: uid=hscholz2,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Teamkoordinatorin Support
+-

@@ -1,0 +1,8 @@
+# 2025-03-06 09:02 – Neue Funktion: Lena Günther wird Key Account Managerin
+# Neue Funktion
+
+dn: uid=lguenther,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Key Account Managerin
+-

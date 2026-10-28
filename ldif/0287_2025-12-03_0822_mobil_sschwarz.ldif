@@ -1,0 +1,7 @@
+# 2025-12-03 08:22 – Diensthandy ausgegeben: Sören Schwarz
+
+dn: uid=sschwarz,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mobile
+mobile: +49 170 2371783
+-

@@ -1,0 +1,12 @@
+# 2025-07-07 13:47 – Fehlerhafte Korrektur: Zoë Hartmann
+# Der Datensatz will eine Mobilnummer löschen, die es nicht gibt – daher wird auch die Raumnummer nicht gesetzt
+
+# Hinweis: Dieser Datensatz wird vom Server abgelehnt.
+dn: uid=zhartmann,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: roomNumber
+roomNumber: 9.99
+-
+delete: mobile
+mobile: +49 170 0000000
+-

@@ -1,0 +1,7 @@
+# 2025-10-28 11:17 – Hannah Lange verlässt git-zugang
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=hkaiser,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

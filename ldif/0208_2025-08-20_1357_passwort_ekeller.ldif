@@ -1,0 +1,7 @@
+# 2025-08-20 13:57 – Passwort zurückgesetzt: Eva Keller
+
+dn: uid=ekeller,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}OjY0Mz8HCbMqzyaV/5N48b2Vwzf62qzH
+-

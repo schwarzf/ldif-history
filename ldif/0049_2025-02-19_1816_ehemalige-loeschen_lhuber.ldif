@@ -1,0 +1,4 @@
+# 2025-02-19 18:16 – Löschung nach Aufbewahrungsfrist: Leonie Huber
+
+dn: uid=lhuber,ou=Ehemalige,dc=beispiel,dc=de
+changetype: delete

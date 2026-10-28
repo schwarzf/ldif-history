@@ -1,0 +1,40 @@
+# 2025-10-13 12:46 – Neuer User: Johanna Koch (Entwicklung)
+# Eintritt zum 13.10.2025
+
+dn: uid=jkoch,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: jkoch
+cn: Johanna Koch
+sn: Koch
+givenName: Johanna
+displayName: Johanna Koch
+mail: johanna.koch@beispiel.de
+telephoneNumber: +49 30 1234-2052
+title: Senior-Softwareentwicklerin
+departmentNumber: 200
+employeeNumber: 1184
+employeeType: Festanstellung
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}NSGNqaFnRIK1ykv5WaZqRuGot4BINdGJ
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=jkoch,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=jkoch,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=jkoch,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

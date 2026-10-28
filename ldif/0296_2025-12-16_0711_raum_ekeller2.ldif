@@ -1,0 +1,7 @@
+# 2025-12-16 07:11 – Umzug ins Büro 3.13: Elif Keller
+
+dn: uid=ekeller2,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: roomNumber
+roomNumber: 3.13
+-

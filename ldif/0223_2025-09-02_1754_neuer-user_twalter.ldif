@@ -1,0 +1,40 @@
+# 2025-09-02 17:54 – Neuer User: Tobias Walter (Entwicklung)
+# Eintritt zum 02.09.2025
+
+dn: uid=twalter,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: twalter
+cn: Tobias Walter
+sn: Walter
+givenName: Tobias
+displayName: Tobias Walter
+mail: tobias.walter@beispiel.de
+telephoneNumber: +49 30 1234-2048
+title: Softwarearchitekt
+departmentNumber: 200
+employeeNumber: 1179
+employeeType: Festanstellung
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}Pngy3dqnTeR6WVn1Zf60bklyP6UbT4eV
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=twalter,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=twalter,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=twalter,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

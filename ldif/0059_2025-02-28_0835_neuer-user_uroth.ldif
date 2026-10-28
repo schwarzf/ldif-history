@@ -1,0 +1,41 @@
+# 2025-02-28 08:35 – Neuer User: Uwe Roth (Entwicklung)
+# Eintritt zum 28.02.2025
+
+dn: uid=uroth,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: uroth
+cn: Uwe Roth
+sn: Roth
+givenName: Uwe
+displayName: Uwe Roth
+mail: uwe.roth@beispiel.de
+telephoneNumber: +49 30 1234-2040
+mobile: +49 160 2874795
+title: Senior-Softwareentwickler
+departmentNumber: 200
+employeeNumber: 1159
+employeeType: Festanstellung
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}oJzdGyOrHkb2HAnPfteaOrSC5BVQUDE0
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=uroth,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=uroth,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=uroth,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

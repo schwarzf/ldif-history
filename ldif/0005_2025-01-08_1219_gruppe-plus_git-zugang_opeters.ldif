@@ -1,0 +1,7 @@
+# 2025-01-08 12:19 – Olga Peters wird Mitglied in git-zugang
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=opeters,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

@@ -1,0 +1,40 @@
+# 2025-10-03 07:57 – Neuer User: Stefan Franke (Kundenservice)
+# Eintritt zum 03.10.2025
+
+dn: uid=sfranke,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: sfranke
+cn: Stefan Franke
+sn: Franke
+givenName: Stefan
+displayName: Stefan Franke
+mail: stefan.franke@beispiel.de
+telephoneNumber: +49 30 1234-8042
+title: Support-Spezialist
+departmentNumber: 800
+employeeNumber: 1183
+employeeType: Festanstellung
+manager: uid=kkoenig,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}QFwREkkyoL0XrMj0MTR2rQkCz7+Sy2eF
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=sfranke,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-kundenservice,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=sfranke,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=sfranke,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

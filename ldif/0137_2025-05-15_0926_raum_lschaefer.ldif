@@ -1,0 +1,7 @@
+# 2025-05-15 09:26 – Umzug ins Büro 2.15: Lena Schäfer
+
+dn: uid=lschaefer,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: roomNumber
+roomNumber: 2.15
+-

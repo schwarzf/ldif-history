@@ -1,0 +1,61 @@
+# 2025-04-03 08:26 – Abteilungswechsel: Ömer Schmidt (Vertrieb → Marketing)
+
+dn: uid=oschmidt,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=oschmidt
+deleteoldrdn: 1
+newsuperior: ou=Marketing,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=oschmidt,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Content-Redakteur
+-
+replace: departmentNumber
+departmentNumber: 400
+-
+replace: manager
+manager: uid=tlehmann,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-4021
+-
+
+dn: cn=abt-vertrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=oschmidt,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=oschmidt,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=oschmidt,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=oschmidt,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=oschmidt,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=oschmidt,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=oschmidt,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-marketing,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=oschmidt,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-

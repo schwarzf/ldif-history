@@ -1,0 +1,7 @@
+# 2025-10-08 10:01 – Neue Durchwahl: Hendrik Peters
+
+dn: uid=hpeters,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-2051
+-

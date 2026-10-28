@@ -1,0 +1,41 @@
+# 2025-05-05 12:54 – Neuer User: Andreas Schmidt (IT-Betrieb)
+# Eintritt zum 05.05.2025
+
+dn: uid=aschmidt,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: aschmidt
+cn: Andreas Schmidt
+sn: Schmidt
+givenName: Andreas
+displayName: Andreas Schmidt
+mail: andreas.schmidt@beispiel.de
+telephoneNumber: +49 30 1234-7022
+roomNumber: 1.19
+title: Systemadministrator
+departmentNumber: 700
+employeeNumber: 1168
+employeeType: Festanstellung
+manager: uid=hherrmann,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}UxeU0RoG+TAEFEMpY8714I80QSSa9zPi
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=aschmidt,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-it-betrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=aschmidt,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=aschmidt,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-

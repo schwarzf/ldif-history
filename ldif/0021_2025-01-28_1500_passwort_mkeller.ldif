@@ -1,0 +1,7 @@
+# 2025-01-28 15:00 – Passwort zurückgesetzt: Moritz Keller
+
+dn: uid=mkeller,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}iMvmRyalEB63wEHYjRGgNVbju/UVxei8
+-

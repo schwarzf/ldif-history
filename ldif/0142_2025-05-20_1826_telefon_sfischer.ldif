@@ -1,0 +1,7 @@
+# 2025-05-20 18:26 – Neue Durchwahl: Stefan Fischer
+
+dn: uid=sfischer,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-6016
+-

@@ -1,0 +1,41 @@
+# 2025-12-15 14:34 – Rückkehr: Jürgen Schneider (Personal)
+# Konto aus ou=Ehemalige reaktiviert
+
+dn: uid=jschneider,ou=Ehemalige,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=jschneider
+deleteoldrdn: 1
+newsuperior: ou=Personal,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=jschneider,ou=Personal,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: description
+description: Wiedereingestellt zum 15.12.2025
+-
+add: telephoneNumber
+telephoneNumber: +49 30 1234-5018
+-
+add: manager
+manager: uid=fschaefer,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+replace: title
+title: Lohnbuchhalter
+-
+replace: departmentNumber
+departmentNumber: 500
+-
+add: userPassword
+userPassword: {SSHA}PmkkSbUqEIEPo1YrsMOb7JUdf8cgoFXJ
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=jschneider,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-personal,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=jschneider,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-

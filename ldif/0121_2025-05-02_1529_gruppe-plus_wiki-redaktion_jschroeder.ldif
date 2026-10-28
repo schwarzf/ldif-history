@@ -1,0 +1,7 @@
+# 2025-05-02 15:29 – Julia Schröder wird Mitglied in wiki-redaktion
+
+dn: cn=wiki-redaktion,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=jschroeder,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

@@ -1,0 +1,7 @@
+# 2025-07-14 16:06 – Christina Maier verlässt crm-nutzer
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=cmaier,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-

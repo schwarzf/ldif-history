@@ -1,0 +1,35 @@
+# 2025-12-18 18:21 – Neuer User: Florian Schwarz (Personal)
+# Eintritt zum 18.12.2025
+
+dn: uid=fschwarz,ou=Personal,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: fschwarz
+cn: Florian Schwarz
+sn: Schwarz
+givenName: Florian
+displayName: Florian Schwarz
+mail: florian.schwarz@beispiel.de
+telephoneNumber: +49 30 1234-5019
+roomNumber: 1.26
+title: Personalreferent
+departmentNumber: 500
+employeeNumber: 1191
+employeeType: Festanstellung
+manager: uid=fschaefer,ou=Personal,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}kuO8d2l7hH77014xXhjbC0fxGMkFaUc/
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=fschwarz,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-personal,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=fschwarz,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-

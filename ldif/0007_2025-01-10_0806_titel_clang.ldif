@@ -1,0 +1,8 @@
+# 2025-01-10 08:06 – Neue Funktion: Christina Lang wird Werkstudentin Softwareentwicklung
+# Neue Funktion
+
+dn: uid=clang,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Werkstudentin Softwareentwicklung
+-

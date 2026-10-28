@@ -1,0 +1,7 @@
+# 2025-09-08 07:46 – Neue Durchwahl: Sebastian Weber
+
+dn: uid=sweber3,ou=Personal,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-5017
+-

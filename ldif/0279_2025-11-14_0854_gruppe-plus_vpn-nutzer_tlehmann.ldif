@@ -1,0 +1,7 @@
+# 2025-11-14 08:54 – Thomas Lehmann wird Mitglied in vpn-nutzer
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=tlehmann,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-

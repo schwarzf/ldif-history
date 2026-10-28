@@ -1,0 +1,7 @@
+# 2025-02-11 07:31 – Passwort zurückgesetzt: Jonas Keller
+
+dn: uid=jkeller,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}vFE/lrWWJZl7f2u5TYbhj8avj5wAydxY
+-

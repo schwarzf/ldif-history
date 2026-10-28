@@ -1,0 +1,41 @@
+# 2025-03-14 10:56 – Neuer User: Lisa Braun (Entwicklung)
+# Eintritt zum 14.03.2025
+
+dn: uid=lbraun,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: lbraun
+cn: Lisa Braun
+sn: Braun
+givenName: Lisa
+displayName: Lisa Braun
+mail: lisa.braun@beispiel.de
+telephoneNumber: +49 30 1234-2042
+roomNumber: 2.10
+title: Werkstudentin Softwareentwicklung
+departmentNumber: 200
+employeeNumber: 1162
+employeeType: Werkstudent
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}041AMEncWC09DnQdIqK3eJzlcUzWHNKU
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=lbraun,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=lbraun,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=lbraun,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

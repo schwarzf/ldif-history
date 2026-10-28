@@ -1,0 +1,58 @@
+# 2025-04-10 16:34 – Namensänderung: Anna Werner → Anna Keller
+# Alte Mailadresse bleibt als Alias erhalten
+
+dn: uid=awerner,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modrdn
+newrdn: uid=akeller2
+deleteoldrdn: 1
+
+dn: uid=akeller2,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: sn
+sn: Keller
+-
+replace: cn
+cn: Anna Keller
+-
+replace: displayName
+displayName: Anna Keller
+-
+add: mail
+mail: anna.keller@beispiel.de
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=awerner,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=akeller2,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-vertrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=awerner,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=akeller2,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=awerner,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=akeller2,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=awerner,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=akeller2,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-

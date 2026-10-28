@@ -1,0 +1,47 @@
+# 2025-02-27 07:11 – Neuer User: Lisa Baumann (Entwicklung)
+# Eintritt zum 27.02.2025
+
+dn: uid=lbaumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: lbaumann
+cn: Lisa Baumann
+sn: Baumann
+givenName: Lisa
+displayName: Lisa Baumann
+mail: lisa.baumann@beispiel.de
+telephoneNumber: +49 30 1234-2039
+roomNumber: 1.23
+title: QA-Ingenieurin
+departmentNumber: 200
+employeeNumber: 1158
+employeeType: Festanstellung
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}jUQTvWGH8ZD3jb4qHoOK/nkGpBHZyhQf
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=lbaumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=lbaumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=lbaumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=lbaumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

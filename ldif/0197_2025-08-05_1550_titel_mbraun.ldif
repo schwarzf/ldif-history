@@ -1,0 +1,8 @@
+# 2025-08-05 15:50 – Neue Funktion: Max Braun wird Grafikdesigner
+# Neue Funktion
+
+dn: uid=mbraun,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Grafikdesigner
+-

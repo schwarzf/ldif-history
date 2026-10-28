@@ -1,0 +1,7 @@
+# 2025-10-15 08:58 – Hannah Bauer wird Mitglied in git-zugang
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=hbauer2,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

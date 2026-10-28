@@ -1,0 +1,61 @@
+# 2025-11-06 11:10 – Abteilungswechsel: Felix Schulz (IT-Betrieb → Entwicklung)
+
+dn: uid=fschulz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=fschulz
+deleteoldrdn: 1
+newsuperior: ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=fschulz,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Senior-Softwareentwickler
+-
+replace: departmentNumber
+departmentNumber: 200
+-
+replace: manager
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-2054
+-
+
+dn: cn=abt-it-betrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=fschulz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=fschulz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=fschulz,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=fschulz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=fschulz,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=it-admins,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=fschulz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=fschulz,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=fschulz,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

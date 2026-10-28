@@ -1,0 +1,7 @@
+# 2025-05-08 16:38 – Diensthandy abgegeben: Michael Brandt
+
+dn: uid=mbrandt,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+delete: mobile
+mobile: +49 160 6894924
+-

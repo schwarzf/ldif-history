@@ -1,0 +1,7 @@
+# 2025-08-27 10:49 – Carla Voigt verlässt projekt-phoenix
+
+dn: cn=projekt-phoenix,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=cvoigt,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-

@@ -1,0 +1,7 @@
+# 2025-01-23 15:47 – Neue Durchwahl: Anna Werner
+
+dn: uid=awerner,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-3025
+-
