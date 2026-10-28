@@ -6,6 +6,12 @@
   'use strict';
 
   const ORDNER = 'ldif/';
+  /**
+   * Versionsnummer aus der Skript-Adresse (js/app.js?v=…). Sie wird auch an die
+   * LDIF-Dateien gehängt, damit der Browser nach einem Update keine alten
+   * Dateien aus dem Zwischenspeicher mit neuen mischt.
+   */
+  const VERSION = new URL(document.currentScript.src).searchParams.get('v') || '';
 
   const OP_TEXT = {
     add: 'Angelegt',
@@ -687,7 +693,7 @@
     for (let i = 0; i < dateien.length; i += 25) {
       const paket = dateien.slice(i, i + 25);
       texte.push(...await Promise.all(paket.map(async d => {
-        const r = await fetch(ORDNER + d.name);
+        const r = await fetch(ORDNER + d.name + (VERSION ? '?v=' + VERSION : ''));
         if (!r.ok) throw new Error(d.name + ': HTTP ' + r.status);
         return Object.assign({ text: await r.text() }, d);
       })));
@@ -735,8 +741,11 @@
     document.querySelector('main').replaceChildren(el('section', { class: 'panel fehlerseite' },
       el('h2', { text: 'Die LDIF-Dateien konnten nicht geladen werden' }),
       el('p', { text: String(err.message || err) }),
-      el('p', null, 'Wird die Seite direkt als Datei geöffnet (file://), blockiert der Browser das Laden. ',
-        'Bitte über einen Webserver öffnen, z. B. ', el('code', { text: 'python3 -m http.server 8000' }),
-        ' und dann ', el('code', { text: 'http://localhost:8000/' }), '.')));
+      location.protocol === 'file:'
+        ? el('p', null, 'Wird die Seite direkt als Datei geöffnet (file://), blockiert der Browser das Laden. ',
+          'Bitte über einen Webserver öffnen, z. B. ', el('code', { text: 'python3 -m http.server 8000' }),
+          ' und dann ', el('code', { text: 'http://localhost:8000/' }), '.')
+        : el('p', null, 'Möglicherweise stammt ein Teil der Seite noch aus dem Zwischenspeicher des Browsers. ',
+          'Bitte die Seite neu laden, ohne Zwischenspeicher: Strg+Umschalt+R (Mac: Cmd+Umschalt+R).')));
   });
 })();

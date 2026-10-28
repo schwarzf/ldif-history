@@ -218,3 +218,12 @@ test('Beispieldaten im Repo: alle Dateien laufen durch, nur die beabsichtigten A
   // Mindestens ein DN wird nach dem Löschen neu angelegt (neues Objekt).
   assert.ok(h.objects.some(o => o.previous.length));
 });
+
+test('index.html: alle CSS- und JS-Adressen tragen dieselbe Versionsnummer', () => {
+  const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  const lokal = [...html.matchAll(/(?:href|src)="((?:css|js)\/[^"]+)"/g)].map(m => m[1]);
+  assert.ok(lokal.length >= 5);
+  const versionen = new Set(lokal.map(a => (/\?v=(\w+)$/.exec(a) || [])[1]));
+  assert.equal(versionen.size, 1, 'Unterschiedliche oder fehlende Versionen: ' + lokal.join(', '));
+  assert.notEqual([...versionen][0], undefined, 'Versionsnummer fehlt');
+});
