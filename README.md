@@ -102,6 +102,15 @@ Unter *Settings → Pages* als Quelle „Deploy from a branch“ wählen, Branch
 `main`, Ordner `/ (root)`. Die Datei `.nojekyll` sorgt dafür, dass GitHub die
 Dateien unverändert ausliefert.
 
+### Zwischenspeicher
+
+GitHub Pages erlaubt Browsern, Dateien bis zu 10 Minuten zwischenzuspeichern.
+Damit nach einem Update keine alten Skripte mit neuen Dateien gemischt werden,
+hängen alle CSS- und JS-Adressen in `index.html` eine Versionsnummer an
+(`?v=…`). Die Oberfläche hängt dieselbe Nummer auch an die LDIF-Dateien. **Bei
+jeder Änderung an CSS, JS oder LDIF-Dateien die Nummer in `index.html` an allen
+Stellen erhöhen.**
+
 ## Tests
 
 ```bash
