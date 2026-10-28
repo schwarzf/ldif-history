@@ -4,75 +4,65 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>LDIF-Historie</title>
-  <meta name="description" content="Zustände von LDAP-Objekten anhand eines Basis-LDIF und nachfolgender Änderungs-LDIFs durchspielen.">
-  <link rel="stylesheet" href="css/style.css?v=202610281800">
+  <meta name="description" content="Die Geschichte einzelner LDAP-Objekte anhand eines Basis-LDIF und nachfolgender Änderungs-LDIFs durchspielen.">
+  <link rel="stylesheet" href="css/style.css?v=202610281900">
 </head>
 <body>
   <header class="kopf">
     <h1>LDIF-Historie</h1>
-    <p class="unterzeile">Verzeichnis <code>dc=beispiel,dc=de</code> – vollständiger Export plus einzelne Änderungsdateien, Schritt für Schritt abgespielt.</p>
+    <p class="unterzeile">Verzeichnis <code>dc=beispiel,dc=de</code> – Objekt wählen und seine Änderungen auf dem Zeitstrahl durchspielen.</p>
   </header>
 
-  <section class="zeit" aria-label="Zeitpunkt wählen">
-    <div class="zeit-regler">
-      <button type="button" id="zurueck" aria-label="Vorheriger Schritt" title="Vorheriger Schritt (←)">◀</button>
-      <input type="range" id="regler" min="0" max="0" value="0" aria-label="Schritt">
-      <button type="button" id="vor" aria-label="Nächster Schritt" title="Nächster Schritt (→)">▶</button>
-      <span class="zeit-zaehler" id="zaehler"></span>
-    </div>
-    <p class="zeit-info" id="zeit-info"></p>
-  </section>
-
   <main class="layout">
-    <aside class="panel seite" aria-label="Navigation">
+    <aside class="panel seite" aria-label="Objekte">
       <div class="reiter" role="tablist">
-        <button type="button" role="tab" id="tab-protokoll" aria-controls="protokoll-panel">Änderungsprotokoll</button>
+        <button type="button" role="tab" id="tab-objekte" aria-controls="objekte-panel">Objekte</button>
         <button type="button" role="tab" id="tab-baum" aria-controls="baum-panel">Verzeichnis</button>
+        <button type="button" role="tab" id="tab-protokoll" aria-controls="protokoll-panel">Änderungsprotokoll</button>
       </div>
 
-      <div id="protokoll-panel" role="tabpanel" aria-labelledby="tab-protokoll" class="reiter-inhalt">
+      <div id="objekte-panel" role="tabpanel" aria-labelledby="tab-objekte" class="reiter-inhalt">
         <div class="werkzeuge">
-          <input type="search" id="protokoll-suche" placeholder="Filtern: Name, uid, Datei …" aria-label="Protokoll filtern" autocomplete="off">
-          <div class="filter" id="art-filter" role="group" aria-label="Nach Art filtern"></div>
-          <label class="schalter"><input type="checkbox" id="nur-objekt"> Nur Änderungen am gewählten Objekt</label>
+          <input type="search" id="objekt-suche" placeholder="Suchen: Name, uid, Mail, DN …" aria-label="Objekte suchen" autocomplete="off">
+          <div class="filter" id="typ-filter" role="group" aria-label="Nach Typ filtern"></div>
+          <div class="filter" id="status-filter" role="group" aria-label="Nach Status filtern"></div>
+          <label class="schalter">Sortieren:
+            <select id="sortierung">
+              <option value="name">Name</option>
+              <option value="zuletzt">Zuletzt geändert</option>
+              <option value="anzahl">Anzahl Änderungen</option>
+            </select>
+          </label>
         </div>
-        <p class="liste-titel" id="protokoll-titel"></p>
-        <ol class="protokoll" id="protokoll"></ol>
+        <p class="liste-titel" id="objekte-titel"></p>
+        <ol class="objekte" id="objekte"></ol>
       </div>
 
       <div id="baum-panel" role="tabpanel" aria-labelledby="tab-baum" class="reiter-inhalt" hidden>
-        <div class="werkzeuge">
-          <input type="search" id="suche" placeholder="Objekt suchen: DN, uid, Name, Mail …" aria-label="Objekte suchen" autocomplete="off">
-          <label class="schalter"><input type="checkbox" id="nur-geaendert"> Nur in diesem Schritt geänderte</label>
-        </div>
         <p class="liste-titel" id="baum-titel"></p>
         <div id="baum" class="baum"></div>
+      </div>
+
+      <div id="protokoll-panel" role="tabpanel" aria-labelledby="tab-protokoll" class="reiter-inhalt" hidden>
+        <div class="werkzeuge">
+          <input type="search" id="protokoll-suche" placeholder="Filtern: Name, uid, Datei …" aria-label="Protokoll filtern" autocomplete="off">
+          <div class="filter" id="art-filter" role="group" aria-label="Nach Art filtern"></div>
+        </div>
+        <p class="liste-titel" id="protokoll-titel"></p>
+        <ol class="protokoll" id="protokoll"></ol>
       </div>
     </aside>
 
     <section class="panel detail" id="detail" aria-live="polite"></section>
   </main>
 
-  <section class="panel unten">
-    <details id="datei-details">
-      <summary id="datei-titel">LDIF-Datei dieses Schritts</summary>
-      <pre class="ldif" id="datei-inhalt"></pre>
-    </details>
-  </section>
-
-  <section class="panel unten">
-    <h2>Abgelehnte Datensätze</h2>
-    <p class="hinweis">Datensätze, die ein LDAP-Server zurückweisen würde (z. B. Eintrag existiert bereits, Wert fehlt). Sie werden nicht angewendet.</p>
-    <ul id="warnungen" class="warnungen"></ul>
-  </section>
-
   <footer class="fuss">
     Alle Daten sind fiktiv. Die LDIF-Dateien liegen im Ordner <code>ldif/</code> des Repositorys, die Liste in <code>js/dateien.js</code>.
   </footer>
 
-  <script src="js/ldif.js?v=202610281800"></script>
-  <script src="js/historie.js?v=202610281800"></script>
-  <script src="js/dateien.js?v=202610281800"></script>
-  <script src="js/app.js?v=202610281800"></script>
+  <script src="js/ldif.js?v=202610281900"></script>
+  <script src="js/historie.js?v=202610281900"></script>
+  <script src="js/dateien.js?v=202610281900"></script>
+  <script src="js/app.js?v=202610281900"></script>
 </body>
 </html>

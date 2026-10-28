@@ -1,5 +1,10 @@
 /*
- * Oberfläche: Zeitregler, Änderungsprotokoll, Verzeichnisbaum und Objekt-Historie.
+ * Oberfläche: Objekte wählen (Liste, Verzeichnisbaum, Änderungsprotokoll) und
+ * die Änderungen eines Objekts auf seinem eigenen Zeitstrahl durchspielen.
+ *
+ * Intern ist „Zeit“ immer ein Schritt (Index der LDIF-Datei). Die Stationen
+ * eines Objekts sind die Schritte, in denen es sich geändert hat. Wechselt man
+ * über einen Verweis zu einem anderen Objekt, bleibt der Schritt erhalten.
  * Die Dateiliste kommt aus js/dateien.js (window.LDIF_DATEIEN).
  */
 (function () {
@@ -29,26 +34,39 @@
     { key: 'delete', text: 'Gelöscht', ops: ['delete'] },
     { key: 'rejected', text: 'Abgelehnt', ops: ['rejected'] },
   ];
+  const TYPEN = [
+    { key: 'person', text: 'Personen', einzahl: 'Person' },
+    { key: 'gruppe', text: 'Gruppen', einzahl: 'Gruppe' },
+    { key: 'ou', text: 'OUs', einzahl: 'OU' },
+    { key: 'dienstkonto', text: 'Dienstkonten', einzahl: 'Dienstkonto' },
+    { key: 'sonstige', text: 'Sonstige', einzahl: 'Sonstiges' },
+  ];
+  const STATUS = [
+    { key: 'aktiv', text: 'Vorhanden' },
+    { key: 'ehemalig', text: 'Ehemalige' },
+    { key: 'geloescht', text: 'Gelöscht' },
+  ];
+  const MONATE = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
   const PASSWORT_ATTRS = new Set(['userpassword']);
   const SUCH_ATTRS = new Set(['cn', 'uid', 'mail', 'displayname', 'sn', 'givenname', 'ou']);
-  /** Ab so vielen Ereignissen zeigt die Objekt-Zeitleiste nur einen Ausschnitt. */
-  const VERLAUF_FENSTER = 5;
 
   const $ = id => document.getElementById(id);
 
   let h = null;
+  let letzter = 0;          // Index des letzten Schritts
+  let info = [];            // Objekt-ID -> { typ, status, name, aenderungen, zuletzt, stationen }
   const ui = {
     step: 0,
     sel: null,
-    tab: 'protokoll',
-    query: '',
+    tab: 'objekte',
+    objektQuery: '',
+    typen: new Set(),       // leer = alle
+    status: new Set(),      // leer = alle
+    sortierung: 'name',
     protokollQuery: '',
-    arten: new Set(),       // leer = alle Arten
-    nurObjekt: false,
-    nurGeaendert: false,
+    arten: new Set(),       // leer = alle
     passwoerter: false,
     hervorheben: true,
-    verlaufAlle: false,
     klapp: new Map(),       // Objekt-ID -> true (offen) / false (zu), überschreibt die Vorgabe
   };
 
@@ -61,11 +79,12 @@
         if (v === undefined || v === null || v === false) continue;
         if (k === 'class') e.className = v;
         else if (k === 'text') e.textContent = v;
+        else if (k === 'style') e.setAttribute('style', v);
         else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
         else e.setAttribute(k, v === true ? '' : v);
       }
     }
-    for (const kind of kinder.flat()) {
+    for (const kind of kinder.flat(Infinity)) {
       if (kind === null || kind === undefined || kind === false) continue;
       e.append(kind instanceof Node ? kind : String(kind));
     }
@@ -80,8 +99,10 @@
     return t + '.' + m + '.' + j + (uhr && uhr !== '00:00' ? ' ' + uhr : '');
   }
 
-  function schrittText(s) {
-    return 'Schritt ' + s;
+  function zeitMs(zeit) {
+    const [datum, uhr] = (zeit || '').split(' ');
+    const ms = Date.parse(datum + 'T' + (uhr || '00:00') + ':00');
+    return isNaN(ms) ? 0 : ms;
   }
 
   function opText(ev) {
@@ -119,16 +140,58 @@
     return p ? p.value : entry.dn;
   }
 
-  /** Eintrag eines Objekts zum Schritt s, sonst der letzte davor, sonst der erste überhaupt. */
+  /** Eintrag eines Objekts zum Schritt s, sonst der letzte davor, sonst der letzte überhaupt. */
   function bekannterEintrag(id, s) {
-    const r = h.lastEntry(id, s) || h.lastEntry(id, h.steps.length - 1);
+    const r = h.lastEntry(id, s) || h.lastEntry(id, letzter);
     return r ? r.entry : null;
   }
 
-  function objektStatus(o, s) {
-    if (s < o.created) return { text: 'noch nicht angelegt (ab ' + schrittText(o.created) + ')', art: 'zukunft' };
-    if (o.deleted !== null && s >= o.deleted) return { text: 'gelöscht in ' + schrittText(o.deleted), art: 'geloescht' };
-    return { text: 'vorhanden', art: 'da' };
+  /** Kurzform eines DN ohne gemeinsames Suffix: „uid=x · ou=Entwicklung“. */
+  function kurzDn(dn) {
+    const rdns = Ldif.splitDn(dn);
+    return rdns.slice(0, Math.min(2, Math.max(1, rdns.length - 2))).join(' · ');
+  }
+
+  function bestimmeTyp(entry) {
+    const oc = new Set(((entry.attrs.get('objectclass') || {}).values || []).map(v => v.toLowerCase()));
+    if (oc.has('groupofnames') || oc.has('groupofuniquenames') || oc.has('posixgroup')) return 'gruppe';
+    if (oc.has('organizationalunit')) return 'ou';
+    if (oc.has('person') || oc.has('inetorgperson')) return 'person';
+    if (oc.has('account') || oc.has('simplesecurityobject')) return 'dienstkonto';
+    return 'sonstige';
+  }
+
+  /** Stationen eines Objekts: ein Eintrag je Schritt, in dem es Ereignisse gab. */
+  function bildeStationen(o) {
+    const stationen = [];
+    for (const ev of o.events) {
+      let st = stationen[stationen.length - 1];
+      if (!st || st.step !== ev.step) {
+        st = { step: ev.step, events: [], haupt: ev };
+        stationen.push(st);
+      }
+      st.events.push(ev);
+      if (Historie.OP_RANG[ev.op] > Historie.OP_RANG[st.haupt.op]) st.haupt = ev;
+    }
+    return stationen;
+  }
+
+  function berechneInfo() {
+    info = h.objects.map(o => {
+      const e = bekannterEintrag(o.id, letzter);
+      let status = 'aktiv';
+      if (o.deleted !== null) status = 'geloescht';
+      else if (/(^|,)ou=ehemalige,/.test(Ldif.normDn(e.dn))) status = 'ehemalig';
+      const stationen = bildeStationen(o);
+      return {
+        typ: bestimmeTyp(e),
+        status,
+        name: anzeigeName(e),
+        aenderungen: stationen.filter(st => st.step > 0).length,
+        zuletzt: stationen[stationen.length - 1].step,
+        stationen,
+      };
+    });
   }
 
   const suchCache = new Map();
@@ -159,71 +222,140 @@
     else if (e.bottom > c.bottom) container.scrollTop += e.bottom - c.bottom + 8;
   }
 
+  function filterKnoepfe(container, liste, aktiv, zaehle, neuZeichnen) {
+    container.replaceChildren(...liste.map(f => {
+      const anzahl = zaehle(f.key);
+      if (!anzahl && !aktiv.has(f.key)) return null;
+      return el('button', {
+        type: 'button',
+        class: 'filter-knopf f-' + f.key,
+        'aria-pressed': String(aktiv.has(f.key)),
+        onclick: () => {
+          aktiv.has(f.key) ? aktiv.delete(f.key) : aktiv.add(f.key);
+          filterKnoepfe(container, liste, aktiv, zaehle, neuZeichnen);
+          neuZeichnen();
+        },
+      }, f.text, el('span', { class: 'anzahl', text: anzahl }));
+    }).filter(Boolean));
+  }
+
   // ---------- Steuerung ----------
 
   function setStep(s) {
-    ui.step = Math.max(0, Math.min(h.steps.length - 1, s));
+    ui.step = Math.max(0, Math.min(letzter, s));
     render();
   }
 
+  /** Objekt wählen; ohne Schrittangabe bleibt der Zeitpunkt erhalten. */
   function waehle(id, s) {
     ui.sel = id;
-    ui.verlaufAlle = false;
-    if (s !== undefined) ui.step = Math.max(0, Math.min(h.steps.length - 1, s));
+    if (s !== undefined) ui.step = Math.max(0, Math.min(letzter, s));
     render();
+  }
+
+  /** Objekt aus der Liste wählen: neuester Stand des Objekts. */
+  function waehleNeuesten(id) {
+    waehle(id, info[id].zuletzt);
+    zurAnsicht();
+  }
+
+  /** Auf schmalen Bildschirmen steht die Objektansicht unter der Liste: dorthin scrollen. */
+  function zurAnsicht() {
+    if (window.matchMedia('(max-width: 860px)').matches) $('detail').scrollIntoView({ block: 'start' });
   }
 
   function zeigeTab(tab) {
     ui.tab = tab;
-    $('tab-protokoll').setAttribute('aria-selected', String(tab === 'protokoll'));
-    $('tab-baum').setAttribute('aria-selected', String(tab === 'baum'));
-    $('protokoll-panel').hidden = tab !== 'protokoll';
-    $('baum-panel').hidden = tab !== 'baum';
+    for (const t of ['objekte', 'baum', 'protokoll']) {
+      $('tab-' + t).setAttribute('aria-selected', String(t === tab));
+      $(t + '-panel').hidden = t !== tab;
+    }
+    if (tab === 'objekte') markiereObjekte(true);
+    if (tab === 'baum') renderBaum();
     if (tab === 'protokoll') markiereProtokoll(true);
-    else renderBaum();
   }
 
-  /** Vorige/nächste Änderung des gewählten Objekts relativ zum aktuellen Schritt. */
-  function objektSchritte(o) {
-    return [...new Set(o.events.map(ev => ev.step))];
+  function aktuelleStation(id) {
+    const st = info[id].stationen;
+    let idx = -1;
+    for (let i = 0; i < st.length; i++) if (st[i].step <= ui.step) idx = i;
+    return idx;
   }
 
-  function springeObjekt(richtung) {
+  /** Zur vorigen/nächsten Station des gewählten Objekts springen. */
+  function springeStation(richtung) {
     if (ui.sel === null) return;
-    const schritte = objektSchritte(h.objects[ui.sel]);
-    const ziel = richtung < 0
-      ? schritte.filter(s => s < ui.step).pop()
-      : schritte.find(s => s > ui.step);
+    const st = info[ui.sel].stationen;
+    const schritte = st.map(s => s.step);
+    let ziel;
+    if (richtung === -Infinity) ziel = schritte[0];
+    else if (richtung === Infinity) ziel = schritte[schritte.length - 1];
+    else if (richtung < 0) ziel = schritte.filter(s => s < ui.step).pop();
+    else ziel = schritte.find(s => s > ui.step);
     if (ziel !== undefined) setStep(ziel);
   }
 
-  // ---------- Zeitleiste ----------
+  // ---------- Objektliste ----------
 
-  function renderZeit() {
-    const regler = $('regler');
-    regler.max = h.steps.length - 1;
-    regler.value = ui.step;
-    const st = h.steps[ui.step];
-    $('zaehler').textContent = schrittText(ui.step) + ' von ' + (h.steps.length - 1);
-    $('zurueck').disabled = ui.step === 0;
-    $('vor').disabled = ui.step === h.steps.length - 1;
-    $('zeit-info').replaceChildren(...[
-      el('span', { class: 'zeit-datum', text: zeitText(st.zeit) }),
-      st.index === 0 ? el('span', { class: 'marke m-neutral', text: 'Ausgangszustand' }) : st.haupt ? marke(st.haupt) : null,
-      st.warnings.length && schrittArt(st) !== 'rejected'
-        ? el('span', { class: 'marke m-rejected', text: '⚠ ' + st.warnings.length + ' abgelehnt' }) : null,
-      el('span', { class: 'zeit-titel', text: st.titel || st.name }),
-      el('span', { class: 'zeit-datei', text: st.name }),
-    ].filter(Boolean));
+  function gefilterteObjekte() {
+    const q = ui.objektQuery.trim().toLowerCase();
+    const liste = h.objects.filter(o => {
+      const i = info[o.id];
+      if (ui.typen.size && !ui.typen.has(i.typ)) return false;
+      if (ui.status.size && !ui.status.has(i.status)) return false;
+      return !q || suchText(o).includes(q);
+    });
+    const vergleich = {
+      name: (a, b) => info[a.id].name.localeCompare(info[b.id].name, 'de'),
+      zuletzt: (a, b) => info[b.id].zuletzt - info[a.id].zuletzt,
+      anzahl: (a, b) => info[b.id].aenderungen - info[a.id].aenderungen,
+    }[ui.sortierung];
+    return liste.sort((a, b) => vergleich(a, b) || info[a.id].name.localeCompare(info[b.id].name, 'de'));
   }
 
-  // ---------- Änderungsprotokoll ----------
+  function renderObjektFilter() {
+    filterKnoepfe($('typ-filter'), TYPEN, ui.typen, k => info.filter(i => i.typ === k).length, renderObjekte);
+    filterKnoepfe($('status-filter'), STATUS, ui.status, k => info.filter(i => i.status === k).length, renderObjekte);
+  }
 
-  function protokollSchritte() {
+  function renderObjekte() {
+    const liste = gefilterteObjekte();
+    $('objekte-titel').textContent = liste.length === h.objects.length
+      ? h.objects.length + ' Objekte (alle, die es je gab)'
+      : liste.length + ' von ' + h.objects.length + ' Objekten';
+    $('objekte').replaceChildren(...liste.map(o => {
+      const i = info[o.id];
+      const e = bekannterEintrag(o.id, letzter);
+      return el('li', { 'data-id': o.id }, el('button', {
+        type: 'button', class: 'objekt', onclick: () => waehleNeuesten(o.id),
+      },
+      el('span', { class: 'objekt-kopf' },
+        el('span', { class: 'objekt-name', text: i.name }),
+        i.status === 'geloescht' ? el('span', { class: 'marke m-delete', text: 'gelöscht' }) : null,
+        i.status === 'ehemalig' ? el('span', { class: 'marke m-neutral', text: 'ehemalig' }) : null,
+        el('span', { class: 'objekt-zahl', title: 'Änderungen nach dem Ausgangszustand',
+          text: i.aenderungen ? i.aenderungen + ' Änd.' : '–' })),
+      el('span', { class: 'objekt-dn', text: kurzDn(e.dn) })));
+    }));
+    markiereObjekte(true);
+  }
+
+  function markiereObjekte(scrollen) {
+    const liste = $('objekte');
+    const alt = liste.querySelector('[aria-current]');
+    if (alt) alt.removeAttribute('aria-current');
+    const neu = ui.sel === null ? null : liste.querySelector('li[data-id="' + ui.sel + '"] > button');
+    if (neu) {
+      neu.setAttribute('aria-current', 'true');
+      if (scrollen && !$('objekte-panel').hidden) inSicht(liste, neu);
+    }
+  }
+
+  // ---------- Änderungsprotokoll (nachrangig) ----------
+
+  function renderProtokoll() {
     const q = ui.protokollQuery.trim().toLowerCase();
-    const objektSet = ui.nurObjekt && ui.sel !== null ? new Set(objektSchritte(h.objects[ui.sel])) : null;
-    return h.steps.filter(step => {
-      if (objektSet && !objektSet.has(step.index)) return false;
+    const liste = h.steps.filter(step => {
       if (ui.arten.size && !ui.arten.has(schrittArt(step))) return false;
       if (q) {
         const text = (step.titel + '\n' + step.name + '\n' + step.events.map(ev => ev.dnAfter || ev.dnBefore).join('\n')).toLowerCase();
@@ -231,42 +363,16 @@
       }
       return true;
     });
-  }
-
-  function renderFilter() {
-    $('art-filter').replaceChildren(...ARTEN.map(a => {
-      const anzahl = h.steps.filter(st => schrittArt(st) === a.key).length;
-      return el('button', {
-        type: 'button',
-        class: 'filter-knopf f-' + a.key,
-        'aria-pressed': String(ui.arten.has(a.key)),
-        onclick: () => {
-          ui.arten.has(a.key) ? ui.arten.delete(a.key) : ui.arten.add(a.key);
-          renderFilter();
-          renderProtokoll();
-        },
-      }, a.text, el('span', { class: 'anzahl', text: anzahl }));
-    }));
-  }
-
-  function renderProtokoll() {
-    const liste = protokollSchritte();
-    const gesamt = h.steps.length - 1;
-    const gefiltert = ui.arten.size || ui.protokollQuery.trim() || (ui.nurObjekt && ui.sel !== null);
-    $('protokoll-titel').textContent = gefiltert
-      ? liste.length + ' von ' + (gesamt + 1) + ' Schritten'
-      : gesamt + ' Änderungen plus Ausgangszustand';
+    $('protokoll-titel').textContent = liste.length === h.steps.length
+      ? letzter + ' Änderungsdateien plus Ausgangszustand'
+      : liste.length + ' von ' + h.steps.length + ' Dateien';
     $('protokoll').replaceChildren(...liste.map(step => {
       const haupt = step.haupt;
-      const obj = haupt ? h.objects[haupt.objectId] : null;
       return el('li', { 'data-step': step.index },
         el('button', {
           type: 'button',
           class: 'eintrag',
-          onclick: () => {
-            if (obj && !ui.nurObjekt) waehle(obj.id, step.index);
-            else setStep(step.index);
-          },
+          onclick: () => { if (haupt) { waehle(haupt.objectId, step.index); zurAnsicht(); } else setStep(step.index); },
         },
         el('span', { class: 'eintrag-kopf' },
           el('span', { class: 'nr', text: '#' + step.index }),
@@ -278,7 +384,6 @@
     markiereProtokoll(true);
   }
 
-  /** Markiert den aktuellen Schritt im Protokoll, ohne die Liste neu aufzubauen. */
   function markiereProtokoll(scrollen) {
     const liste = $('protokoll');
     const alt = liste.querySelector('[aria-current]');
@@ -290,7 +395,7 @@
     }
   }
 
-  // ---------- Baum ----------
+  // ---------- Verzeichnisbaum ----------
 
   function ereignisseImSchritt(s) {
     const m = new Map();
@@ -340,35 +445,25 @@
     if (ui.tab !== 'baum') return;
     const baum = $('baum');
     const s = ui.step;
-    if (ui.query.trim()) {
-      renderSuche(baum);
-      return;
-    }
-    // Im Ausgangszustand ist alles „angelegt“ – das wäre keine hilfreiche Markierung.
     const geaendert = s === 0 ? new Map() : ereignisseImSchritt(s);
     const wurzeln = baueBaum(s);
-    $('baum-titel').textContent = h.stateAt(s).size + ' Einträge nach ' + schrittText(s) +
-      (geaendert.size ? ' · ' + geaendert.size + ' betroffen' : '');
+    $('baum-titel').textContent = 'Stand am ' + zeitText(h.steps[s].zeit) + ' (Schritt ' + s + ') · ' +
+      h.stateAt(s).size + ' Einträge';
 
-    // Standardmäßig sind nur die oberen Ebenen offen, dazu der Weg zum gewählten
-    // und zu den in diesem Schritt geänderten Objekten.
+    // Offen sind die oberen Ebenen und der Weg zum gewählten Objekt.
     const ziele = [];
     if (ui.sel !== null) {
       const e = bekannterEintrag(ui.sel, s);
       if (e) ziele.push(e.dn);
     }
-    for (const ev of geaendert.values()) ziele.push(ev.dnAfter || ev.dnBefore);
     const aufWeg = vorfahren(ziele);
-
-    const sichtbar = n => !ui.nurGeaendert || geaendert.has(n.id) || n.kinder.some(sichtbar);
 
     const zeichne = (liste, tiefe) => {
       const ul = el('ul');
       for (const n of liste) {
-        if (!sichtbar(n)) continue;
         const ev = geaendert.get(n.id);
         const vorgabe = tiefe < 2 || aufWeg.has(Ldif.normDn(n.entry.dn));
-        const offen = ui.nurGeaendert || (ui.klapp.has(n.id) ? ui.klapp.get(n.id) : vorgabe);
+        const offen = ui.klapp.has(n.id) ? ui.klapp.get(n.id) : vorgabe;
         const rdn = Ldif.rdnOf(n.entry.dn);
         const name = anzeigeName(n.entry);
         const zeigeName = Ldif.parseRdn(rdn)[0].value !== name;
@@ -384,7 +479,7 @@
           el('button', {
             type: 'button', class: 'wahl', title: n.entry.dn,
             'aria-current': ui.sel === n.id ? 'true' : null,
-            onclick: () => waehle(n.id),
+            onclick: () => { waehle(n.id); zurAnsicht(); },
           },
           el('span', { class: 'rdn', text: rdn }),
           zeigeName ? el('span', { class: 'name', text: name }) : null),
@@ -401,34 +496,70 @@
     if (aktiv) inSicht(baum, aktiv);
   }
 
-  function renderSuche(baum) {
-    const q = ui.query.trim().toLowerCase();
-    const treffer = h.objects.filter(o => suchText(o).includes(q));
-    $('baum-titel').textContent = treffer.length + ' Treffer über alle Schritte (auch frühere DNs, alte Namen und gelöschte Objekte)';
-    baum.replaceChildren(el('ul', { class: 'treffer' }, treffer.slice(0, 200).map(o => {
-      const e = bekannterEintrag(o.id, ui.step);
-      const st = objektStatus(o, ui.step);
-      return el('li', null, el('button', {
+  // ---------- Objektansicht: Zeitstrahl ----------
+
+  function zeitstrahl(o) {
+    const t0 = zeitMs(h.steps[0].zeit);
+    const t1 = zeitMs(h.steps[letzter].zeit);
+    const pos = s => (t1 > t0 ? (zeitMs(h.steps[s].zeit) - t0) / (t1 - t0) * 100 : 0);
+    const stationen = info[o.id].stationen;
+    const aktiv = aktuelleStation(o.id);
+    const anStation = aktiv >= 0 && stationen[aktiv].step === ui.step;
+
+    const spur = el('div', { class: 'zs-spur' });
+    // Monatsmarken
+    const start = new Date(t0);
+    for (let d = new Date(start.getFullYear(), start.getMonth(), 1); d.getTime() <= t1; d.setMonth(d.getMonth() + 1)) {
+      const p = (d.getTime() - t0) / (t1 - t0) * 100;
+      if (p < 0) continue;
+      spur.append(el('span', { class: 'zs-monat', style: 'left:' + p + '%' }, el('span', { text: MONATE[d.getMonth()] })));
+    }
+    // Lebensdauer des Objekts
+    const ende = o.deleted !== null ? pos(o.deleted) : 100;
+    spur.append(el('span', { class: 'zs-leben', style: 'left:' + pos(o.created) + '%;width:' + (ende - pos(o.created)) + '%' }));
+    // Aktueller Zeitpunkt (kann zwischen zwei Stationen liegen)
+    spur.append(el('span', { class: 'zs-jetzt', style: 'left:' + pos(ui.step) + '%', title: 'Angezeigter Zeitpunkt: ' + zeitText(h.steps[ui.step].zeit) }));
+    stationen.forEach((st, i) => {
+      const step = h.steps[st.step];
+      spur.append(el('button', {
         type: 'button',
-        'aria-current': ui.sel === o.id ? 'true' : null,
-        onclick: () => waehle(o.id),
-      },
-      el('span', { class: 'dn', text: e.dn }),
-      el('span', { class: 'status', text: anzeigeName(e) + ' · ' + st.text + ' · ' +
-        o.events.length + (o.events.length === 1 ? ' Ereignis' : ' Ereignisse') })));
-    })));
+        class: 'zs-punkt p-' + st.haupt.op,
+        style: 'left:' + pos(st.step) + '%',
+        'aria-current': i === aktiv && anStation ? 'step' : null,
+        'aria-label': 'Station ' + (i + 1) + ': ' + zeitText(step.zeit) + ' – ' + opText(st.haupt),
+        title: zeitText(step.zeit) + ' · ' + opText(st.haupt) + (step.titel ? ' · ' + step.titel : ''),
+        onclick: () => setStep(st.step),
+      }));
+    });
+
+    let pos_text;
+    if (aktiv < 0) pos_text = 'vor der ersten Station';
+    else if (anStation) pos_text = 'Station ' + (aktiv + 1) + ' von ' + stationen.length;
+    else pos_text = 'nach Station ' + (aktiv + 1) + ' von ' + stationen.length;
+
+    const vor = stationen.some(st => st.step > ui.step);
+    const zurueck = stationen.some(st => st.step < ui.step);
+    return el('div', { class: 'zeitstrahl' },
+      el('div', { class: 'zs-rahmen' }, spur),
+      el('div', { class: 'zs-steuerung' },
+        el('button', { type: 'button', disabled: !zurueck, title: 'Erste Station (Pos1)', 'aria-label': 'Erste Station', onclick: () => springeStation(-Infinity) }, '⏮'),
+        el('button', { type: 'button', disabled: !zurueck, title: 'Vorige Station (←)', onclick: () => springeStation(-1) }, '◀ Zurück'),
+        el('span', { class: 'zs-position' },
+          el('strong', { text: zeitText(h.steps[ui.step].zeit) }), ' · ', pos_text),
+        el('button', { type: 'button', disabled: !vor, title: 'Nächste Station (→)', onclick: () => springeStation(1) }, 'Weiter ▶'),
+        el('button', { type: 'button', disabled: !vor, title: 'Letzte Station (Ende)', 'aria-label': 'Letzte Station', onclick: () => springeStation(Infinity) }, '⏭')));
   }
 
-  // ---------- Detail ----------
+  // ---------- Objektansicht: Station und Zustand ----------
 
   function dnWert(attr, v, s, aktiv) {
     if (!aktiv || !Historie.DN_ATTRS.has(attr.toLowerCase())) return document.createTextNode(wertText(attr, v));
     const ziel = h.idAt(v, s);
     if (ziel !== undefined) {
-      return el('button', { type: 'button', class: 'link', title: 'Objekt anzeigen', text: v, onclick: () => waehle(ziel) });
+      return el('button', { type: 'button', class: 'link', title: 'Objekt zum gleichen Zeitpunkt anzeigen', text: v, onclick: () => waehle(ziel) });
     }
     return el('span', null, v, ' ',
-      el('span', { class: 'baumelt', title: 'Verweist auf einen DN, den es in diesem Schritt nicht gibt', text: '⚠ existiert nicht' }));
+      el('span', { class: 'baumelt', title: 'Verweist auf einen DN, den es zu diesem Zeitpunkt nicht gibt', text: '⚠ existiert nicht' }));
   }
 
   function attributTabelle(entry, vorher, s, vergangen) {
@@ -445,15 +576,12 @@
         dnWert(a.name, v, s, !vergangen)));
       if (d) for (const v of d.removed) zellen.push(el('span', { class: 'wert alt', text: wertText(a.name, v) }));
       const reihe = el('tr', d ? { class: 'geaendert' } : null, el('th', { scope: 'row', text: a.name }));
-      // Große Gruppen: ohne Änderung nur die Anzahl der Werte, aufklappbar.
-      if (a.values.length > 12 && !d) {
-        reihe.append(el('td', null, el('details', null,
-          el('summary', { text: a.values.length + ' Werte' }), zellen)));
-      } else if (a.values.length > 12) {
+      // Große Gruppen: nur die geänderten Werte sichtbar, der Rest aufklappbar.
+      if (a.values.length > 12) {
         const geaendert = zellen.filter(z => z.classList.contains('neu') || z.classList.contains('alt'));
         const rest = zellen.filter(z => !geaendert.includes(z));
         reihe.append(el('td', null, geaendert, el('details', null,
-          el('summary', { text: 'weitere ' + rest.length + ' Werte' }), rest)));
+          el('summary', { text: (geaendert.length ? 'weitere ' : '') + rest.length + ' Werte' }), rest)));
       } else {
         reihe.append(el('td', null, zellen));
       }
@@ -482,171 +610,162 @@
       c.added.map(v => el('span', { class: 'plus', text: '+ ' + wertText(c.attr, v) + ' ' })))));
   }
 
-  function ereignisEintrag(ev) {
-    const klasse = ev.step === ui.step ? 'aktuell' : ev.step > ui.step ? 'zukunft' : '';
-    const step = h.steps[ev.step];
-    let dnZeile = null;
-    if (ev.op === 'modrdn' || ev.op === 'moved') {
-      dnZeile = el('p', { class: 'dn-wechsel' }, ev.dnBefore, el('br'), '→ ', ev.dnAfter);
-    }
+  function ereignisDetails(ev) {
     let via = null;
     if (ev.op === 'moved') {
       const vater = h.objects[ev.via];
       via = el('p', { class: 'hinweis' }, 'durch Umbenennung von ',
-        el('button', { type: 'button', class: 'link', text: Ldif.rdnOf(vater.dns[0]), onclick: () => waehle(vater.id, ev.step) }));
+        el('button', { type: 'button', class: 'link', text: Ldif.rdnOf(vater.dns[0]), onclick: () => waehle(vater.id) }));
     }
-    return el('li', { class: klasse }, el('div', { class: 'ereignis' },
-      el('div', { class: 'ereignis-kopf' },
-        el('button', { type: 'button', title: 'Zu diesem Schritt springen', onclick: () => setStep(ev.step),
-          text: '#' + ev.step + ' · ' + zeitText(step.zeit) }),
-        marke(ev),
-        el('span', { class: 'datei', text: ev.file + ':' + ev.line })),
-      step.titel ? el('p', { class: 'ereignis-titel', text: step.titel }) : null,
+    return [
       ev.op === 'rejected'
         ? el('p', { class: 'fehler', text: '„' + ev.rejectedOp + '“ abgelehnt: ' + ev.message + ' – nicht angewendet.' })
         : null,
-      dnZeile,
+      ev.op === 'modrdn' || ev.op === 'moved'
+        ? el('p', { class: 'dn-wechsel' }, ev.dnBefore, el('br'), '→ ', ev.dnAfter)
+        : null,
       via,
       ev.op === 'rejected' ? null : aenderungsListe(ev),
-      el('details', null, el('summary', { text: 'LDIF-Datensatz' }), el('pre', { class: 'ldif', text: quellText(ev.source) }))));
+      el('details', null, el('summary', { text: 'LDIF-Datensatz (' + ev.file + ':' + ev.line + ')' }),
+        el('pre', { class: 'ldif', text: quellText(ev.source) })),
+    ];
   }
 
-  function verlauf(o) {
-    const events = o.events;
-    if (ui.verlaufAlle || events.length <= 2 * VERLAUF_FENSTER + 2) {
-      return el('ol', { class: 'verlauf' }, events.map(ereignisEintrag));
+  /** Karte zur aktuellen Station: Anlass, Änderungen, LDIF, weitere betroffene Objekte. */
+  function stationsKarte(o) {
+    const stationen = info[o.id].stationen;
+    const idx = aktuelleStation(o.id);
+    if (idx < 0) return null;
+    const st = stationen[idx];
+    const step = h.steps[st.step];
+
+    if (st.step !== ui.step) {
+      return el('div', { class: 'station zwischen' },
+        el('p', null, 'Angezeigt wird der Stand am ', el('strong', { text: zeitText(h.steps[ui.step].zeit) }),
+          '. Die letzte Änderung dieses Objekts davor war am ' + zeitText(step.zeit) + '.'),
+        el('button', { type: 'button', onclick: () => setStep(st.step) }, 'Zu dieser Änderung (Station ' + (idx + 1) + ')'));
     }
-    // Lange Verläufe (z. B. große Gruppen): nur die Ereignisse um den aktuellen Schritt.
-    let mitte = events.findIndex(ev => ev.step >= ui.step);
-    if (mitte < 0) mitte = events.length - 1;
-    const von = Math.max(0, mitte - VERLAUF_FENSTER);
-    const bis = Math.min(events.length, mitte + VERLAUF_FENSTER + 1);
-    const alle = () => { ui.verlaufAlle = true; renderDetail(); };
-    return el('div', null,
-      von > 0 ? el('button', { type: 'button', class: 'mehr', onclick: alle, text: von + ' frühere Ereignisse anzeigen' }) : null,
-      el('ol', { class: 'verlauf' }, events.slice(von, bis).map(ereignisEintrag)),
-      bis < events.length ? el('button', { type: 'button', class: 'mehr', onclick: alle, text: (events.length - bis) + ' spätere Ereignisse anzeigen' }) : null);
+
+    // Im Ausgangszustand ist alles „geändert“ – die Liste wäre dort nutzlos.
+    const andere = [];
+    if (step.index > 0) for (const ev of step.events) {
+      if (ev.objectId !== o.id && !andere.includes(ev.objectId)) andere.push(ev.objectId);
+    }
+    return el('div', { class: 'station' },
+      el('div', { class: 'station-kopf' },
+        st.events.map(marke),
+        el('strong', { class: 'station-titel', text: step.index === 0 ? 'Ausgangszustand' : (step.titel || step.name) })),
+      el('p', { class: 'station-datei', text: zeitText(step.zeit) + ' · ' + step.name }),
+      st.events.map(ereignisDetails),
+      andere.length
+        ? el('p', { class: 'station-andere' }, 'In derselben Datei außerdem geändert: ',
+          andere.slice(0, 12).map((id, i) => [i ? ', ' : '', el('button', {
+            type: 'button', class: 'link', text: info[id].name, onclick: () => waehle(id),
+          })]),
+          andere.length > 12 ? ' und ' + (andere.length - 12) + ' weitere' : '')
+        : null,
+      step.index > 0
+        ? el('details', null, el('summary', { text: 'Ganze LDIF-Datei anzeigen (' + step.records + ' Datensätze)' }),
+          el('pre', { class: 'ldif', text: quellText(step.source) }))
+        : null);
   }
 
-  function objektNavigation(o) {
-    const schritte = objektSchritte(o);
-    const vorher = schritte.filter(s => s < ui.step);
-    const nachher = schritte.filter(s => s > ui.step);
-    const hier = schritte.includes(ui.step);
-    let pos;
-    if (hier) pos = 'Änderung ' + (vorher.length + 1) + ' von ' + schritte.length;
-    else if (!vorher.length) pos = 'vor der ersten von ' + schritte.length + ' Änderungen';
-    else if (!nachher.length) pos = 'nach der letzten von ' + schritte.length + ' Änderungen';
-    else pos = 'zwischen Änderung ' + vorher.length + ' und ' + (vorher.length + 1) + ' von ' + schritte.length;
-    return el('div', { class: 'objekt-nav' },
-      el('button', { type: 'button', disabled: !vorher.length, title: 'Vorige Änderung dieses Objekts (Umschalt + ←)',
-        onclick: () => springeObjekt(-1) }, '◀ Vorige Änderung'),
-      el('span', { class: 'objekt-pos', text: pos }),
-      el('button', { type: 'button', disabled: !nachher.length, title: 'Nächste Änderung dieses Objekts (Umschalt + →)',
-        onclick: () => springeObjekt(1) }, 'Nächste Änderung ▶'));
+  function startSeite() {
+    const top = h.objects.filter(o => info[o.id].typ === 'person' || info[o.id].typ === 'gruppe')
+      .sort((a, b) => info[b.id].aenderungen - info[a.id].aenderungen).slice(0, 8);
+    return el('div', { class: 'leer' },
+      el('p', null, 'Links ein Objekt wählen – über die Liste, den Verzeichnisbaum oder das Änderungsprotokoll.'),
+      el('p', null, 'Danach lassen sich seine Änderungen auf dem Zeitstrahl durchspielen (← → oder ◀ ▶).'),
+      el('h3', { text: 'Objekte mit den meisten Änderungen' }),
+      el('ul', { class: 'start-liste' }, top.map(o => el('li', null,
+        el('button', { type: 'button', class: 'link', text: info[o.id].name, onclick: () => waehleNeuesten(o.id) }),
+        ' – ' + info[o.id].aenderungen + ' Änderungen'))));
   }
 
   function renderDetail() {
     const box = $('detail');
     if (ui.sel === null || !h.objects[ui.sel]) {
-      box.replaceChildren(el('div', { class: 'leer' },
-        el('p', null, 'Eine Änderung im Protokoll anklicken oder ein Objekt im Verzeichnis wählen.'),
-        el('p', null, 'Mit dem Regler oben oder den Pfeiltasten ← → durch die Schritte gehen; ',
-          'mit Umschalt + ← → zur vorigen/nächsten Änderung des gewählten Objekts.')));
+      box.replaceChildren(startSeite());
       return;
     }
     const s = ui.step;
     const o = h.objects[ui.sel];
+    const i = info[o.id];
     const entry = h.entryAt(o.id, s);
-    const st = objektStatus(o, s);
     const zuletzt = entry || bekannterEintrag(o.id, s);
-    const evJetzt = o.events.filter(ev => ev.step === s);
+    const typText = TYPEN.find(t => t.key === i.typ).einzahl;
 
     const teile = [];
     teile.push(el('div', { class: 'detail-kopf' },
       el('h2', { text: anzeigeName(zuletzt) }),
-      el('span', { class: 'marke ' + (st.art === 'geloescht' ? 'm-delete' : 'm-neutral'), text: st.text }),
-      evJetzt.map(marke)));
+      el('span', { class: 'marke m-neutral', text: typText }),
+      i.status === 'geloescht' ? el('span', { class: 'marke m-delete', text: 'gelöscht am ' + zeitText(h.steps[o.deleted].zeit) }) : null,
+      i.status === 'ehemalig' ? el('span', { class: 'marke m-neutral', text: 'ehemalig' }) : null));
     teile.push(el('p', { class: 'detail-dn', text: zuletzt.dn }));
-    teile.push(objektNavigation(o));
+    teile.push(zeitstrahl(o));
 
-    if (st.art === 'zukunft') {
-      teile.push(el('p', { class: 'meldung info' }, 'Dieses Objekt existiert in ' + schrittText(s) + ' noch nicht.',
-        el('button', { type: 'button', text: 'Zu ' + schrittText(o.created), onclick: () => setStep(o.created) })));
-    } else if (st.art === 'geloescht') {
-      teile.push(el('p', { class: 'meldung del' }, 'Gelöscht in ' + schrittText(o.deleted) + ' (' + zeitText(h.steps[o.deleted].zeit) + '). Unten steht der letzte Zustand vor dem Löschen.'));
+    if (s < o.created) {
+      teile.push(el('p', { class: 'meldung info' }, 'Am ' + zeitText(h.steps[s].zeit) + ' existiert dieses Objekt noch nicht.',
+        el('button', { type: 'button', text: 'Zur Anlage am ' + zeitText(h.steps[o.created].zeit), onclick: () => setStep(o.created) })));
+    } else if (o.deleted !== null && s > o.deleted) {
+      teile.push(el('p', { class: 'meldung del' }, 'Am ' + zeitText(h.steps[s].zeit) + ' ist dieses Objekt bereits gelöscht.'));
     }
     for (const p of o.previous) {
       teile.push(el('p', { class: 'meldung info' }, 'Unter diesem DN gab es früher ein anderes Objekt: ',
-        el('button', { type: 'button', class: 'link', text: 'früheres Objekt anzeigen', onclick: () => waehle(p) })));
+        el('button', { type: 'button', class: 'link', text: info[p].name + ' (früheres Objekt)', onclick: () => waehle(p, info[p].zuletzt) })));
     }
     for (const n of o.successors) {
-      teile.push(el('p', { class: 'meldung info' }, 'Unter diesem DN wurde in ' + schrittText(h.objects[n].created) + ' ein neues Objekt angelegt: ',
-        el('button', { type: 'button', class: 'link', text: 'neues Objekt anzeigen', onclick: () => waehle(n, h.objects[n].created) })));
+      teile.push(el('p', { class: 'meldung info' }, 'Unter diesem DN wurde am ' + zeitText(h.steps[h.objects[n].created].zeit) + ' ein neues Objekt angelegt: ',
+        el('button', { type: 'button', class: 'link', text: info[n].name + ' (neues Objekt)', onclick: () => waehle(n, h.objects[n].created) })));
     }
-    for (const ev of evJetzt.filter(ev => ev.op === 'rejected')) {
-      teile.push(el('p', { class: 'meldung warn' }, 'In diesem Schritt wurde ein Datensatz abgelehnt: ' + ev.message));
+
+    const karte = stationsKarte(o);
+    if (karte) teile.push(karte);
+
+    teile.push(el('div', { class: 'optionen' },
+      el('label', { class: 'schalter' },
+        el('input', { type: 'checkbox', checked: ui.hervorheben, onchange: e => { ui.hervorheben = e.target.checked; renderDetail(); } }),
+        'Änderungen hervorheben'),
+      el('label', { class: 'schalter' },
+        el('input', { type: 'checkbox', checked: ui.passwoerter, onchange: e => { ui.passwoerter = e.target.checked; renderDetail(); } }),
+        'Passwörter anzeigen')));
+
+    if (entry) {
+      teile.push(el('h3', { text: 'Zustand am ' + zeitText(h.steps[s].zeit) }));
+      teile.push(attributTabelle(entry, s > 0 ? (h.entryAt(o.id, s - 1) || null) : undefined, s, false));
+    } else if (o.deleted !== null && s >= o.deleted) {
+      teile.push(el('h3', { text: 'Letzter Zustand vor dem Löschen' }));
+      teile.push(attributTabelle(zuletzt, undefined, s, true));
     }
 
     if (o.dns.length > 1) {
       const dnSchritte = o.events.filter(ev => ev.op === 'add' || ev.op === 'modrdn' || ev.op === 'moved');
       teile.push(el('h3', { text: 'DN-Verlauf' }));
       teile.push(el('ol', { class: 'dn-verlauf' }, dnSchritte.map(ev => el('li', null, ev.dnAfter, ' ',
-        el('span', { class: 'schritt-hinweis', text: '(ab ' + schrittText(ev.step) + ')' })))));
+        el('span', { class: 'schritt-hinweis', text: '(ab ' + zeitText(h.steps[ev.step].zeit) + ')' })))));
     }
 
-    teile.push(el('div', { class: 'optionen' },
-      el('label', { class: 'schalter' },
-        el('input', { type: 'checkbox', checked: ui.hervorheben, onchange: e => { ui.hervorheben = e.target.checked; renderDetail(); } }),
-        'Änderungen gegenüber dem vorherigen Schritt hervorheben'),
-      el('label', { class: 'schalter' },
-        el('input', { type: 'checkbox', checked: ui.passwoerter, onchange: e => { ui.passwoerter = e.target.checked; renderDetail(); renderDatei(); } }),
-        'Passwörter anzeigen')));
+    teile.push(el('details', { class: 'alle-stationen' },
+      el('summary', { text: 'Alle ' + i.stationen.length + ' Stationen als Liste' }),
+      el('ol', { class: 'stationen-liste' }, i.stationen.map((st, n) => el('li', st.step === s ? { class: 'aktuell' } : null,
+        el('button', { type: 'button', class: 'link', onclick: () => setStep(st.step), text: zeitText(h.steps[st.step].zeit) }),
+        ' ', marke(st.haupt), ' ',
+        h.steps[st.step].index === 0 ? 'Ausgangszustand' : (h.steps[st.step].titel || h.steps[st.step].name))))));
 
-    if (entry) {
-      teile.push(el('h3', { text: 'Zustand nach ' + schrittText(s) }));
-      teile.push(attributTabelle(entry, s > 0 ? (h.entryAt(o.id, s - 1) || null) : undefined, s, false));
-    } else if (st.art === 'geloescht') {
-      teile.push(el('h3', { text: 'Letzter Zustand (vor ' + schrittText(o.deleted) + ')' }));
-      teile.push(attributTabelle(zuletzt, undefined, s, true));
-    }
-
-    teile.push(el('h3', { text: 'Verlauf (' + o.events.length + (o.events.length === 1 ? ' Ereignis)' : ' Ereignisse)') }));
-    teile.push(verlauf(o));
     box.replaceChildren(...teile);
-  }
-
-  // ---------- Datei und Warnungen ----------
-
-  function renderDatei() {
-    const st = h.steps[ui.step];
-    $('datei-titel').textContent = 'LDIF-Datei dieses Schritts: ' + st.name + ' (' + st.records + ' Datensätze)';
-    $('datei-inhalt').textContent = quellText(st.source);
-  }
-
-  function renderWarnungen() {
-    const liste = $('warnungen');
-    if (!h.warnings.length) {
-      liste.replaceChildren(el('li', { text: 'Keine.' }));
-      return;
-    }
-    liste.replaceChildren(...h.warnings.map(w => el('li', null,
-      el('button', { type: 'button', class: 'link', text: '#' + w.step + ' · ' + w.file + ':' + w.line,
-        onclick: () => { if (w.objectId !== null && w.objectId !== undefined) waehle(w.objectId, w.step); else setStep(w.step); } }),
-      ' – ', w.message, w.dn ? el('div', { class: 'dn', text: w.dn }) : null)));
   }
 
   // ---------- Adresse (#schritt=…&dn=…&objekt=…) ----------
 
   function schreibeHash() {
     const p = new URLSearchParams();
-    p.set('schritt', ui.step);
     if (ui.sel !== null) {
       const e = bekannterEintrag(ui.sel, ui.step);
       if (e) p.set('dn', e.dn);
       // Gleicher DN, verschiedene Objekte: die Objektnummer macht die Auswahl eindeutig.
       p.set('objekt', ui.sel);
     }
+    p.set('schritt', ui.step);
     const neu = '#' + p.toString();
     if (location.hash !== neu) history.replaceState(null, '', neu);
   }
@@ -654,7 +773,7 @@
   function leseHash() {
     const p = new URLSearchParams(location.hash.slice(1));
     const s = parseInt(p.get('schritt'), 10);
-    if (!isNaN(s)) ui.step = Math.max(0, Math.min(h.steps.length - 1, s));
+    ui.step = isNaN(s) ? letzter : Math.max(0, Math.min(letzter, s));
     const oid = parseInt(p.get('objekt'), 10);
     const dn = p.get('dn');
     if (!isNaN(oid) && h.objects[oid] && (!dn || h.objects[oid].dns.some(d => Ldif.normDn(d) === Ldif.normDn(dn)))) {
@@ -668,22 +787,12 @@
 
   // ---------- Start ----------
 
-  let letzteAuswahl = null;
-
   function render() {
-    renderZeit();
-    // Die Liste hängt nur dann vom gewählten Objekt ab, wenn danach gefiltert wird.
-    if (ui.nurObjekt && ui.sel !== letzteAuswahl) renderProtokoll();
-    else markiereProtokoll(true);
-    letzteAuswahl = ui.sel;
+    markiereObjekte(true);
+    markiereProtokoll(true);
     renderBaum();
     renderDetail();
-    renderDatei();
     schreibeHash();
-  }
-
-  function zeitHoehe() {
-    document.documentElement.style.setProperty('--zeit-h', document.querySelector('.zeit').offsetHeight + 'px');
   }
 
   async function lade() {
@@ -697,45 +806,40 @@
         if (!r.ok) throw new Error(d.name + ': HTTP ' + r.status);
         return Object.assign({ text: await r.text() }, d);
       })));
-      $('zaehler').textContent = 'Lade ' + texte.length + ' von ' + dateien.length + ' Dateien …';
+      $('detail').replaceChildren(el('p', { class: 'leer', text: 'Lade ' + texte.length + ' von ' + dateien.length + ' Dateien …' }));
     }
     return Historie.build(texte);
   }
 
   function verbinde() {
-    $('regler').addEventListener('input', e => setStep(parseInt(e.target.value, 10)));
-    $('zurueck').addEventListener('click', () => setStep(ui.step - 1));
-    $('vor').addEventListener('click', () => setStep(ui.step + 1));
-    $('tab-protokoll').addEventListener('click', () => zeigeTab('protokoll'));
-    $('tab-baum').addEventListener('click', () => zeigeTab('baum'));
-    $('suche').addEventListener('input', e => { ui.query = e.target.value; renderBaum(); });
-    $('nur-geaendert').addEventListener('change', e => { ui.nurGeaendert = e.target.checked; renderBaum(); });
+    for (const t of ['objekte', 'baum', 'protokoll']) $('tab-' + t).addEventListener('click', () => zeigeTab(t));
+    $('objekt-suche').addEventListener('input', e => { ui.objektQuery = e.target.value; renderObjekte(); });
+    $('sortierung').addEventListener('change', e => { ui.sortierung = e.target.value; renderObjekte(); });
     $('protokoll-suche').addEventListener('input', e => { ui.protokollQuery = e.target.value; renderProtokoll(); });
-    $('nur-objekt').addEventListener('change', e => { ui.nurObjekt = e.target.checked; renderProtokoll(); });
     document.addEventListener('keydown', e => {
       if (e.altKey || e.ctrlKey || e.metaKey) return;
       const t = e.target;
-      if (t instanceof HTMLInputElement && t.type !== 'checkbox' || t instanceof HTMLTextAreaElement) return;
-      const pfeil = e.key === 'ArrowLeft' ? -1 : e.key === 'ArrowRight' ? 1 : 0;
-      if (!pfeil) return;
-      if (e.shiftKey) springeObjekt(pfeil);
-      else setStep(ui.step + pfeil);
+      if (t instanceof HTMLInputElement && t.type !== 'checkbox' || t instanceof HTMLTextAreaElement || t instanceof HTMLSelectElement) return;
+      const richtung = { ArrowLeft: -1, ArrowRight: 1, Home: -Infinity, End: Infinity }[e.key];
+      if (richtung === undefined || ui.sel === null) return;
+      springeStation(richtung);
       e.preventDefault();
     });
     window.addEventListener('hashchange', () => { leseHash(); render(); });
-    window.addEventListener('resize', zeitHoehe);
   }
 
   lade().then(ergebnis => {
     h = ergebnis;
+    letzter = h.steps.length - 1;
+    berechneInfo();
     leseHash();
     verbinde();
-    renderWarnungen();
-    renderFilter();
+    renderObjektFilter();
+    renderObjekte();
+    filterKnoepfe($('art-filter'), ARTEN, ui.arten, k => h.steps.filter(st => schrittArt(st) === k).length, renderProtokoll);
     renderProtokoll();
-    zeigeTab('protokoll');
+    zeigeTab('objekte');
     render();
-    zeitHoehe();
   }).catch(err => {
     console.error(err);
     document.querySelector('main').replaceChildren(el('section', { class: 'panel fehlerseite' },

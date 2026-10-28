@@ -9,46 +9,51 @@ Abhängigkeiten) und läuft direkt auf GitHub Pages.
 
 ## Funktionen
 
-- **Zeitregler:** Mit Schieberegler oder Pfeiltasten ← → durch die Schritte
-  gehen. Die Zeile darunter zeigt Datum, Art und Titel der aktuellen Änderung
-  sowie den Dateinamen.
-- **Änderungsprotokoll:** Liste aller Änderungen mit Nummer, Zeitpunkt, Art und
-  Titel. Sie lässt sich nach Art filtern (Neu, Geändert,
-  Verschoben/umbenannt, Gelöscht, Abgelehnt), per Text durchsuchen und auf die
-  Änderungen am gewählten Objekt einschränken. Ein Klick springt zu diesem
-  Schritt und wählt das Hauptobjekt der Änderung aus.
-- **Verzeichnisbaum** zum gewählten Zeitpunkt. Die Abteilungen sind
-  eingeklappt; der Weg zum gewählten und zu den gerade geänderten Objekten ist
-  aufgeklappt. Änderungen im Schritt sind markiert, gelöschte Objekte bleiben
-  durchgestrichen sichtbar. Optional lassen sich nur die geänderten Objekte
-  zeigen.
-- **Suche** über alle Schritte: nach DN, uid, Name oder Mail. Gefunden werden
-  auch frühere DNs, alte Namen (z. B. vor einer Heirat) und gelöschte Objekte.
-- **Objektansicht:**
-  - Sprünge zur vorigen und nächsten Änderung des Objekts (auch mit
-    Umschalt + ← →) mit Positionsanzeige („Änderung 3 von 7“)
-  - Zustand nach dem gewählten Schritt; Änderungen gegenüber dem vorherigen
-    Schritt sind hervorgehoben (+ neu, − entfernt). Große Gruppen zeigen nur
-    die geänderten Mitglieder, der Rest ist aufklappbar.
-  - DN-Verlauf bei Umbenennungen und Verschiebungen
-  - Zeitleiste der Ereignisse mit Datei und Zeile, Änderungsübersicht und
-    Original-LDIF. Bei langen Verläufen sieht man nur die Ereignisse um den
-    aktuellen Schritt.
-  - DN-Verweise (`member`, `manager`, …) sind anklickbar. Zeigt ein Verweis
-    ins Leere, wird er markiert.
+Im Mittelpunkt stehen die **Objekte**: Man wählt ein Objekt und spielt dann
+nur dessen Änderungen auf einem eigenen Zeitstrahl durch.
+
+- **Objekte wählen** (Reiter links):
+  - **Objekte:** Liste aller Objekte, die es je gab, auch gelöschter. Sie ist
+    durchsuchbar nach Name, uid, Mail oder DN, auch nach früheren Namen und
+    DNs. Filter nach Typ (Personen, Gruppen, OUs, Dienstkonten) und Status
+    (vorhanden, ehemalig, gelöscht). Sortierbar nach Name, zuletzt geändert
+    oder Anzahl der Änderungen.
+  - **Verzeichnis:** der LDAP-Baum zum gerade angezeigten Zeitpunkt.
+  - **Änderungsprotokoll:** alle Änderungsdateien chronologisch, filterbar
+    nach Art und Text. Ein Klick öffnet das betroffene Objekt an dieser
+    Stelle.
+- **Zeitstrahl des Objekts:**
+  - Ein Punkt je Änderung, zeitlich proportional über das Jahr und farbig
+    nach Art (angelegt, geändert, verschoben/umbenannt, gelöscht,
+    abgelehnt). Der graue Balken zeigt, wie lange das Objekt existiert.
+  - Navigation mit ⏮ ◀ ▶ ⏭, per Klick auf einen Punkt oder mit den Tasten
+    ← → Pos1 Ende
+  - Zu jeder Station gibt es eine Karte: Anlass (Titel der Datei), Datei,
+    Änderungen (− alt, + neu), DN-Wechsel, abgelehnte Datensätze,
+    Original-LDIF und die ganze Datei. Außerdem sind die übrigen Objekte
+    verlinkt, die dieselbe Datei geändert hat (z. B. die Gruppen eines neuen
+    Users).
+- **Zustand** des Objekts zur gewählten Station mit hervorgehobenen
+  Änderungen. Große Gruppen zeigen nur die geänderten Mitglieder, der Rest
+  ist aufklappbar.
+- **Verweise** (`member`, `manager`, …) sind anklickbar und öffnen das
+  verlinkte Objekt **zum gleichen Zeitpunkt**. Liegt dieser zwischen zwei
+  Stationen des neuen Objekts, zeigt die Ansicht dessen Stand an diesem Tag
+  und einen Sprung zur letzten Änderung davor. Zeigt ein Verweis ins Leere,
+  wird er markiert.
 - **Objektidentität:** Ein Objekt bleibt bei `modrdn`/`moddn` dasselbe, auch
-  wenn es nur mit seinem übergeordneten Eintrag verschoben wird. Wird ein
-  gelöschter DN später neu angelegt, entsteht ein neues Objekt, so wie im
-  Verzeichnis eine neue `entryUUID` vergeben wird. Beide Objekte sind
-  miteinander verlinkt.
+  wenn es nur mit seinem übergeordneten Eintrag verschoben wird; der
+  DN-Verlauf wird angezeigt. Wird ein gelöschter DN später neu angelegt,
+  entsteht ein neues Objekt, so wie im Verzeichnis eine neue `entryUUID`
+  vergeben wird. Beide Objekte sind miteinander verlinkt.
 - **Abgelehnte Datensätze:** Datensätze, die ein LDAP-Server zurückweisen
-  würde, werden nicht angewendet und aufgelistet. Beispiele: `add` auf einen
-  vorhandenen Eintrag, `delete` eines fehlenden Werts, Änderung an einem
-  gelöschten Eintrag. Ein `modify` ist dabei atomar: Schlägt eine Operation
-  fehl, gilt der ganze Datensatz als abgelehnt.
+  würde, werden nicht angewendet und als eigene Station markiert. Beispiele:
+  `add` auf einen vorhandenen Eintrag, `delete` eines fehlenden Werts,
+  Änderung an einem gelöschten Eintrag. Ein `modify` ist dabei atomar: Schlägt
+  eine Operation fehl, gilt der ganze Datensatz als abgelehnt.
 - Passwörter werden standardmäßig maskiert.
-- Die Adresse merkt sich Schritt und Objekt (`#schritt=42&dn=…`), so lassen
-  sich Links auf einen bestimmten Zustand teilen.
+- Die Adresse merkt sich Objekt und Zeitpunkt (`#dn=…&objekt=…&schritt=…`),
+  so lassen sich Links auf einen bestimmten Zustand teilen.
 
 ## Beispieldaten
 
