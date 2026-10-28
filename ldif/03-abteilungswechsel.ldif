@@ -1,0 +1,53 @@
+# 2025-02-20 – Peter Fischer wechselt vom Vertrieb ins Produktmanagement (Entwicklung)
+# Das Verzeichnis hat kein refint-Overlay, die Gruppen werden daher von Hand angepasst.
+
+dn: uid=pfischer,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=pfischer
+deleteoldrdn: 1
+newsuperior: ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=pfischer,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Produktmanager
+-
+replace: departmentNumber
+departmentNumber: 200
+-
+replace: manager
+manager: uid=jbecker,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-219
+-
+
+dn: cn=vertrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=pfischer,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=pfischer,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=pfischer,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=pfischer,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=pfischer,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=pfischer,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

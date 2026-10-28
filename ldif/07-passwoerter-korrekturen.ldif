@@ -1,0 +1,61 @@
+# 2025-06-30 – Halbjährliche Passwort-Rotation und Korrekturen
+# Enthält zwei fehlerhafte Datensätze aus einem Import-Skript; der Server lehnt sie ab.
+
+dn: uid=hwagner,ou=Leitung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}3mT8xQv0LbN6cH2kR9pWzY1sJ4dF7gA5
+-
+
+dn: uid=jbecker,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}Pz4nV8bK2wQ6tL0xM3jR7cY9sH1dG5fE
+-
+
+dn: uid=rbauer,ou=Plattform,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}Ke7rB2nW9qT4vX1mZ6cL3pJ8yH0sD5gF
+-
+
+dn: uid=backup,ou=Dienstkonten,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}Ua1cN5vR8kX3pW7mT0bL4zQ9sJ2hG6dY
+-
+replace: description
+description: Konto für die nächtliche Datensicherung (Passwort rotiert 2025-06)
+-
+
+# Korrektur: Vorgesetzten-Verweis von Oliver Braun zeigte noch auf uid=amueller
+dn: uid=obraun,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: manager
+manager: uid=aschmidt,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: uid=mkaiser,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mail
+mail: m.kaiser@beispiel.de
+-
+
+# FEHLER: Doppelter Datensatz aus dem Import-Skript (Eintrag existiert bereits)
+dn: uid=mkaiser,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: inetOrgPerson
+uid: mkaiser
+cn: Marie Kaiser
+sn: Kaiser
+
+# FEHLER: Tobias Schulz hat gar keine Mobilnummer – der ganze Datensatz wird abgelehnt,
+# also wird auch die Raumnummer nicht gesetzt.
+dn: uid=tschulz,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: roomNumber
+roomNumber: 3.02
+-
+delete: mobile
+mobile: +49 170 5550999
+-
