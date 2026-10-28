@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LDIF-Historie</title>
+  <meta name="description" content="Zustände von LDAP-Objekten anhand eines Basis-LDIF und nachfolgender Änderungs-LDIFs durchspielen.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="kopf">
+    <div>
+      <h1>LDIF-Historie</h1>
+      <p class="unterzeile">Verzeichnis <code>dc=beispiel,dc=de</code> – Basis-Export plus Änderungsdateien, Schritt für Schritt abgespielt.</p>
+    </div>
+  </header>
+
+  <section class="zeit" aria-label="Zeitpunkt wählen">
+    <div class="zeit-regler">
+      <button type="button" id="zurueck" aria-label="Vorheriger Schritt" title="Vorheriger Schritt (←)">◀</button>
+      <input type="range" id="regler" min="0" max="0" value="0" aria-label="Schritt">
+      <button type="button" id="vor" aria-label="Nächster Schritt" title="Nächster Schritt (→)">▶</button>
+      <span class="zeit-zaehler" id="zaehler"></span>
+    </div>
+    <ol class="schritte" id="schritte"></ol>
+  </section>
+
+  <main class="layout">
+    <aside class="panel baum-panel" aria-label="Verzeichnisbaum">
+      <div class="baum-werkzeuge">
+        <input type="search" id="suche" placeholder="Suchen: DN, uid, Name, Mail …" aria-label="Objekte suchen" autocomplete="off">
+        <label class="schalter"><input type="checkbox" id="nur-geaendert"> Nur in diesem Schritt geänderte</label>
+      </div>
+      <p class="baum-titel" id="baum-titel"></p>
+      <div id="baum" class="baum"></div>
+    </aside>
+
+    <section class="panel detail" id="detail" aria-live="polite"></section>
+  </main>
+
+  <section class="panel unten">
+    <details id="datei-details">
+      <summary id="datei-titel">LDIF-Datei dieses Schritts</summary>
+      <pre class="ldif" id="datei-inhalt"></pre>
+    </details>
+  </section>
+
+  <section class="panel unten">
+    <h2>Abgelehnte Datensätze</h2>
+    <p class="hinweis">Datensätze, die ein LDAP-Server zurückweisen würde (z. B. Eintrag existiert bereits, Wert fehlt). Sie werden nicht angewendet.</p>
+    <ul id="warnungen" class="warnungen"></ul>
+  </section>
+
+  <footer class="fuss">
+    Alle Daten sind fiktiv. Die LDIF-Dateien liegen im Ordner <code>ldif/</code> des Repositorys.
+  </footer>
+
+  <script src="js/ldif.js"></script>
+  <script src="js/historie.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

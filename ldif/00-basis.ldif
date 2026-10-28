@@ -1,0 +1,452 @@
+# Initialer Export des Verzeichnisses dc=beispiel,dc=de
+# Stand: 2025-01-01 (erzeugt mit slapcat, operationale Attribute entfernt)
+version: 1
+
+dn: dc=beispiel,dc=de
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+dc: beispiel
+o: Beispiel GmbH
+
+dn: ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: organizationalUnit
+ou: Personen
+description: Alle Mitarbeiterinnen und Mitarbeiter
+
+dn: ou=Gruppen,dc=beispiel,dc=de
+objectClass: top
+objectClass: organizationalUnit
+ou: Gruppen
+description: Berechtigungs- und Verteilergruppen
+
+dn: ou=Dienstkonten,dc=beispiel,dc=de
+objectClass: top
+objectClass: organizationalUnit
+ou: Dienstkonten
+description: Technische Konten
+
+dn: ou=Ehemalige,dc=beispiel,dc=de
+objectClass: top
+objectClass: organizationalUnit
+ou: Ehemalige
+description: Ausgeschiedene Mitarbeiterinnen und Mitarbeiter
+
+dn: ou=Leitung,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: organizationalUnit
+ou: Leitung
+description:: R2VzY2jDpGZ0c2bDvGhydW5n
+
+dn: ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: organizationalUnit
+ou: Entwicklung
+description: Softwareentwicklung
+
+dn: ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: organizationalUnit
+ou: Vertrieb
+description: Vertrieb und Kundenbetreuung
+
+dn: ou=Personal,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: organizationalUnit
+ou: Personal
+description: Personalabteilung
+
+dn: ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: organizationalUnit
+ou: IT-Betrieb
+description: Betrieb der IT-Infrastruktur
+
+dn: uid=hwagner,ou=Leitung,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: hwagner
+cn: Heinz Wagner
+sn: Wagner
+givenName: Heinz
+displayName: Heinz Wagner
+mail: heinz.wagner@beispiel.de
+telephoneNumber: +49 30 1234-101
+title:: R2VzY2jDpGZ0c2bDvGhyZXI=
+departmentNumber: 100
+employeeNumber: 1001
+employeeType: Festanstellung
+userPassword: {SSHA}RwNvbA8vDFqjCzai1UQCYZj64lpZMtu7
+
+dn: uid=jbecker,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: jbecker
+cn: Julia Becker
+sn: Becker
+givenName: Julia
+displayName: Julia Becker
+mail: julia.becker@beispiel.de
+telephoneNumber: +49 30 1234-202
+title: Teamleiterin Entwicklung
+departmentNumber: 200
+employeeNumber: 1002
+employeeType: Festanstellung
+manager: uid=hwagner,ou=Leitung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}Bjz6BDHxXPZIJqLOqtBqm1C81ZIKubRq
+
+dn: uid=mklein,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: mklein
+cn: Max Klein
+sn: Klein
+givenName: Max
+displayName: Max Klein
+mail: max.klein@beispiel.de
+telephoneNumber: +49 30 1234-203
+title: Softwareentwickler
+departmentNumber: 200
+employeeNumber: 1003
+employeeType: Festanstellung
+manager: uid=jbecker,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}BVVnBHJX6AHjQuJzxNJLSi1GUCPcZxVt
+
+dn: uid=lneumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: lneumann
+cn: Lena Neumann
+sn: Neumann
+givenName: Lena
+displayName: Lena Neumann
+mail: lena.neumann@beispiel.de
+telephoneNumber: +49 30 1234-204
+title: Softwareentwicklerin
+departmentNumber: 200
+employeeNumber: 1004
+employeeType: Festanstellung
+manager: uid=jbecker,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}pX9vmBMyNO5hD4/IXuUo7D+uzcp4iuyK
+
+dn: uid=tschulz,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: tschulz
+cn: Tobias Schulz
+sn: Schulz
+givenName: Tobias
+displayName: Tobias Schulz
+mail: tobias.schulz@beispiel.de
+telephoneNumber: +49 30 1234-205
+title: Softwareentwickler
+departmentNumber: 200
+employeeNumber: 1005
+employeeType: Festanstellung
+manager: uid=jbecker,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}suW6VMSWT57jwHZwYon0DM2TN0/JZRK/
+
+dn: uid=yyilmaz,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: yyilmaz
+cn:: WXVzdWYgWcSxbG1heg==
+sn:: WcSxbG1heg==
+givenName: Yusuf
+displayName:: WXVzdWYgWcSxbG1heg==
+mail: yusuf.yilmaz@beispiel.de
+telephoneNumber: +49 30 1234-206
+title: Werkstudent Softwareentwicklung
+departmentNumber: 200
+employeeNumber: 1006
+employeeType: Werkstudent
+manager: uid=jbecker,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}HWhXCjUffPuizuzqqv93Eliq7mRJVMSe
+
+dn: uid=amueller,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: amueller
+cn:: QW5uYSBNw7xsbGVy
+sn:: TcO8bGxlcg==
+givenName: Anna
+displayName:: QW5uYSBNw7xsbGVy
+mail: anna.mueller@beispiel.de
+telephoneNumber: +49 30 1234-307
+title: Vertriebsleiterin
+departmentNumber: 300
+employeeNumber: 1007
+employeeType: Festanstellung
+manager: uid=hwagner,ou=Leitung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}C/rwJokth9JH9Z0/LfeTQhYaYqDIBIkI
+
+dn: uid=pfischer,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: pfischer
+cn: Peter Fischer
+sn: Fischer
+givenName: Peter
+displayName: Peter Fischer
+mail: peter.fischer@beispiel.de
+telephoneNumber: +49 30 1234-308
+title: Account Manager
+departmentNumber: 300
+employeeNumber: 1008
+employeeType: Festanstellung
+manager: uid=amueller,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}KJ4MnpHZXUS12oOtxrVhGlGTDOreqfvs
+
+dn: uid=sweber,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: sweber
+cn: Sabine Weber
+sn: Weber
+givenName: Sabine
+displayName: Sabine Weber
+mail: sabine.weber@beispiel.de
+telephoneNumber: +49 30 1234-309
+title: Account Managerin
+departmentNumber: 300
+employeeNumber: 1009
+employeeType: Festanstellung
+manager: uid=amueller,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}EghOTqtBn9vbTEjHvR7ujfBfbBhJKvCz
+
+dn: uid=khoffmann,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: khoffmann
+cn: Klaus Hoffmann
+sn: Hoffmann
+givenName: Klaus
+displayName: Klaus Hoffmann
+mail: klaus.hoffmann@beispiel.de
+telephoneNumber: +49 30 1234-310
+title: Vertriebsinnendienst
+departmentNumber: 300
+employeeNumber: 1010
+employeeType: Festanstellung
+manager: uid=amueller,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}CsLWdMvlwO9A1+WIpkSBQ+T5NzJoJLTL
+
+dn: uid=cschmitt,ou=Personal,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: cschmitt
+cn: Claudia Schmitt
+sn: Schmitt
+givenName: Claudia
+displayName: Claudia Schmitt
+mail: claudia.schmitt@beispiel.de
+telephoneNumber: +49 30 1234-411
+title: Leiterin Personal
+departmentNumber: 400
+employeeNumber: 1011
+employeeType: Festanstellung
+manager: uid=hwagner,ou=Leitung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}VypeVUN7Rj3yfbhrR3Sv9bJtIhex4JQG
+
+dn: uid=dkoch,ou=Personal,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: dkoch
+cn: Daniel Koch
+sn: Koch
+givenName: Daniel
+displayName: Daniel Koch
+mail: daniel.koch@beispiel.de
+telephoneNumber: +49 30 1234-412
+title: Personalreferent
+departmentNumber: 400
+employeeNumber: 1012
+employeeType: Festanstellung
+manager: uid=cschmitt,ou=Personal,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}SACWB2fFCkRvEr+0xTw4jmqFkQIflSlP
+
+dn: uid=rbauer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: rbauer
+cn: Ralf Bauer
+sn: Bauer
+givenName: Ralf
+displayName: Ralf Bauer
+mail: ralf.bauer@beispiel.de
+telephoneNumber: +49 30 1234-513
+title: Teamleiter IT-Betrieb
+departmentNumber: 500
+employeeNumber: 1013
+employeeType: Festanstellung
+manager: uid=hwagner,ou=Leitung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}HJLnj/M36aKdmRF94lHTw0vgEq9Rf/cT
+
+dn: uid=nrichter,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: nrichter
+cn: Nina Richter
+sn: Richter
+givenName: Nina
+displayName: Nina Richter
+mail: nina.richter@beispiel.de
+telephoneNumber: +49 30 1234-514
+title: Systemadministratorin
+departmentNumber: 500
+employeeNumber: 1014
+employeeType: Festanstellung
+manager: uid=rbauer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}KgpfiPAU+nmFv9zUy1o2PvdTUVydgYJT
+
+dn: uid=fwolf,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: fwolf
+cn: Felix Wolf
+sn: Wolf
+givenName: Felix
+displayName: Felix Wolf
+mail: felix.wolf@beispiel.de
+telephoneNumber: +49 30 1234-515
+title: Netzwerkadministrator
+departmentNumber: 500
+employeeNumber: 1015
+employeeType: Festanstellung
+manager: uid=rbauer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}yRa+xyQjoPB56ph0e6z5tIkqNCUIxYyy
+
+dn: uid=ezimmermann,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: ezimmermann
+cn: Eva Zimmermann
+sn: Zimmermann
+givenName: Eva
+displayName: Eva Zimmermann
+mail: eva.zimmermann@beispiel.de
+telephoneNumber: +49 30 1234-516
+title: IT-Support
+departmentNumber: 500
+employeeNumber: 1016
+employeeType: Festanstellung
+manager: uid=rbauer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}u0b23NPqGLLcOeJkNcq5XNL8qNjcjIqj
+
+dn: uid=backup,ou=Dienstkonten,dc=beispiel,dc=de
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+uid: backup
+description:: S29udG8gZsO8ciBkaWUgbsOkY2h0bGljaGUgRGF0ZW5zaWNoZXJ1bmc=
+userPassword: {SSHA}brp/JlNw1o7SFh1tekc3zfsW8n/BH4Qu
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+objectClass: top
+objectClass: groupOfNames
+cn: alle-mitarbeiter
+description: Verteiler an alle
+member: uid=hwagner,ou=Leitung,ou=Personen,dc=beispiel,dc=de
+member: uid=jbecker,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+member: uid=mklein,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+member: uid=lneumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+member: uid=tschulz,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+member: uid=yyilmaz,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+member: uid=amueller,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=pfischer,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=sweber,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=khoffmann,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=cschmitt,ou=Personal,ou=Personen,dc=beispiel,dc=de
+member: uid=dkoch,ou=Personal,ou=Personen,dc=beispiel,dc=de
+member: uid=rbauer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=nrichter,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=fwolf,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=ezimmermann,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+
+dn: cn=entwicklung,ou=Gruppen,dc=beispiel,dc=de
+objectClass: top
+objectClass: groupOfNames
+cn: entwicklung
+description: Entwicklungsteam
+member: uid=jbecker,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+member: uid=mklein,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+member: uid=lneumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+member: uid=tschulz,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+member: uid=yyilmaz,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+
+dn: cn=vertrieb,ou=Gruppen,dc=beispiel,dc=de
+objectClass: top
+objectClass: groupOfNames
+cn: vertrieb
+description: Vertriebsteam
+member: uid=amueller,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=pfischer,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=sweber,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=khoffmann,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+
+dn: cn=it-admins,ou=Gruppen,dc=beispiel,dc=de
+objectClass: top
+objectClass: groupOfNames
+cn: it-admins
+description: Administrative Rechte auf Servern
+member: uid=rbauer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=nrichter,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=fwolf,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+objectClass: top
+objectClass: groupOfNames
+cn: vpn-nutzer
+description: Zugang zum Firmen-VPN
+member: uid=hwagner,ou=Leitung,ou=Personen,dc=beispiel,dc=de
+member: uid=amueller,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=pfischer,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=sweber,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=rbauer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=nrichter,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=fwolf,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=dkoch,ou=Personal,ou=Personen,dc=beispiel,dc=de
+
+dn: cn=fuehrungskraefte,ou=Gruppen,dc=beispiel,dc=de
+objectClass: top
+objectClass: groupOfNames
+cn: fuehrungskraefte
+description:: RsO8aHJ1bmdza3LDpGZ0ZQ==
+member: uid=hwagner,ou=Leitung,ou=Personen,dc=beispiel,dc=de
+member: uid=jbecker,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+member: uid=amueller,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+member: uid=cschmitt,ou=Personal,ou=Personen,dc=beispiel,dc=de
+member: uid=rbauer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de

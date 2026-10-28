@@ -1,0 +1,67 @@
+# 2025-01-15 – Neueinstellungen zum Monatsbeginn
+# Marie Kaiser (Entwicklung) und Oliver Braun (Vertrieb)
+
+dn: uid=mkaiser,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: mkaiser
+cn: Marie Kaiser
+sn: Kaiser
+givenName: Marie
+displayName: Marie Kaiser
+mail: marie.kaiser@beispiel.de
+telephoneNumber: +49 30 1234-217
+title: Softwareentwicklerin
+departmentNumber: 200
+employeeNumber: 1017
+employeeType: Festanstellung
+manager: uid=jbecker,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}Wb0yRmvhqX5o3B9hS1qKcCm1nB0Ehx7a
+
+dn: uid=obraun,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: obraun
+cn: Oliver Braun
+sn: Braun
+givenName: Oliver
+displayName: Oliver Braun
+mail: oliver.braun@beispiel.de
+telephoneNumber: +49 30 1234-318
+title: Account Manager
+departmentNumber: 300
+employeeNumber: 1018
+employeeType: Festanstellung
+manager: uid=amueller,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}q8LkS2pXv1c0mJ4Nf7RtYwZbH3aE9dGu
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=mkaiser,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+member: uid=obraun,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=mkaiser,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vertrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=obraun,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=obraun,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
