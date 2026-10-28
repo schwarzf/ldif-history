@@ -1,0 +1,41 @@
+# 2025-05-27 10:37 – Neuer User: Andreas Peters (Marketing)
+# Eintritt zum 27.05.2025
+
+dn: uid=apeters,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: apeters
+cn: Andreas Peters
+sn: Peters
+givenName: Andreas
+displayName: Andreas Peters
+mail: andreas.peters@beispiel.de
+telephoneNumber: +49 30 1234-4022
+mobile: +49 170 9978021
+title: Marketing Manager
+departmentNumber: 400
+employeeNumber: 1173
+employeeType: Festanstellung
+manager: uid=tlehmann,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}i4czUwQdr9mYRyUoFOBXsC6LdyeOJlK8
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=apeters,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-marketing,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=apeters,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=apeters,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-

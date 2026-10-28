@@ -1,0 +1,7 @@
+# 2025-04-14 12:05 – Wechsel in Teilzeit: Sabine Wolf
+
+dn: uid=swolf,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: employeeType
+employeeType: Teilzeit
+-

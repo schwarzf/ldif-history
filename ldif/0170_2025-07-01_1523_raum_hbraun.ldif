@@ -1,0 +1,7 @@
+# 2025-07-01 15:23 – Umzug ins Büro 4.29: Hendrik Braun
+
+dn: uid=hbraun,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: roomNumber
+roomNumber: 4.29
+-

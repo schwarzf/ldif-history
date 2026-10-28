@@ -1,0 +1,7 @@
+# 2025-04-16 10:51 – Passwort zurückgesetzt: Sören Schwarz
+
+dn: uid=sschwarz,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}FHkVSNszd8HJIbMb+I8LPs0lrJty+/ga
+-

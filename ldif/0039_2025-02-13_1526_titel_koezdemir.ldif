@@ -1,0 +1,8 @@
+# 2025-02-13 15:26 – Neue Funktion: Katharina Özdemir wird Vertriebsinnendienst
+# Neue Funktion
+
+dn: uid=koezdemir,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Vertriebsinnendienst
+-

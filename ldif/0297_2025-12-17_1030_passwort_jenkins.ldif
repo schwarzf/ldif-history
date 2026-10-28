@@ -1,0 +1,7 @@
+# 2025-12-17 10:30 – Passwort rotiert: Dienstkonto jenkins
+
+dn: uid=jenkins,ou=Dienstkonten,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}mgvMBTVADWf3gWFKN2wBu6bfEL0Zs42V
+-

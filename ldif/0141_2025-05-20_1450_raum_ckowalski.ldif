@@ -1,0 +1,7 @@
+# 2025-05-20 14:50 – Umzug ins Büro 3.10: Carla Kowalski
+
+dn: uid=ckowalski,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: roomNumber
+roomNumber: 3.10
+-

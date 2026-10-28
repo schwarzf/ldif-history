@@ -1,0 +1,7 @@
+# 2025-05-09 10:05 – Passwort zurückgesetzt: Andrea Keller
+
+dn: uid=akeller,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}3tU3a3Pntk1mF9Let92YXG432wzUopkm
+-

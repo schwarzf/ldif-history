@@ -1,0 +1,7 @@
+# 2025-06-17 09:46 – Passwort zurückgesetzt: Zoë Hartmann
+
+dn: uid=zhartmann,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}59h1/26orOVYfB5HqpgfrB8qlgnITLNw
+-

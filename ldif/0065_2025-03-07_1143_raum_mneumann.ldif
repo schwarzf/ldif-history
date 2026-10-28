@@ -1,0 +1,7 @@
+# 2025-03-07 11:43 – Umzug ins Büro 4.29: Marie Neumann
+
+dn: uid=mneumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: roomNumber
+roomNumber: 4.29
+-

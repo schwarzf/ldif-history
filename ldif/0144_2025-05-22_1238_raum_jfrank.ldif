@@ -1,0 +1,7 @@
+# 2025-05-22 12:38 – Umzug ins Büro 1.04: Johanna Frank
+
+dn: uid=jfrank,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: roomNumber
+roomNumber: 1.04
+-

@@ -1,0 +1,7 @@
+# 2025-02-19 07:12 – Max Braun wird Mitglied in ersthelfer
+
+dn: cn=ersthelfer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=mbraun,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-

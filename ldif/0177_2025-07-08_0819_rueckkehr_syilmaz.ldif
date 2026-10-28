@@ -1,0 +1,41 @@
+# 2025-07-08 08:19 – Rückkehr: Sebastian Yılmaz (Vertrieb)
+# Konto aus ou=Ehemalige reaktiviert
+
+dn: uid=syilmaz,ou=Ehemalige,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=syilmaz
+deleteoldrdn: 1
+newsuperior: ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=syilmaz,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: description
+description: Wiedereingestellt zum 08.07.2025
+-
+add: telephoneNumber
+telephoneNumber: +49 30 1234-3030
+-
+add: manager
+manager: uid=sweber2,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+replace: title
+title: Key Account Manager
+-
+replace: departmentNumber
+departmentNumber: 300
+-
+add: userPassword
+userPassword: {SSHA}6kfKwhQKlyCeYizUFIze7TPRBrp31w+t
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=syilmaz,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-vertrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=syilmaz,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-

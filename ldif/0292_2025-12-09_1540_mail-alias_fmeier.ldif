@@ -1,0 +1,7 @@
+# 2025-12-09 15:40 – Mail-Alias: Florian Meier
+
+dn: uid=fmeier,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mail
+mail: f.meier@beispiel.de
+-

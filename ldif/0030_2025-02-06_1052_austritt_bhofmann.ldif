@@ -1,0 +1,38 @@
+# 2025-02-06 10:52 – Austritt: Björn Hofmann (Entwicklung)
+# Konto wird nach ou=Ehemalige verschoben und gesperrt
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=bhofmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=bhofmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=bhofmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: uid=bhofmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=bhofmann
+deleteoldrdn: 1
+newsuperior: ou=Ehemalige,dc=beispiel,dc=de
+
+dn: uid=bhofmann,ou=Ehemalige,dc=beispiel,dc=de
+changetype: modify
+delete: userPassword
+-
+delete: telephoneNumber
+-
+delete: manager
+-
+replace: description
+description: Ausgeschieden zum 06.02.2025
+-

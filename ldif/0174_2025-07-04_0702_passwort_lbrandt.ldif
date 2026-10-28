@@ -1,0 +1,7 @@
+# 2025-07-04 07:02 – Passwort zurückgesetzt: Lena Brandt
+
+dn: uid=lbrandt,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}R9xXKOWC9U6tEpjw9zj1WSvjyEqL3k/2
+-

@@ -1,0 +1,17 @@
+# 2025-05-14 11:34 – Namensänderung: Hannah Kaiser → Hannah Lange
+# Alte Mailadresse bleibt als Alias erhalten
+
+dn: uid=hkaiser,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: sn
+sn: Lange
+-
+replace: cn
+cn: Hannah Lange
+-
+replace: displayName
+displayName: Hannah Lange
+-
+add: mail
+mail: hannah.lange@beispiel.de
+-

@@ -1,0 +1,7 @@
+# 2025-01-09 14:40 – Christina Lang verlässt ersthelfer
+
+dn: cn=ersthelfer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=clang,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

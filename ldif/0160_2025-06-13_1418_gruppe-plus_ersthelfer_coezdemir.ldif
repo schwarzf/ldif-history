@@ -1,0 +1,7 @@
+# 2025-06-13 14:18 – Claudia Özdemir wird Mitglied in ersthelfer
+
+dn: cn=ersthelfer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=coezdemir,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-

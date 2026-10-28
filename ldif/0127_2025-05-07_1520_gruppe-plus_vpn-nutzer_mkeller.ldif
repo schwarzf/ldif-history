@@ -1,0 +1,7 @@
+# 2025-05-07 15:20 – Moritz Keller wird Mitglied in vpn-nutzer
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=mkeller,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-

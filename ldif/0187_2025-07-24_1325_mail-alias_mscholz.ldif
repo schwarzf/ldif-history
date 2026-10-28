@@ -1,0 +1,7 @@
+# 2025-07-24 13:25 – Mail-Alias: Miriam Scholz
+
+dn: uid=mscholz,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mail
+mail: m.scholz@beispiel.de
+-

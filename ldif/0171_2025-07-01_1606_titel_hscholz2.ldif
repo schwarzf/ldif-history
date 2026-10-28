@@ -1,0 +1,8 @@
+# 2025-07-01 16:06 – Neue Funktion: Hannah Scholz wird Support-Spezialistin
+# Neue Funktion
+
+dn: uid=hscholz2,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Support-Spezialistin
+-

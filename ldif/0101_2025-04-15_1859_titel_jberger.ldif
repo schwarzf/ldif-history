@@ -1,0 +1,8 @@
+# 2025-04-15 18:59 – Neue Funktion: Jördis Berger wird Marketing Managerin
+# Neue Funktion
+
+dn: uid=jberger,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Marketing Managerin
+-

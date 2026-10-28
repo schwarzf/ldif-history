@@ -1,0 +1,8 @@
+# 2025-08-18 08:14 – Neue Funktion: Lena Günther wird Vertriebsinnendienst
+# Neue Funktion
+
+dn: uid=lguenther,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Vertriebsinnendienst
+-

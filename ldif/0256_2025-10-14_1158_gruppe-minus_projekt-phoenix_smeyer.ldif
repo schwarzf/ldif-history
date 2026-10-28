@@ -1,0 +1,7 @@
+# 2025-10-14 11:58 – Sebastian Meyer verlässt projekt-phoenix
+
+dn: cn=projekt-phoenix,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=smeyer,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

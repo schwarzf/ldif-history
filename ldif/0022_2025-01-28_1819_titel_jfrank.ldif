@@ -1,0 +1,8 @@
+# 2025-01-28 18:19 – Neue Funktion: Johanna Frank wird Kundenberaterin
+# Neue Funktion
+
+dn: uid=jfrank,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Kundenberaterin
+-

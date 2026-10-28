@@ -1,0 +1,40 @@
+# 2025-02-24 18:50 – Neuer User: Thomas Lorenz (IT-Betrieb)
+# Eintritt zum 24.02.2025
+
+dn: uid=tlorenz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: tlorenz
+cn: Thomas Lorenz
+sn: Lorenz
+givenName: Thomas
+displayName: Thomas Lorenz
+mail: thomas.lorenz@beispiel.de
+telephoneNumber: +49 30 1234-7021
+title: Systemadministrator
+departmentNumber: 700
+employeeNumber: 1156
+employeeType: Festanstellung
+manager: uid=hherrmann,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}NylJ927WMCOdmyQ1bHCYkXxo7o8t5odz
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=tlorenz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-it-betrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=tlorenz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=tlorenz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-

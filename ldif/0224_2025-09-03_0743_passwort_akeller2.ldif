@@ -1,0 +1,7 @@
+# 2025-09-03 07:43 – Passwort zurückgesetzt: Anna Keller
+
+dn: uid=akeller2,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}yxYwgmBDS1+nIu52hJprmmj82tP1Syk8
+-

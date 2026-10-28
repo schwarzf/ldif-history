@@ -1,0 +1,40 @@
+# 2025-09-11 15:42 – Neuer User: Simon Busch (Kundenservice)
+# Eintritt zum 11.09.2025
+
+dn: uid=sbusch,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: sbusch
+cn: Simon Busch
+sn: Busch
+givenName: Simon
+displayName: Simon Busch
+mail: simon.busch@beispiel.de
+telephoneNumber: +49 30 1234-8041
+title: Teamkoordinator Support
+departmentNumber: 800
+employeeNumber: 1180
+employeeType: Festanstellung
+manager: uid=kkoenig,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}b6BZnsGOUJCgkPg5vJZA7IOj7W8eV6HU
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=sbusch,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-kundenservice,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=sbusch,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=sbusch,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

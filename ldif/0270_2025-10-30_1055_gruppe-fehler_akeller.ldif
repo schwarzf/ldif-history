@@ -1,0 +1,8 @@
+# 2025-10-30 10:55 – Fehlerhafte Gruppenänderung: Andrea Keller ist schon in vpn-nutzer
+
+# Hinweis: Dieser Datensatz wird vom Server abgelehnt.
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=akeller,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

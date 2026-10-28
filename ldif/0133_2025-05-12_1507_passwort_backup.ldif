@@ -1,0 +1,7 @@
+# 2025-05-12 15:07 – Passwort rotiert: Dienstkonto backup
+
+dn: uid=backup,ou=Dienstkonten,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}Q6rOIkJVduFUamoMhholXLUZG2kup6WI
+-

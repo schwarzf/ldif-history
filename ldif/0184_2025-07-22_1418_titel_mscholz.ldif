@@ -1,0 +1,8 @@
+# 2025-07-22 14:18 – Neue Funktion: Miriam Scholz wird Kundenberaterin
+# Neue Funktion
+
+dn: uid=mscholz,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Kundenberaterin
+-

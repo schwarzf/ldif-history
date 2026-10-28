@@ -1,0 +1,7 @@
+# 2025-10-14 15:06 – Wechsel in Teilzeit: Kerstin Schneider
+
+dn: uid=kschneider,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: employeeType
+employeeType: Teilzeit
+-

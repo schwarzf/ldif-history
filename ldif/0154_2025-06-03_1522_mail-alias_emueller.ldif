@@ -1,0 +1,7 @@
+# 2025-06-03 15:22 – Mail-Alias: Elif Koch
+
+dn: uid=emueller,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mail
+mail: e.koch@beispiel.de
+-

@@ -1,0 +1,7 @@
+# 2025-04-28 14:31 – Umzug ins Büro 1.13: Vanessa Müller
+
+dn: uid=vmueller,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: roomNumber
+roomNumber: 1.13
+-

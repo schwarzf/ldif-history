@@ -1,0 +1,7 @@
+# 2025-03-11 10:10 – Passwort zurückgesetzt: Hendrik Müller
+
+dn: uid=hmueller,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}02Q9HrtIqFTKdwyK1xIW1bmLGcUX97BY
+-

@@ -1,0 +1,8 @@
+# 2025-01-03 15:44 – Neue Funktion: Felix Schulz wird IT-Support
+# Neue Funktion
+
+dn: uid=fschulz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: IT-Support
+-

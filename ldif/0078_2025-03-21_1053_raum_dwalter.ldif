@@ -1,0 +1,7 @@
+# 2025-03-21 10:53 – Umzug ins Büro 3.25: Dirk Walter
+
+dn: uid=dwalter,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: roomNumber
+roomNumber: 3.25
+-

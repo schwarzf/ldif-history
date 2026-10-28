@@ -1,0 +1,7 @@
+# 2025-06-20 09:32 – Diensthandy ausgegeben: Jürgen Schneider
+
+dn: uid=jschneider,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mobile
+mobile: +49 176 4466932
+-

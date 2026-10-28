@@ -1,0 +1,7 @@
+# 2025-07-18 18:06 – Oliver Böhm wird Mitglied in it-admins
+
+dn: cn=it-admins,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=oboehm,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

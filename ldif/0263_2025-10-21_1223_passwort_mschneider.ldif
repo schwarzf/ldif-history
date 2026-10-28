@@ -1,0 +1,7 @@
+# 2025-10-21 12:23 – Passwort zurückgesetzt: Matthias Schneider
+
+dn: uid=mschneider,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}a2NNnve7WlJ3KMO1FQhonMidrAxRq5R3
+-

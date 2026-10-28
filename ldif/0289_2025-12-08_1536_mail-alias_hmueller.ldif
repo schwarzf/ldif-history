@@ -1,0 +1,7 @@
+# 2025-12-08 15:36 – Mail-Alias: Hendrik Müller
+
+dn: uid=hmueller,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mail
+mail: h.mueller@beispiel.de
+-

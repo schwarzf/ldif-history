@@ -67,6 +67,7 @@ button:hover { border-color: var(--accent); }
 button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .link {
+  overflow-wrap: anywhere;
   border: 0;
   background: none;
   padding: 0;
@@ -98,31 +99,18 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
   .zeit-zaehler { order: -1; flex-basis: 100%; }
 }
 
-.schritte {
+.zeit-info {
   display: flex;
-  gap: 6px;
-  list-style: none;
-  margin: 8px auto 0;
-  padding: 0 0 4px;
-  overflow-x: auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 6px auto 0;
+  min-height: 1.6em;
 }
-.schritte button {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  min-width: 150px;
-  padding: 6px 10px;
-  text-align: left;
-}
-.schritte button[aria-current="step"] { border-color: var(--accent); background: var(--accent-bg); box-shadow: inset 0 0 0 1px var(--accent); }
-.schritte .datum { font-size: 0.8em; color: var(--muted); }
-.schritte .titel { font-weight: 600; white-space: nowrap; }
-.zahlen { display: flex; gap: 6px; font-size: 0.8em; margin-top: 2px; }
-.z-add { color: var(--add); }
-.z-del { color: var(--del); }
-.z-mod { color: var(--mod); }
-.z-move { color: var(--move); }
-.z-warn { color: var(--warn); }
+.zeit-datum { font-variant-numeric: tabular-nums; color: var(--muted); }
+.zeit-titel { font-weight: 600; }
+.zeit-datei { font-family: var(--mono); font-size: 0.8em; color: var(--muted); overflow-wrap: anywhere; min-width: 0; }
+.zeit-titel { min-width: 0; }
 
 /* ---------- Layout ---------- */
 .layout {
@@ -152,11 +140,32 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
 .hinweis { color: var(--muted); margin: 0 0 8px; }
 .fuss { max-width: 1368px; margin: 0 auto; padding: 8px 16px 32px; color: var(--muted); font-size: 0.9em; }
 
-/* ---------- Baum ---------- */
-.baum-panel { position: sticky; top: calc(var(--zeit-h, 120px) + 16px); max-height: calc(100vh - var(--zeit-h, 120px) - 32px); display: flex; flex-direction: column; }
-@media (max-width: 860px) { .baum-panel { position: static; max-height: 60vh; } }
-.baum-werkzeuge { display: flex; flex-direction: column; gap: 6px; }
-.baum-werkzeuge input[type=search] {
+/* ---------- Seitenleiste: Reiter, Protokoll, Baum ---------- */
+.seite {
+  position: sticky;
+  top: calc(var(--zeit-h, 90px) + 16px);
+  height: calc(100vh - var(--zeit-h, 90px) - 32px);
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 8px;
+}
+@media (max-width: 860px) { .seite { position: static; height: 70vh; } }
+.reiter { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin: 0 -16px 10px; padding: 0 12px; }
+.reiter button {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: none;
+  padding: 8px 10px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.reiter button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); }
+.reiter-inhalt { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.reiter-inhalt[hidden] { display: none; }
+.werkzeuge { display: flex; flex-direction: column; gap: 6px; }
+.werkzeuge input[type=search] {
   font: inherit;
   width: 100%;
   padding: 6px 10px;
@@ -166,7 +175,36 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
   color: var(--text);
 }
 .schalter { color: var(--muted); font-size: 0.9em; display: flex; align-items: center; gap: 6px; }
-.baum-titel { margin: 10px 0 4px; font-size: 0.85em; color: var(--muted); }
+.liste-titel { margin: 10px 0 4px; font-size: 0.85em; color: var(--muted); }
+
+.filter { display: flex; flex-wrap: wrap; gap: 4px; }
+.filter-knopf { font-size: 0.82em; padding: 2px 8px; border-radius: 999px; display: inline-flex; gap: 5px; align-items: center; }
+.filter-knopf .anzahl { color: var(--muted); font-variant-numeric: tabular-nums; }
+.filter-knopf[aria-pressed="true"] { border-color: currentColor; font-weight: 600; }
+.filter-knopf.f-add[aria-pressed="true"] { color: var(--add); background: var(--add-bg); }
+.filter-knopf.f-modify[aria-pressed="true"] { color: var(--mod); background: var(--mod-bg); }
+.filter-knopf.f-modrdn[aria-pressed="true"] { color: var(--move); background: var(--move-bg); }
+.filter-knopf.f-delete[aria-pressed="true"] { color: var(--del); background: var(--del-bg); }
+.filter-knopf.f-rejected[aria-pressed="true"] { color: var(--warn); background: var(--warn-bg); }
+
+.protokoll { list-style: none; margin: 0 -8px; padding: 0; overflow: auto; flex: 1; min-height: 0; }
+.protokoll .eintrag {
+  width: 100%;
+  display: block;
+  text-align: left;
+  border: 0;
+  border-radius: 6px;
+  padding: 5px 8px;
+  background: none;
+}
+.protokoll .eintrag:hover { background: var(--bg); }
+.protokoll .eintrag[aria-current="step"] { background: var(--accent-bg); box-shadow: inset 3px 0 0 var(--accent); }
+.eintrag-kopf { display: flex; align-items: center; gap: 6px; font-size: 0.8em; color: var(--muted); }
+.eintrag-kopf .nr { font-family: var(--mono); min-width: 3.4em; }
+.eintrag-kopf .eintrag-zeit { font-variant-numeric: tabular-nums; }
+.reiter-inhalt { overflow-x: hidden; }
+.eintrag-titel { display: block; font-size: 0.92em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
 .baum { overflow: auto; flex: 1; min-height: 0; }
 .baum ul { list-style: none; margin: 0; padding-left: 16px; }
 .baum > ul { padding-left: 0; }
@@ -198,6 +236,7 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
 .knoten .wahl[aria-current="true"] { background: var(--accent-bg); }
 .knoten .rdn { font-family: var(--mono); font-size: 0.88em; white-space: nowrap; }
 .knoten .name { color: var(--muted); font-size: 0.85em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.knoten .kinderzahl { font-size: 0.75em; color: var(--muted); background: var(--bg); border-radius: 999px; padding: 0 6px; }
 .knoten.geist .rdn { text-decoration: line-through; color: var(--muted); }
 
 .treffer { list-style: none; margin: 0; padding: 0; }
@@ -229,12 +268,19 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
 .detail-kopf { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .detail-kopf h2 { margin: 0; }
 .detail-dn { font-family: var(--mono); font-size: 0.9em; word-break: break-all; margin: 4px 0 0; color: var(--muted); }
-.meldung { border-radius: 8px; padding: 8px 12px; margin: 12px 0 0; }
+.meldung { border-radius: 8px; padding: 8px 12px; margin: 12px 0 0; overflow-wrap: anywhere; }
 .meldung.info { background: var(--accent-bg); }
 .meldung.warn { background: var(--warn-bg); }
 .meldung.del { background: var(--del-bg); }
 .meldung button { margin-left: 6px; }
 
+.objekt-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0 0; }
+.objekt-nav button:disabled { opacity: 0.45; cursor: default; }
+.objekt-pos { color: var(--muted); font-size: 0.9em; }
+.mehr { display: block; margin: 0 0 10px 14px; font-size: 0.85em; }
+.ereignis-titel { margin: 4px 0 0; font-size: 0.9em; }
+.attribute tr.geaendert th { color: var(--accent); }
+.attribute summary { cursor: pointer; color: var(--muted); font-family: system-ui, sans-serif; }
 .optionen { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 12px 0 0; }
 
 .dn-verlauf { margin: 0; padding-left: 20px; }
@@ -278,7 +324,7 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
 }
 .verlauf > li.aktuell .ereignis { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
 .ereignis-kopf { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
-.ereignis-kopf .datei { color: var(--muted); font-size: 0.85em; font-family: var(--mono); }
+.ereignis-kopf .datei { color: var(--muted); font-size: 0.85em; font-family: var(--mono); overflow-wrap: anywhere; min-width: 0; }
 .ereignis .dn-wechsel { font-family: var(--mono); font-size: 0.85em; margin: 6px 0 0; word-break: break-all; }
 .ereignis .aenderungen { list-style: none; margin: 6px 0 0; padding: 0; font-family: var(--mono); font-size: 0.85em; }
 .ereignis .aenderungen li { word-break: break-all; }
@@ -287,7 +333,7 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
 .ereignis .aenderungen .plus { color: var(--add); }
 .ereignis details { margin-top: 6px; }
 .ereignis summary { cursor: pointer; color: var(--muted); font-size: 0.85em; }
-.ereignis .fehler { color: var(--warn); margin: 6px 0 0; }
+.ereignis .fehler { color: var(--warn); margin: 6px 0 0; overflow-wrap: anywhere; }
 
 pre.ldif {
   margin: 6px 0 0;
@@ -302,7 +348,7 @@ pre.ldif {
 #datei-details summary { cursor: pointer; font-weight: 600; }
 
 .warnungen { margin: 0; padding-left: 20px; }
-.warnungen li { margin-bottom: 6px; }
+.warnungen li { margin-bottom: 6px; overflow-wrap: anywhere; }
 .warnungen .dn { font-family: var(--mono); font-size: 0.88em; word-break: break-all; }
 
 .fehlerseite { max-width: 720px; margin: 40px auto; }

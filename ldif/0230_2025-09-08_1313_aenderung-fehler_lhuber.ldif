@@ -1,0 +1,9 @@
+# 2025-09-08 13:13 – Fehlerhafte Änderung an gelöschtem User: Leonie Huber
+# Der Eintrag wurde vorher gelöscht
+
+# Hinweis: Dieser Datensatz wird vom Server abgelehnt.
+dn: uid=lhuber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-0000
+-

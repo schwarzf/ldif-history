@@ -1,0 +1,7 @@
+# 2025-09-18 13:33 – Passwort zurückgesetzt: Franziska Lehmann
+
+dn: uid=flehmann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}tKZYbL8nH+h2Zdb/Z+Je0ksCEbjAiDR/
+-

@@ -1,0 +1,7 @@
+# 2025-03-24 07:50 – Passwort zurückgesetzt: Michael Brandt
+
+dn: uid=mbrandt,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}HbhAAiNeOu30RqnxPIrHYst4rnSftxEE
+-

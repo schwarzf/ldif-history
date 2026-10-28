@@ -1,0 +1,7 @@
+# 2025-05-21 13:10 – Passwort zurückgesetzt: Elif Keller
+
+dn: uid=ekeller2,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}b5cen5gSQP22cG/tx97rMKBlTGkMozOD
+-

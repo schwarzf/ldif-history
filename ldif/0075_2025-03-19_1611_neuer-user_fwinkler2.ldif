@@ -1,0 +1,40 @@
+# 2025-03-19 16:11 – Neuer User: Felix Winkler (Entwicklung)
+# Eintritt zum 19.03.2025
+
+dn: uid=fwinkler2,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: fwinkler2
+cn: Felix Winkler
+sn: Winkler
+givenName: Felix
+displayName: Felix Winkler
+mail: felix.winkler@beispiel.de
+telephoneNumber: +49 30 1234-2043
+title: Softwarearchitekt
+departmentNumber: 200
+employeeNumber: 1163
+employeeType: Festanstellung
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}1YDVvg9YhLzU1PwHn/0wKjyI/OzY2cjX
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=fwinkler2,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=fwinkler2,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=fwinkler2,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

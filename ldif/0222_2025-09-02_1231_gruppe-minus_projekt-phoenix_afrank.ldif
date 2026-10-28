@@ -1,0 +1,7 @@
+# 2025-09-02 12:31 – Andrea Frank verlässt projekt-phoenix
+
+dn: cn=projekt-phoenix,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=afrank,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

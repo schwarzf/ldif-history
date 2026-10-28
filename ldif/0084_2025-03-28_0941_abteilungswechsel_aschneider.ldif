@@ -1,0 +1,43 @@
+# 2025-03-28 09:41 – Abteilungswechsel: Andreas Schneider (Finanzen → Personal)
+
+dn: uid=aschneider,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=aschneider
+deleteoldrdn: 1
+newsuperior: ou=Personal,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=aschneider,ou=Personal,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Personalreferent
+-
+replace: departmentNumber
+departmentNumber: 500
+-
+replace: manager
+manager: uid=fschaefer,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-5014
+-
+
+dn: cn=abt-finanzen,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=aschneider,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=aschneider,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=aschneider,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-personal,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=aschneider,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-

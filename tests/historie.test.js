@@ -7,8 +7,6 @@ const path = require('node:path');
 const Ldif = require('../js/ldif.js');
 const Historie = require('../js/historie.js');
 
-const P = 'ou=Personen,dc=beispiel,dc=de';
-
 function baue(...texte) {
   return Historie.build(texte.map((text, i) => ({ name: 'datei' + i + '.ldif', text })));
 }
@@ -162,29 +160,61 @@ test('Neu angelegter DN nach Löschen ist ein neues Objekt', () => {
   assert.equal(h.lastEntry(alt, 2).step, 0);
 });
 
+test('Hauptereignis eines Schritts: das wichtigste Ereignis der Datei', () => {
+  const h = baue(BASIS, `dn: ou=a,dc=x
+changetype: modify
+add: description
+description: vorher
+-
+
+dn: uid=u2,ou=a,dc=x
+changetype: add
+objectClass: inetOrgPerson
+uid: u2
+cn: Zwei
+sn: Zwei
+`);
+  assert.equal(h.steps[1].haupt.op, 'add');
+  assert.equal(h.steps[1].haupt.dnAfter, 'uid=u2,ou=a,dc=x');
+});
+
+test('Abgelehnte Änderung an gelöschtem DN gehört zum früheren Objekt', () => {
+  const h = baue(BASIS, 'dn: uid=u1,ou=a,dc=x\nchangetype: delete\n',
+    'dn: uid=u1,ou=a,dc=x\nchangetype: modify\nreplace: cn\ncn: X\n-\n');
+  const alt = h.idAt('uid=u1,ou=a,dc=x', 0);
+  assert.equal(h.warnings[0].objectId, alt);
+  assert.equal(h.steps[2].haupt.op, 'rejected');
+  assert.equal(h.objects[alt].events.at(-1).op, 'rejected');
+});
+
 test('Beispieldaten im Repo: alle Dateien laufen durch, nur die beabsichtigten Ablehnungen', () => {
   const ordner = path.join(__dirname, '..', 'ldif');
-  const app = fs.readFileSync(path.join(__dirname, '..', 'js', 'app.js'), 'utf8');
-  const namen = [...app.matchAll(/name: '([^']+\.ldif)'/g)].map(m => m[1]);
+  const dateien = require('../js/dateien.js');
+  const namen = dateien.map(d => d.name);
   assert.deepEqual(namen, fs.readdirSync(ordner).filter(n => n.endsWith('.ldif')).sort(),
-    'Die Liste in js/app.js muss zu den Dateien in ldif/ passen');
-  const h = Historie.build(namen.map(name => ({ name, text: fs.readFileSync(path.join(ordner, name), 'utf8') })));
+    'Die Liste in js/dateien.js muss zu den Dateien in ldif/ passen');
+  const texte = dateien.map(d => Object.assign({ text: fs.readFileSync(path.join(ordner, d.name), 'utf8') }, d));
+  const h = Historie.build(texte);
   assert.equal(h.parseErrors.length, 0);
-  assert.deepEqual(h.warnings.map(w => w.file + ':' + w.line), [
-    '07-passwoerter-korrekturen.ldif:45',
-    '07-passwoerter-korrekturen.ldif:54',
-  ]);
-  const last = h.steps.length - 1;
-  const anna = h.idAt('uid=aschmidt,ou=Vertrieb,' + P, last);
-  assert.equal(h.idAt('uid=amueller,ou=Vertrieb,' + P, 0), anna);
-  assert.deepEqual(werte(h, 'uid=aschmidt,ou=Vertrieb,' + P, 'sn', last), ['Schmidt']);
-  const felix = h.objects[h.idAt('uid=fwolf,ou=Plattform,' + P, last)];
-  assert.equal(felix.dns.length, 3);
-  // Nach allen Schritten zeigen alle DN-Verweise auf existierende Einträge.
-  for (const e of h.stateAt(last).values()) {
-    for (const a of e.attrs.values()) {
-      if (!Historie.DN_ATTRS.has(a.name.toLowerCase())) continue;
-      for (const v of a.values) assert.notEqual(h.idAt(v, last), undefined, e.dn + ' ' + a.name + ' ' + v);
+
+  // Genau die als abgelehnt markierten Datensätze werden abgelehnt.
+  const markiert = texte.filter(t => t.text.includes('# Hinweis: Dieser Datensatz wird vom Server abgelehnt.')).map(t => t.name);
+  assert.ok(markiert.length >= 3);
+  assert.deepEqual(h.warnings.map(w => w.file), markiert);
+
+  // Jede Änderungsdatei hat ein Hauptobjekt.
+  for (const st of h.steps.slice(1)) assert.ok(st.haupt, st.name + ' ohne Hauptereignis');
+
+  // In keinem Schritt zeigen DN-Verweise ins Leere.
+  for (let s = 0; s < h.steps.length; s++) {
+    for (const e of h.stateAt(s).values()) {
+      for (const a of e.attrs.values()) {
+        if (!Historie.DN_ATTRS.has(a.name.toLowerCase())) continue;
+        for (const v of a.values) assert.notEqual(h.idAt(v, s), undefined, '#' + s + ' ' + e.dn + ' ' + a.name + ' ' + v);
+      }
     }
   }
+
+  // Mindestens ein DN wird nach dem Löschen neu angelegt (neues Objekt).
+  assert.ok(h.objects.some(o => o.previous.length));
 });

@@ -1,0 +1,7 @@
+# 2025-06-24 18:20 – Diensthandy ausgegeben: Stefan Müller
+
+dn: uid=smueller,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mobile
+mobile: +49 151 4721334
+-

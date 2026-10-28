@@ -1,0 +1,8 @@
+# 2025-09-01 17:04 – Neue Funktion: Stefan Fischer wird Einkäufer
+# Neue Funktion
+
+dn: uid=sfischer,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Einkäufer
+-

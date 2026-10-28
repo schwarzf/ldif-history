@@ -1,0 +1,61 @@
+# 2025-01-13 07:52 – Abteilungswechsel: Kerstin Roth (IT-Betrieb → Marketing)
+
+dn: uid=kroth,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=kroth
+deleteoldrdn: 1
+newsuperior: ou=Marketing,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=kroth,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Content-Redakteurin
+-
+replace: departmentNumber
+departmentNumber: 400
+-
+replace: manager
+manager: uid=tlehmann,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-4016
+-
+
+dn: cn=abt-it-betrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=kroth,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=kroth,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=kroth,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=kroth,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=kroth,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=kroth,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=kroth,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-marketing,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=kroth,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-

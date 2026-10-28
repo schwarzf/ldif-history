@@ -1,0 +1,61 @@
+# 2025-01-10 13:19 – Abteilungswechsel: Jonas Baumann (Vertrieb → Entwicklung)
+
+dn: uid=jbaumann,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=jbaumann
+deleteoldrdn: 1
+newsuperior: ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=jbaumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Senior-Softwareentwickler
+-
+replace: departmentNumber
+departmentNumber: 200
+-
+replace: manager
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-2035
+-
+
+dn: cn=abt-vertrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=jbaumann,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=jbaumann,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=jbaumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=jbaumann,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=jbaumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=jbaumann,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=jbaumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=jbaumann,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

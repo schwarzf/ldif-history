@@ -1,0 +1,41 @@
+# 2025-05-14 17:28 – Rückkehr: Miriam Werner (Personal)
+# Konto aus ou=Ehemalige reaktiviert
+
+dn: uid=mwerner,ou=Ehemalige,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=mwerner
+deleteoldrdn: 1
+newsuperior: ou=Personal,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=mwerner,ou=Personal,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: description
+description: Wiedereingestellt zum 14.05.2025
+-
+add: telephoneNumber
+telephoneNumber: +49 30 1234-5015
+-
+add: manager
+manager: uid=fschaefer,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+replace: title
+title: Recruiterin
+-
+replace: departmentNumber
+departmentNumber: 500
+-
+add: userPassword
+userPassword: {SSHA}V5a0ZtgK3ban0wN8KHJ67KZAv4mU6Jwo
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=mwerner,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-personal,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=mwerner,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-

@@ -1,0 +1,7 @@
+# 2025-01-29 11:05 – Passwort zurückgesetzt: Klaus Mayer
+
+dn: uid=kmayer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}E3eROzWnDnmYTAivEGtHyY8pW4/nzyVS
+-

@@ -1,0 +1,7 @@
+# 2025-08-27 14:50 – Lena Schmitt wird Mitglied in vpn-nutzer
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=lschmitt,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

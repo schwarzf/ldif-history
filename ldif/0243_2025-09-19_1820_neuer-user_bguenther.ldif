@@ -1,0 +1,46 @@
+# 2025-09-19 18:20 – Neuer User: Benedikt Günther (Vertrieb)
+# Eintritt zum 19.09.2025
+
+dn: uid=bguenther,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: bguenther
+cn: Benedikt Günther
+sn: Günther
+givenName: Benedikt
+displayName: Benedikt Günther
+mail: benedikt.guenther@beispiel.de
+telephoneNumber: +49 30 1234-3035
+title: Key Account Manager
+departmentNumber: 300
+employeeNumber: 1182
+employeeType: Festanstellung
+manager: uid=sweber2,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}slbdVDUGNzM3GKOB8BQSHKJtBXfM3xAR
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=bguenther,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-vertrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=bguenther,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=bguenther,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=bguenther,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-

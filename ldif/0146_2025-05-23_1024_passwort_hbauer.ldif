@@ -1,0 +1,7 @@
+# 2025-05-23 10:24 – Passwort zurückgesetzt: Hendrik Bauer
+
+dn: uid=hbauer,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}T8msEFXE2raclY/YiLmykU5L4NFRMF8x
+-

@@ -1,0 +1,7 @@
+# 2025-06-05 12:20 – Mail-Alias: Niklas Weiß
+
+dn: uid=nweiss,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mail
+mail: n.weiss@beispiel.de
+-

@@ -9,10 +9,8 @@
 </head>
 <body>
   <header class="kopf">
-    <div>
-      <h1>LDIF-Historie</h1>
-      <p class="unterzeile">Verzeichnis <code>dc=beispiel,dc=de</code> – Basis-Export plus Änderungsdateien, Schritt für Schritt abgespielt.</p>
-    </div>
+    <h1>LDIF-Historie</h1>
+    <p class="unterzeile">Verzeichnis <code>dc=beispiel,dc=de</code> – vollständiger Export plus einzelne Änderungsdateien, Schritt für Schritt abgespielt.</p>
   </header>
 
   <section class="zeit" aria-label="Zeitpunkt wählen">
@@ -22,17 +20,34 @@
       <button type="button" id="vor" aria-label="Nächster Schritt" title="Nächster Schritt (→)">▶</button>
       <span class="zeit-zaehler" id="zaehler"></span>
     </div>
-    <ol class="schritte" id="schritte"></ol>
+    <p class="zeit-info" id="zeit-info"></p>
   </section>
 
   <main class="layout">
-    <aside class="panel baum-panel" aria-label="Verzeichnisbaum">
-      <div class="baum-werkzeuge">
-        <input type="search" id="suche" placeholder="Suchen: DN, uid, Name, Mail …" aria-label="Objekte suchen" autocomplete="off">
-        <label class="schalter"><input type="checkbox" id="nur-geaendert"> Nur in diesem Schritt geänderte</label>
+    <aside class="panel seite" aria-label="Navigation">
+      <div class="reiter" role="tablist">
+        <button type="button" role="tab" id="tab-protokoll" aria-controls="protokoll-panel">Änderungsprotokoll</button>
+        <button type="button" role="tab" id="tab-baum" aria-controls="baum-panel">Verzeichnis</button>
       </div>
-      <p class="baum-titel" id="baum-titel"></p>
-      <div id="baum" class="baum"></div>
+
+      <div id="protokoll-panel" role="tabpanel" aria-labelledby="tab-protokoll" class="reiter-inhalt">
+        <div class="werkzeuge">
+          <input type="search" id="protokoll-suche" placeholder="Filtern: Name, uid, Datei …" aria-label="Protokoll filtern" autocomplete="off">
+          <div class="filter" id="art-filter" role="group" aria-label="Nach Art filtern"></div>
+          <label class="schalter"><input type="checkbox" id="nur-objekt"> Nur Änderungen am gewählten Objekt</label>
+        </div>
+        <p class="liste-titel" id="protokoll-titel"></p>
+        <ol class="protokoll" id="protokoll"></ol>
+      </div>
+
+      <div id="baum-panel" role="tabpanel" aria-labelledby="tab-baum" class="reiter-inhalt" hidden>
+        <div class="werkzeuge">
+          <input type="search" id="suche" placeholder="Objekt suchen: DN, uid, Name, Mail …" aria-label="Objekte suchen" autocomplete="off">
+          <label class="schalter"><input type="checkbox" id="nur-geaendert"> Nur in diesem Schritt geänderte</label>
+        </div>
+        <p class="liste-titel" id="baum-titel"></p>
+        <div id="baum" class="baum"></div>
+      </div>
     </aside>
 
     <section class="panel detail" id="detail" aria-live="polite"></section>
@@ -52,11 +67,12 @@
   </section>
 
   <footer class="fuss">
-    Alle Daten sind fiktiv. Die LDIF-Dateien liegen im Ordner <code>ldif/</code> des Repositorys.
+    Alle Daten sind fiktiv. Die LDIF-Dateien liegen im Ordner <code>ldif/</code> des Repositorys, die Liste in <code>js/dateien.js</code>.
   </footer>
 
   <script src="js/ldif.js"></script>
   <script src="js/historie.js"></script>
+  <script src="js/dateien.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,8 @@
+# 2025-12-01 17:52 – Neue Funktion: Michael Brandt wird Kundenberater
+# Neue Funktion
+
+dn: uid=mbrandt,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Kundenberater
+-

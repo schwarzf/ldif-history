@@ -1,0 +1,7 @@
+# 2025-01-08 11:52 – Passwort zurückgesetzt: Theresa König
+
+dn: uid=tkoenig,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}fEwUBCFtmA5nBzv4UK6TlaUjKJDMRQvJ
+-

@@ -1,0 +1,7 @@
+# 2025-04-29 07:29 – Diensthandy ausgegeben: Hendrik Schwarz
+
+dn: uid=hschwarz,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mobile
+mobile: +49 151 6581946
+-

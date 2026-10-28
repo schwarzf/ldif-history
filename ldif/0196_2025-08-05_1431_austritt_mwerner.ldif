@@ -1,0 +1,32 @@
+# 2025-08-05 14:31 – Austritt: Miriam Werner (Personal)
+# Konto wird nach ou=Ehemalige verschoben und gesperrt
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=mwerner,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-personal,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=mwerner,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: uid=mwerner,ou=Personal,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=mwerner
+deleteoldrdn: 1
+newsuperior: ou=Ehemalige,dc=beispiel,dc=de
+
+dn: uid=mwerner,ou=Ehemalige,dc=beispiel,dc=de
+changetype: modify
+delete: userPassword
+-
+delete: telephoneNumber
+-
+delete: manager
+-
+replace: description
+description: Ausgeschieden zum 05.08.2025
+-

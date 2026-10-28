@@ -1,0 +1,44 @@
+# 2025-05-05 16:52 – Austritt: Stefan Schmitt (Entwicklung)
+# Konto wird nach ou=Ehemalige verschoben und gesperrt
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=sschmitt,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=sschmitt,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=sschmitt,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=sschmitt,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: uid=sschmitt,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=sschmitt
+deleteoldrdn: 1
+newsuperior: ou=Ehemalige,dc=beispiel,dc=de
+
+dn: uid=sschmitt,ou=Ehemalige,dc=beispiel,dc=de
+changetype: modify
+delete: userPassword
+-
+delete: telephoneNumber
+-
+delete: manager
+-
+replace: description
+description: Ausgeschieden zum 05.05.2025
+-

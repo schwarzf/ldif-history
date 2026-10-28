@@ -1,0 +1,40 @@
+# 2025-02-19 07:31 – Austritt: Leonie Huber (Entwicklung)
+# Konto wird nach ou=Ehemalige verschoben und gesperrt
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=lhuber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=lhuber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=lhuber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: uid=lhuber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=lhuber
+deleteoldrdn: 1
+newsuperior: ou=Ehemalige,dc=beispiel,dc=de
+
+dn: uid=lhuber,ou=Ehemalige,dc=beispiel,dc=de
+changetype: modify
+delete: userPassword
+-
+delete: telephoneNumber
+-
+delete: manager
+-
+delete: roomNumber
+-
+replace: description
+description: Ausgeschieden zum 19.02.2025
+-

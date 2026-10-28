@@ -1,0 +1,7 @@
+# 2025-09-10 12:04 – Diensthandy ausgegeben: Lisa Keller
+
+dn: uid=lkeller,ou=Personal,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mobile
+mobile: +49 170 6488372
+-

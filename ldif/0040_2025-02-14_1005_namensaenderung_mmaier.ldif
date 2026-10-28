@@ -1,0 +1,17 @@
+# 2025-02-14 10:05 – Namensänderung: Miriam Maier → Miriam Wolf
+# Alte Mailadresse bleibt als Alias erhalten
+
+dn: uid=mmaier,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: sn
+sn: Wolf
+-
+replace: cn
+cn: Miriam Wolf
+-
+replace: displayName
+displayName: Miriam Wolf
+-
+add: mail
+mail: miriam.wolf@beispiel.de
+-

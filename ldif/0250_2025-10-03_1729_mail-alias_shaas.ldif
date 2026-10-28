@@ -1,0 +1,7 @@
+# 2025-10-03 17:29 – Mail-Alias: Sebastian Haas
+
+dn: uid=shaas,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mail
+mail: s.haas@beispiel.de
+-

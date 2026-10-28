@@ -1,0 +1,7 @@
+# 2025-08-25 16:04 – Passwort zurückgesetzt: Ömer Schmidt
+
+dn: uid=oschmidt,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}D1WZ2NNd/EggK1aMjzdhUrUX2/emAPyW
+-

@@ -1,0 +1,8 @@
+# 2025-03-25 18:41 – Neue Funktion: Hendrik Herrmann wird Kundenberater
+# Neue Funktion
+
+dn: uid=hherrmann3,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Kundenberater
+-

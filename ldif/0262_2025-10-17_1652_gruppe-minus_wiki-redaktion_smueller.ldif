@@ -1,0 +1,7 @@
+# 2025-10-17 16:52 – Stefan Müller verlässt wiki-redaktion
+
+dn: cn=wiki-redaktion,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=smueller,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

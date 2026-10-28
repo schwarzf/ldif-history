@@ -1,0 +1,7 @@
+# 2025-04-23 18:37 – Andrea Frank wird Mitglied in betriebsrat
+
+dn: cn=betriebsrat,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=afrank,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

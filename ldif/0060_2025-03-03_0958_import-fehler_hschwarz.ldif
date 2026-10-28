@@ -1,0 +1,10 @@
+# 2025-03-03 09:58 – Import-Fehler: Hendrik Schwarz doppelt angelegt
+# Ein Import-Skript hat den Eintrag ein zweites Mal angelegt
+
+# Hinweis: Dieser Datensatz wird vom Server abgelehnt.
+dn: uid=hschwarz,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: inetOrgPerson
+uid: hschwarz
+cn: Hendrik Schwarz
+sn: Schwarz

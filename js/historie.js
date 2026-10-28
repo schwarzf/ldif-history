@@ -90,8 +90,11 @@
     return changes;
   }
 
+  /** Wichtigkeit eines Ereignisses, um das Hauptobjekt eines Schritts zu bestimmen. */
+  const OP_RANG = { add: 5, delete: 5, modrdn: 4, moved: 3, modify: 2, rejected: 1 };
+
   /**
-   * @param {{name:string, text:string, datum?:string, titel?:string}[]} files
+   * @param {{name:string, text:string, zeit?:string, titel?:string}[]} files
    *   in Abspielreihenfolge; die erste Datei ist der Ausgangszustand.
    */
   function build(files) {
@@ -105,8 +108,8 @@
     let eventSeq = 0;
 
     files.forEach((file, s) => {
-      const step = { index: s, name: file.name, datum: file.datum || '', titel: file.titel || '',
-        source: file.text, records: 0, events: [], warnings: [] };
+      const step = { index: s, name: file.name, zeit: file.zeit || '', titel: file.titel || '',
+        source: file.text, records: 0, events: [], warnings: [], haupt: null };
       steps.push(step);
       const parsed = Ldif.parse(file.text);
       for (const err of parsed.errors) {
@@ -124,6 +127,11 @@
           reject(rec, s, file, e.message);
         }
       }
+      // Hauptereignis: das wichtigste Ereignis der Datei (bei Gleichstand das erste),
+      // z. B. das Anlegen eines Users vor den zugehörigen Gruppenänderungen.
+      for (const ev of step.events) {
+        if (!step.haupt || OP_RANG[ev.op] > OP_RANG[step.haupt.op]) step.haupt = ev;
+      }
       snapshots.push(new Map(state));
     });
 
@@ -136,13 +144,18 @@
     }
 
     function reject(rec, s, file, message) {
-      const id = dnIndex.get(Ldif.normDn(rec.dn));
+      const norm = Ldif.normDn(rec.dn);
+      let id = dnIndex.get(norm);
+      if (id === undefined) {
+        // Betrifft der Datensatz einen DN, den es früher gab, gehört er zum letzten Objekt dort.
+        for (const o of objects) if (o.dns.some(d => Ldif.normDn(d) === norm)) id = o.id;
+      }
       const w = { step: s, file: file.name, line: rec.line, dn: rec.dn, message, source: rec.source,
         objectId: id === undefined ? null : id, op: rec.changetype };
       warnings.push(w);
       steps[s].warnings.push(w);
       if (id !== undefined) {
-        newEvent(id, rec, s, file, { op: 'rejected', dnBefore: state.get(id).dn, dnAfter: state.get(id).dn,
+        newEvent(id, rec, s, file, { op: 'rejected', dnBefore: rec.dn, dnAfter: rec.dn,
           message, rejectedOp: rec.changetype });
       }
     }
@@ -307,5 +320,5 @@
     };
   }
 
-  return { build, diffEntries, valueKey, DN_ATTRS };
+  return { build, diffEntries, valueKey, DN_ATTRS, OP_RANG };
 });

@@ -1,0 +1,7 @@
+# 2025-05-27 18:55 – Umzug ins Büro 1.20: Heinz Walter
+
+dn: uid=hwalter,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: roomNumber
+roomNumber: 1.20
+-

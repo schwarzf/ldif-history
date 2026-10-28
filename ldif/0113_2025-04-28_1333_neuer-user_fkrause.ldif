@@ -1,0 +1,47 @@
+# 2025-04-28 13:33 – Neuer User: Florian Krause (Vertrieb)
+# Eintritt zum 28.04.2025
+
+dn: uid=fkrause,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: fkrause
+cn: Florian Krause
+sn: Krause
+givenName: Florian
+displayName: Florian Krause
+mail: florian.krause@beispiel.de
+telephoneNumber: +49 30 1234-3027
+roomNumber: 4.30
+title: Key Account Manager
+departmentNumber: 300
+employeeNumber: 1167
+employeeType: Festanstellung
+manager: uid=sweber2,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}eHOKHMyw0w4vL6a8Jn3KCfioICg04Whg
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=fkrause,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-vertrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=fkrause,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=fkrause,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=fkrause,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+-

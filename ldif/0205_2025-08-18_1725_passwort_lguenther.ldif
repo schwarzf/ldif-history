@@ -1,0 +1,7 @@
+# 2025-08-18 17:25 – Passwort zurückgesetzt: Lena Günther
+
+dn: uid=lguenther,ou=Vertrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}PO7wejBu4F3I+nz9abSz1mmB+e/HmGNs
+-

@@ -1,0 +1,7 @@
+# 2025-05-22 15:35 – Diensthandy ausgegeben: Jördis Berger
+
+dn: uid=jberger,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+add: mobile
+mobile: +49 176 9650824
+-

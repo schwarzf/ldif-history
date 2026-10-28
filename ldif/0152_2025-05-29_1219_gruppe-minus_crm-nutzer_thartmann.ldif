@@ -1,0 +1,7 @@
+# 2025-05-29 12:19 – Thomas Hartmann verlässt crm-nutzer
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=thartmann,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

@@ -1,0 +1,7 @@
+# 2025-10-22 11:28 – Marie Hartmann wird Mitglied in git-zugang
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=mhartmann,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

@@ -1,0 +1,35 @@
+# 2025-03-11 11:31 – Neuer User: Theresa Lange (Finanzen)
+# Eintritt zum 11.03.2025
+
+dn: uid=tlange,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: tlange
+cn: Theresa Lange
+sn: Lange
+givenName: Theresa
+displayName: Theresa Lange
+mail: theresa.lange@beispiel.de
+telephoneNumber: +49 30 1234-6014
+roomNumber: 1.15
+title: Buchhalterin
+departmentNumber: 600
+employeeNumber: 1160
+employeeType: Festanstellung
+manager: uid=skaya,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}HFW3mnWf/trreHSAhdeCYZKeoabSs3m8
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=tlange,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-finanzen,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=tlange,ou=Finanzen,ou=Personen,dc=beispiel,dc=de
+-

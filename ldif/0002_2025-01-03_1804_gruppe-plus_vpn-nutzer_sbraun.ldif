@@ -1,0 +1,7 @@
+# 2025-01-03 18:04 – Sarah Braun wird Mitglied in vpn-nutzer
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=sbraun,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-

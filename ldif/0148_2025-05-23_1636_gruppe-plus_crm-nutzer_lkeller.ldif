@@ -1,0 +1,7 @@
+# 2025-05-23 16:36 – Lisa Keller wird Mitglied in crm-nutzer
+
+dn: cn=crm-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=lkeller,ou=Personal,ou=Personen,dc=beispiel,dc=de
+-

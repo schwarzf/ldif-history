@@ -1,0 +1,61 @@
+# 2025-02-10 16:35 – Abteilungswechsel: Hannah Kaiser (Entwicklung → Kundenservice)
+
+dn: uid=hkaiser,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=hkaiser
+deleteoldrdn: 1
+newsuperior: ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=hkaiser,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Teamkoordinatorin Support
+-
+replace: departmentNumber
+departmentNumber: 800
+-
+replace: manager
+manager: uid=kkoenig,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+replace: telephoneNumber
+telephoneNumber: +49 30 1234-8034
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=hkaiser,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=hkaiser,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=hkaiser,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=hkaiser,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=hkaiser,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=hkaiser,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+add: member
+member: uid=hkaiser,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-kundenservice,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=hkaiser,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

@@ -1,0 +1,7 @@
+# 2025-04-17 17:06 – Lena König verlässt it-admins
+
+dn: cn=it-admins,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=lkoenig,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-

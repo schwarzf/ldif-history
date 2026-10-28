@@ -1,0 +1,46 @@
+# 2025-09-05 16:11 – Austritt: Julia Schröder (Entwicklung)
+# Konto wird nach ou=Ehemalige verschoben und gesperrt
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=jschroeder,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=jschroeder,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=jschroeder,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=wiki-redaktion,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=jschroeder,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: uid=jschroeder,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=jschroeder
+deleteoldrdn: 1
+newsuperior: ou=Ehemalige,dc=beispiel,dc=de
+
+dn: uid=jschroeder,ou=Ehemalige,dc=beispiel,dc=de
+changetype: modify
+delete: userPassword
+-
+delete: telephoneNumber
+-
+delete: manager
+-
+delete: mobile
+-
+replace: description
+description: Ausgeschieden zum 05.09.2025
+-

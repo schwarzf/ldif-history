@@ -1,0 +1,34 @@
+# 2025-11-27 10:06 – Wiedereinstellung: Claudia Hahn (Marketing)
+# Das alte Konto wurde gelöscht – unter demselben DN entsteht ein neues Objekt
+
+dn: uid=chahn,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: chahn
+cn: Claudia Hahn
+sn: Hahn
+givenName: Claudia
+displayName: Claudia Hahn
+mail: claudia.hahn@beispiel.de
+telephoneNumber: +49 30 1234-4026
+title: Marketing Managerin
+departmentNumber: 400
+employeeNumber: 1189
+employeeType: Festanstellung
+manager: uid=tlehmann,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}a6LFoX9PUQgQaNXgXK5cksg/Xf+vop37
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=chahn,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-marketing,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=chahn,ou=Marketing,ou=Personen,dc=beispiel,dc=de
+-

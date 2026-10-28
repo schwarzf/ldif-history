@@ -1,0 +1,8 @@
+# 2025-12-11 08:30 – Neue Funktion: Carla Voigt wird Personalreferentin
+# Neue Funktion
+
+dn: uid=cvoigt,ou=Personal,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Personalreferentin
+-

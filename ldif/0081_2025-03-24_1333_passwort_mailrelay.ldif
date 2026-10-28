@@ -1,0 +1,7 @@
+# 2025-03-24 13:33 – Passwort rotiert: Dienstkonto mailrelay
+
+dn: uid=mailrelay,ou=Dienstkonten,dc=beispiel,dc=de
+changetype: modify
+replace: userPassword
+userPassword: {SSHA}jblGdYu6tHHomoMnH2KUdakNMPXA7Twv
+-

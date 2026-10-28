@@ -1,0 +1,7 @@
+# 2025-09-11 18:02 – Sabine Wolf wird Mitglied in projekt-phoenix
+
+dn: cn=projekt-phoenix,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=swolf,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

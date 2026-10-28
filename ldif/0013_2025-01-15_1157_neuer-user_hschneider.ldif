@@ -1,0 +1,48 @@
+# 2025-01-15 11:57 – Neuer User: Heinz Schneider (Entwicklung)
+# Eintritt zum 15.01.2025
+
+dn: uid=hschneider,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: add
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+uid: hschneider
+cn: Heinz Schneider
+sn: Schneider
+givenName: Heinz
+displayName: Heinz Schneider
+mail: heinz.schneider@beispiel.de
+telephoneNumber: +49 30 1234-2036
+mobile: +49 151 5364244
+roomNumber: 2.26
+title: Senior-Softwareentwickler
+departmentNumber: 200
+employeeNumber: 1152
+employeeType: Festanstellung
+manager: uid=sweber,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+userPassword: {SSHA}JNBPa7U5g3+7lkdr3iphZ0MwTEHY1G36
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=hschneider,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-entwicklung,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=hschneider,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=hschneider,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=hschneider,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+-

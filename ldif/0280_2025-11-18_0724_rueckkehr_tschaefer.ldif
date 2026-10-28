@@ -1,0 +1,41 @@
+# 2025-11-18 07:24 – Rückkehr: Thomas Schäfer (Kundenservice)
+# Konto aus ou=Ehemalige reaktiviert
+
+dn: uid=tschaefer,ou=Ehemalige,dc=beispiel,dc=de
+changetype: moddn
+newrdn: uid=tschaefer
+deleteoldrdn: 1
+newsuperior: ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+
+dn: uid=tschaefer,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: description
+description: Wiedereingestellt zum 18.11.2025
+-
+add: telephoneNumber
+telephoneNumber: +49 30 1234-8043
+-
+add: manager
+manager: uid=kkoenig,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+replace: title
+title: Teamkoordinator Support
+-
+replace: departmentNumber
+departmentNumber: 800
+-
+add: userPassword
+userPassword: {SSHA}ap9Xr85cUXk+6VVmhYbssS1NBjW2uJaO
+-
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=tschaefer,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-kundenservice,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+add: member
+member: uid=tschaefer,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

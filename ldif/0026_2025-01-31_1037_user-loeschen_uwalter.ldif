@@ -1,0 +1,29 @@
+# 2025-01-31 10:37 – User gelöscht: Uwe Walter (IT-Betrieb)
+# Konto wird sofort gelöscht (Probezeit, Kündigung)
+
+dn: cn=alle-mitarbeiter,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=uwalter,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=abt-it-betrieb,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=uwalter,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=vpn-nutzer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=uwalter,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: cn=git-zugang,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=uwalter,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+-
+
+dn: uid=uwalter,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: delete

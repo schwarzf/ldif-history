@@ -1,0 +1,8 @@
+# 2025-10-30 11:14 – Neue Funktion: Uwe Roth wird Softwareentwickler
+# Neue Funktion
+
+dn: uid=uroth,ou=Entwicklung,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: Softwareentwickler
+-

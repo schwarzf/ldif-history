@@ -1,0 +1,7 @@
+# 2025-03-31 16:45 – Elif Keller verlässt ersthelfer
+
+dn: cn=ersthelfer,ou=Gruppen,dc=beispiel,dc=de
+changetype: modify
+delete: member
+member: uid=ekeller2,ou=Kundenservice,ou=Personen,dc=beispiel,dc=de
+-

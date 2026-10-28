@@ -1,0 +1,8 @@
+# 2025-08-22 18:58 – Neue Funktion: Thomas Lorenz wird IT-Support
+# Neue Funktion
+
+dn: uid=tlorenz,ou=IT-Betrieb,ou=Personen,dc=beispiel,dc=de
+changetype: modify
+replace: title
+title: IT-Support
+-
