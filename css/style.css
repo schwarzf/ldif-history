@@ -77,40 +77,10 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
   text-underline-offset: 2px;
 }
 
-/* ---------- Kopf und Zeitleiste ---------- */
-.kopf { max-width: 1400px; margin: 0 auto; padding: 20px 16px 8px; }
+/* ---------- Kopf ---------- */
+.kopf { max-width: 1400px; margin: 0 auto; padding: 20px 16px 0; }
 .kopf h1 { margin: 0; font-size: 1.6em; }
 .unterzeile { margin: 4px 0 0; color: var(--muted); }
-
-.zeit {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  padding: 10px 16px;
-}
-.zeit > * { max-width: 1368px; margin-left: auto; margin-right: auto; }
-.zeit-regler { display: flex; align-items: center; gap: 10px; }
-.zeit-regler input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
-.zeit-zaehler { color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
-@media (max-width: 600px) {
-  .zeit-regler { flex-wrap: wrap; }
-  .zeit-zaehler { order: -1; flex-basis: 100%; }
-}
-
-.zeit-info {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 10px;
-  margin: 6px auto 0;
-  min-height: 1.6em;
-}
-.zeit-datum { font-variant-numeric: tabular-nums; color: var(--muted); }
-.zeit-titel { font-weight: 600; }
-.zeit-datei { font-family: var(--mono); font-size: 0.8em; color: var(--muted); overflow-wrap: anywhere; min-width: 0; }
-.zeit-titel { min-width: 0; }
 
 /* ---------- Layout ---------- */
 .layout {
@@ -135,16 +105,14 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
 }
 .panel h2 { margin: 0 0 8px; font-size: 1.15em; }
 .panel h3 { margin: 18px 0 8px; font-size: 1em; }
-.unten { max-width: 1368px; margin: 0 auto 16px; }
-@media (max-width: 1400px) { .unten { margin-left: 16px; margin-right: 16px; } }
 .hinweis { color: var(--muted); margin: 0 0 8px; }
 .fuss { max-width: 1368px; margin: 0 auto; padding: 8px 16px 32px; color: var(--muted); font-size: 0.9em; }
 
 /* ---------- Seitenleiste: Reiter, Protokoll, Baum ---------- */
 .seite {
   position: sticky;
-  top: calc(var(--zeit-h, 90px) + 16px);
-  height: calc(100vh - var(--zeit-h, 90px) - 32px);
+  top: 16px;
+  height: calc(100vh - 32px);
   min-height: 420px;
   display: flex;
   flex-direction: column;
@@ -160,6 +128,10 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
   padding: 8px 10px;
   color: var(--muted);
   font-weight: 600;
+}
+@media (max-width: 500px) {
+  .reiter { gap: 0; padding: 0 6px; }
+  .reiter button { padding: 8px 7px; font-size: 0.9em; }
 }
 .reiter button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); }
 .reiter-inhalt { display: flex; flex-direction: column; flex: 1; min-height: 0; }
@@ -186,6 +158,32 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
 .filter-knopf.f-modrdn[aria-pressed="true"] { color: var(--move); background: var(--move-bg); }
 .filter-knopf.f-delete[aria-pressed="true"] { color: var(--del); background: var(--del-bg); }
 .filter-knopf.f-rejected[aria-pressed="true"] { color: var(--warn); background: var(--warn-bg); }
+
+.werkzeuge select {
+  font: inherit;
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.objekte { list-style: none; margin: 0 -8px; padding: 0; overflow: auto; flex: 1; min-height: 0; }
+.objekte .objekt {
+  width: 100%;
+  display: block;
+  text-align: left;
+  border: 0;
+  border-radius: 6px;
+  padding: 5px 8px;
+  background: none;
+}
+.objekte .objekt:hover { background: var(--bg); }
+.objekte .objekt[aria-current="true"] { background: var(--accent-bg); box-shadow: inset 3px 0 0 var(--accent); }
+.objekt-kopf { display: flex; align-items: center; gap: 6px; }
+.objekt-name { font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.objekt-zahl { font-size: 0.8em; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.objekt-dn { display: block; font-family: var(--mono); font-size: 0.78em; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .protokoll { list-style: none; margin: 0 -8px; padding: 0; overflow: auto; flex: 1; min-height: 0; }
 .protokoll .eintrag {
@@ -239,13 +237,6 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
 .knoten .kinderzahl { font-size: 0.75em; color: var(--muted); background: var(--bg); border-radius: 999px; padding: 0 6px; }
 .knoten.geist .rdn { text-decoration: line-through; color: var(--muted); }
 
-.treffer { list-style: none; margin: 0; padding: 0; }
-.treffer li + li { border-top: 1px solid var(--border); }
-.treffer button { width: 100%; border: 0; background: none; padding: 6px 4px; text-align: left; display: block; }
-.treffer button:hover { background: var(--bg); }
-.treffer .dn { font-family: var(--mono); font-size: 0.85em; word-break: break-all; }
-.treffer .status { display: block; font-size: 0.8em; color: var(--muted); }
-
 /* ---------- Kennzeichen ---------- */
 .marke {
   display: inline-block;
@@ -274,11 +265,87 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
 .meldung.del { background: var(--del-bg); }
 .meldung button { margin-left: 6px; }
 
-.objekt-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0 0; }
-.objekt-nav button:disabled { opacity: 0.45; cursor: default; }
-.objekt-pos { color: var(--muted); font-size: 0.9em; }
-.mehr { display: block; margin: 0 0 10px 14px; font-size: 0.85em; }
-.ereignis-titel { margin: 4px 0 0; font-size: 0.9em; }
+/* ---------- Zeitstrahl eines Objekts ---------- */
+.zeitstrahl { margin: 14px 0 0; }
+.zs-rahmen { padding: 0 8px; }
+.zs-spur {
+  position: relative;
+  height: 46px;
+  margin-top: 4px;
+}
+.zs-spur::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 16px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+}
+.zs-leben { position: absolute; top: 16px; height: 4px; border-radius: 2px; background: var(--muted); opacity: 0.55; }
+.zs-monat { position: absolute; top: 26px; height: 20px; border-left: 1px solid var(--border); }
+.zs-monat span { position: absolute; left: 3px; top: 4px; font-size: 0.72em; color: var(--muted); }
+.zs-jetzt { position: absolute; top: 0; height: 36px; width: 2px; margin-left: -1px; background: var(--accent); }
+.zs-punkt {
+  position: absolute;
+  top: 18px;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--panel);
+  background: var(--muted);
+}
+.zs-punkt:hover { transform: scale(1.3); }
+.zs-punkt.p-add { background: var(--add); }
+.zs-punkt.p-delete { background: var(--del); }
+.zs-punkt.p-modify { background: var(--mod); }
+.zs-punkt.p-modrdn, .zs-punkt.p-moved { background: var(--move); }
+.zs-punkt.p-rejected { background: var(--warn); }
+.zs-punkt[aria-current="step"] {
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  box-shadow: 0 0 0 3px var(--accent);
+  z-index: 1;
+}
+.zs-steuerung { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 6px; }
+.zs-steuerung button:disabled { opacity: 0.45; cursor: default; }
+.zs-position { flex: 1; min-width: 12em; text-align: center; color: var(--muted); font-variant-numeric: tabular-nums; }
+.zs-position strong { color: var(--text); }
+
+/* ---------- Station ---------- */
+.station {
+  margin: 14px 0 0;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+.station.zwischen { border-color: var(--border); box-shadow: none; background: var(--bg); }
+.station.zwischen p { margin: 0 0 8px; }
+.station-kopf { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.station-titel { font-size: 1.02em; }
+.station-datei { margin: 4px 0 0; color: var(--muted); font-size: 0.85em; font-family: var(--mono); overflow-wrap: anywhere; }
+.station .dn-wechsel { font-family: var(--mono); font-size: 0.85em; margin: 8px 0 0; word-break: break-all; }
+.station .aenderungen { list-style: none; margin: 8px 0 0; padding: 0; font-family: var(--mono); font-size: 0.85em; }
+.station .aenderungen li { word-break: break-all; }
+.station .aenderungen .a { font-weight: 600; }
+.station .aenderungen .minus { color: var(--del); }
+.station .aenderungen .plus { color: var(--add); }
+.station details { margin-top: 8px; }
+.station summary, .alle-stationen summary { cursor: pointer; color: var(--muted); font-size: 0.85em; }
+.station .fehler { color: var(--warn); margin: 8px 0 0; overflow-wrap: anywhere; }
+.station .hinweis { margin: 8px 0 0; }
+.station-andere { margin: 8px 0 0; font-size: 0.9em; color: var(--muted); }
+
+.alle-stationen { margin-top: 18px; }
+.stationen-liste { margin: 8px 0 0; padding-left: 24px; font-size: 0.9em; }
+.stationen-liste li { margin-bottom: 3px; }
+.stationen-liste li.aktuell { font-weight: 600; }
+.start-liste { text-align: left; display: inline-block; margin: 0; padding-left: 20px; }
 .attribute tr.geaendert th { color: var(--accent); }
 .attribute summary { cursor: pointer; color: var(--muted); font-family: system-ui, sans-serif; }
 .optionen { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 12px 0 0; }
@@ -302,38 +369,6 @@ button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px 
 .attribute.vergangen { opacity: 0.7; }
 
 /* ---------- Verlauf ---------- */
-.verlauf { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--border); }
-.verlauf > li { position: relative; margin: 0 0 10px 0; padding: 0 0 0 14px; }
-.verlauf > li::before {
-  content: "";
-  position: absolute;
-  left: -6px;
-  top: 10px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--panel);
-  border: 2px solid var(--muted);
-}
-.verlauf > li.aktuell::before { background: var(--accent); border-color: var(--accent); }
-.verlauf > li.zukunft { opacity: 0.55; }
-.ereignis {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 10px;
-}
-.verlauf > li.aktuell .ereignis { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
-.ereignis-kopf { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
-.ereignis-kopf .datei { color: var(--muted); font-size: 0.85em; font-family: var(--mono); overflow-wrap: anywhere; min-width: 0; }
-.ereignis .dn-wechsel { font-family: var(--mono); font-size: 0.85em; margin: 6px 0 0; word-break: break-all; }
-.ereignis .aenderungen { list-style: none; margin: 6px 0 0; padding: 0; font-family: var(--mono); font-size: 0.85em; }
-.ereignis .aenderungen li { word-break: break-all; }
-.ereignis .aenderungen .a { font-weight: 600; }
-.ereignis .aenderungen .minus { color: var(--del); }
-.ereignis .aenderungen .plus { color: var(--add); }
-.ereignis details { margin-top: 6px; }
-.ereignis summary { cursor: pointer; color: var(--muted); font-size: 0.85em; }
-.ereignis .fehler { color: var(--warn); margin: 6px 0 0; overflow-wrap: anywhere; }
 
 pre.ldif {
   margin: 6px 0 0;
@@ -345,10 +380,5 @@ pre.ldif {
   font-size: 0.82em;
   line-height: 1.5;
 }
-#datei-details summary { cursor: pointer; font-weight: 600; }
-
-.warnungen { margin: 0; padding-left: 20px; }
-.warnungen li { margin-bottom: 6px; overflow-wrap: anywhere; }
-.warnungen .dn { font-family: var(--mono); font-size: 0.88em; word-break: break-all; }
 
 .fehlerseite { max-width: 720px; margin: 40px auto; }
